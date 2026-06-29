@@ -1,0 +1,8 @@
+APP_ID=demo
+APP_SECRET=demo-secret
+DATABASE_URL=mysql://user:pass@localhost:3306/dbname
+VITE_KIMI_AUTH_URL=https://example.com
+VITE_APP_ID=demo
+KIMI_AUTH_URL=https://example.com
+KIMI_OPEN_URL=https://example.com
+OWNER_UNION_ID=owner123
