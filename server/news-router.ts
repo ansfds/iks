@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware";
 import { getDb } from "./queries/connection";
-import { newsEvents } from "@db/schema";
+import { newsEvents } from "../db/schema";
 import { eq, desc, sql, isNull, isNotNull, and } from "drizzle-orm";
 
 export const newsRouter = createRouter({

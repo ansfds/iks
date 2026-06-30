@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware";
 import { getDb } from "./queries/connection";
-import { testimonials } from "@db/schema";
+import { testimonials } from "../db/schema";
 import { eq, asc } from "drizzle-orm";
 
 export const testimonialRouter = createRouter({

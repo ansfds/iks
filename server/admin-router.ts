@@ -1,6 +1,6 @@
 import { createRouter, adminQuery } from "./middleware";
 import { getDb } from "./queries/connection";
-import { contacts, galleryItems, newsEvents, testimonials } from "@db/schema";
+import { contacts, galleryItems, newsEvents, testimonials } from "../db/schema";
 import { sql, eq } from "drizzle-orm";
 
 export const adminRouter = createRouter({
