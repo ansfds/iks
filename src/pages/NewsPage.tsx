@@ -27,7 +27,7 @@ export default function NewsPage() {
   const fallbackNews = [
     {
       id: 1,
-      title: "Al-Maarefa Hosts International Education Conference",
+      title: "Knowledge Hosts International Education Conference",
       titleAr: "المعرفة تستضيف مؤتمر التعليم الدولي",
       excerpt: "Join us for a day of learning and networking with educators from around the world.",
       excerptAr: "انضم إلينا يوماً من التعلم والتواصل مع المربين من جميع أنحاء العالم.",
@@ -39,7 +39,7 @@ export default function NewsPage() {
       id: 2,
       title: "Open Day: Discover Our Campus",
       titleAr: "يوم مفتوح: اكتشف حرمنا",
-      excerpt: "Experience Al-Maarefa firsthand. Tour our facilities and meet our teachers.",
+      excerpt: "Experience Knowledge firsthand. Tour our facilities and meet our teachers.",
       excerptAr: "جرب المعرفة عن كثب. جول في مرافقنا وقابل معلمينا.",
       imageUrl: "/images/campus-exterior.jpg",
       eventDate: "2025-03-15",

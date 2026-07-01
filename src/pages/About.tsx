@@ -196,7 +196,7 @@ export default function About() {
             <h2 className="about-section-animate text-3xl font-bold text-white mb-6">
               {isArabic
                 ? "انضم إلى مجتمع المعرفة اليوم"
-                : "Join the Al-Maarefa Community Today"}
+                : "Join the Knowledge  Community Today"}
             </h2>
             <Link
               to="/admissions"

@@ -157,7 +157,7 @@ export default function Home() {
             {t("hero.welcome")}
           </div>
           <div className="hero-animate mb-4">
-            <PerspectiveText text={isArabic ? "المعرفة" : "AL-MAAREFA"} isArabic={isArabic} />
+            <PerspectiveText text={isArabic ? "المعرفة" : "Knowledge"} isArabic={isArabic} />
           </div>
           <p className="hero-animate text-xl sm:text-2xl md:text-[28px] font-medium text-white/85 mb-6">
             {t("hero.subtitle")}
