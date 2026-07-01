@@ -96,10 +96,10 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} {t("footer.copyright")}
           </p>
           <div className="flex items-center gap-4">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://www.facebook.com/InternationalKnowledgeSchool" className="text-gray-400 hover:text-white transition-colors">
               <Facebook size={18} />
             </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
+            <a href="https://www.instagram.com/InternationalKnowledgeSchool" className="text-gray-400 hover:text-white transition-colors">
               <Instagram size={18} />
             </a>
             <a href="#" className="text-gray-400 hover:text-white transition-colors">

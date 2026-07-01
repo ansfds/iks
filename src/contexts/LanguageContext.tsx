@@ -42,7 +42,7 @@ const dictionary: Record<string, Record<Language, string>> = {
   // About Preview
   "about.label": { en: "About Our School", ar: "عن مدرستنا" },
   "about.title": {
-    en: "Al-Maarefa International School is a modern educational institution providing world-class education for students from Kindergarten to High School.",
+    en: "Knowledge International School is a modern educational institution providing world-class education for students from Kindergarten to High School.",
     ar: "مدرسة المعرفة الدولية هي مؤسسة تعليمية حديثة تقدم تعليماً عالمياً للطلاب من رياض الأطفال حتى الثانوية.",
   },
   "about.body": {
@@ -52,7 +52,7 @@ const dictionary: Record<string, Record<Language, string>> = {
   "about.learnMore": { en: "Learn More", ar: "المزيد" },
 
   // Why Choose Us
-  "why.title": { en: "Why Choose Al-Maarefa?", ar: "لماذا تختار المعرفة؟" },
+  "why.title": { en: "Why Choose Knowledge?", ar: "لماذا تختار المعرفة؟" },
   "why.subtitle": {
     en: "We combine academic excellence with character building to prepare students for a global future.",
     ar: "نجمع بين التميز الأكاديمي وبناء الشخصية لإعداد الطلاب لمستقبل عالمي.",
@@ -116,7 +116,7 @@ const dictionary: Record<string, Record<Language, string>> = {
   "footer.address": { en: "Ein Zara Street - near Nasser University, Tripoli, Libya", ar: "عيـن زارة - بالقرب من جامعة نـاصر " },
   "footer.phone": { en: "092-2000011", ar: "092-2000011" },
   "footer.email": { en: "info@iks.sch.ly", ar: "info@iks.sch.ly" },
-  "footer.copyright": { en: "Al-Maarefa International School. All rights reserved.", ar: "مدرسة المعرفة الدولية. جميع الحقوق محفوظة." },
+  "footer.copyright": { en: "International Knowledge School. All rights reserved.", ar: "مدرسة المعرفة الدولية. جميع الحقوق محفوظة." },
 
   // Page Titles
   "page.about": { en: "About Us", ar: "من نحن" },
@@ -143,7 +143,7 @@ const dictionary: Record<string, Record<Language, string>> = {
   },
   "about.values.title": { en: "Our Values", ar: "قيمنا" },
   "about.values.description": {
-    en: "Our core values guide everything we do at Al-Maarefa. They shape our culture, inform our decisions, and inspire our community to strive for excellence.",
+    en: "Our core values guide everything we do at Knowledge . They shape our culture, inform our decisions, and inspire our community to strive for excellence.",
     ar: "قيمنا الأساسية ترشد كل ما نقوم به في المعرفة. إنها تشكل ثقافتنا وتوجه قراراتنا وتح inspire مجتمعنا للسعي نحو التميز.",
   },
   "about.values.integrity.title": { en: "Integrity", ar: "النزاهة" },
@@ -197,7 +197,7 @@ const dictionary: Record<string, Record<Language, string>> = {
   // Curriculum Page
   "curriculum.page.title": { en: "World-Class British Education", ar: "تعليم بريطاني عالمي المستوى" },
   "curriculum.page.description": {
-    en: "Al-Maarefa International School delivers a comprehensive British curriculum in partnership with Pearson, the world's leading education company. Our program follows the UK National Curriculum, ensuring students receive a globally recognized education that prepares them for universities and careers worldwide.",
+    en: "Knowledge International School delivers a comprehensive British curriculum in partnership with Pearson, the world's leading education company. Our program follows the UK National Curriculum, ensuring students receive a globally recognized education that prepares them for universities and careers worldwide.",
     ar: "تقدم مدرسة المعرفة الدولية منهجاً بريطانياً شاملاً بالشراكة مع بيرسون، الشركة الرائدة في مجال التعليم في العالم. يتبع برنامجنا المنهج الوطني البريطاني، مما يضمن حصول الطلاب على تعليم معترف به عالمياً يعدهم للجامعات والمهن في جميع أنحاء العالم.",
   },
   "curriculum.stages.title": { en: "Educational Stages", ar: "المراحل التعليمية" },
@@ -233,7 +233,7 @@ const dictionary: Record<string, Record<Language, string>> = {
   // Admissions Page
   "admissions.process.title": { en: "Admission Process", ar: "عملية القبول" },
   "admissions.process.subtitle": {
-    en: "Joining Al-Maarefa is a simple, straightforward process designed to ensure the best fit for your child.",
+    en: "Joining Knowledge is a simple, straightforward process designed to ensure the best fit for your child.",
     ar: "الانضمام إلى المعرفة هو عملية بسيطة ومباشرة مصممة لضمان أفضل توافق لطفلك.",
   },
   "admissions.step1.title": { en: "Submit Application", ar: "تقديم الطلب" },
