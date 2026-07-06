@@ -63,8 +63,8 @@ export default function VisionMission() {
           >
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
               <div className="vm-animate flex items-center gap-3 mb-4">
-                <Eye size={28} className="text-[#7B2F63]" />
-                <span className="text-sm font-semibold text-[#213B6F] uppercase tracking-wider">
+                <Eye size={28} className="text-[#5B1420]" />
+                <span className="text-sm font-semibold text-[#7A1E2A] uppercase tracking-wider">
                   {isArabic ? "رؤيتنا" : "Our Vision"}
                 </span>
               </div>
@@ -101,8 +101,8 @@ export default function VisionMission() {
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <div className="vm-animate flex items-center gap-3 mb-4">
-                <Target size={28} className="text-[#213B6F]" />
-                <span className="text-sm font-semibold text-[#213B6F] uppercase tracking-wider">
+                <Target size={28} className="text-[#7A1E2A]" />
+                <span className="text-sm font-semibold text-[#7A1E2A] uppercase tracking-wider">
                   {isArabic ? "رسالتنا" : "Our Mission"}
                 </span>
               </div>
@@ -133,7 +133,7 @@ export default function VisionMission() {
                   >
                     <item.icon
                       size={24}
-                      className="text-[#213B6F] mt-0.5 shrink-0"
+                      className="text-[#7A1E2A] mt-0.5 shrink-0"
                     />
                     <div>
                       <h3 className="font-semibold text-[#1A1A1A] mb-1">

@@ -5,12 +5,15 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import WhatsAppFloat from "./components/WhatsAppFloat";
 import ScrollToTop from "./components/ScrollToTop";
+import SEOManager from "./components/SEOManager";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import VisionMission from "./pages/VisionMission";
 import Values from "./pages/Values";
 import Goals from "./pages/Goals";
 import Curriculum from "./pages/Curriculum";
+import InternationalCurricula from "./pages/InternationalCurricula";
+import LocalCurriculum from "./pages/LocalCurriculum";
 import Admissions from "./pages/Admissions";
 import GalleryPage from "./pages/GalleryPage";
 import NewsPage from "./pages/NewsPage";
@@ -22,6 +25,7 @@ import NotFound from "./pages/NotFound";
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <SEOManager />
       <Navbar />
       <main>{children}</main>
       <Footer />
@@ -82,6 +86,30 @@ export default function App() {
           element={
             <AppLayout>
               <Curriculum />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/curricula"
+          element={
+            <AppLayout>
+              <Curriculum />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/curriculum/international"
+          element={
+            <AppLayout>
+              <InternationalCurricula />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/curriculum/local"
+          element={
+            <AppLayout>
+              <LocalCurriculum />
             </AppLayout>
           }
         />

@@ -135,8 +135,8 @@ export default function Contact() {
                   key={i}
                   className="contact-animate card-shadow bg-white border border-[rgba(11,30,53,0.08)] rounded-lg p-6 text-center"
                 >
-                  <div className="w-14 h-14 rounded-full bg-[#213B6F]/10 flex items-center justify-center mx-auto mb-4">
-                    <info.icon size={24} className="text-[#213B6F]" />
+                  <div className="w-14 h-14 rounded-full bg-[#7A1E2A]/10 flex items-center justify-center mx-auto mb-4">
+                    <info.icon size={24} className="text-[#7A1E2A]" />
                   </div>
                   <h3 className="text-base font-semibold text-[#1A1A1A] mb-2">
                     {info.title}
@@ -169,7 +169,7 @@ export default function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm bg-white"
+                    className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm bg-white"
                     required
                   />
                   <input
@@ -179,7 +179,7 @@ export default function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm bg-white"
+                    className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm bg-white"
                     required
                   />
                   <input
@@ -189,7 +189,7 @@ export default function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, phone: e.target.value })
                     }
-                    className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm bg-white"
+                    className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm bg-white"
                   />
                   <input
                     type="text"
@@ -198,7 +198,7 @@ export default function Contact() {
                     onChange={(e) =>
                       setFormData({ ...formData, subject: e.target.value })
                     }
-                    className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm bg-white"
+                    className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm bg-white"
                   />
                   <textarea
                     placeholder={`${t("contact.form.message")} *`}
@@ -207,13 +207,13 @@ export default function Contact() {
                       setFormData({ ...formData, message: e.target.value })
                     }
                     rows={5}
-                    className="w-full px-4 py-3 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm resize-none bg-white"
+                    className="w-full px-4 py-3 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm resize-none bg-white"
                     required
                   />
                   <button
                     type="submit"
                     disabled={submitMutation.isPending}
-                    className="w-full h-12 bg-[#213B6F] text-white font-medium rounded-md hover:bg-[#2C4F8E] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                    className="w-full h-12 bg-[#7A1E2A] text-white font-medium rounded-md hover:bg-[#9A2D3A] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                   >
                     <Send size={16} />
                     {submitMutation.isPending
@@ -232,19 +232,19 @@ export default function Contact() {
                   <div className="flex items-center gap-3">
                     <a
                       href="#"
-                      className="w-10 h-10 rounded-full bg-[#213B6F] text-white flex items-center justify-center hover:bg-[#2C4F8E] transition-colors"
+                      className="w-10 h-10 rounded-full bg-[#7A1E2A] text-white flex items-center justify-center hover:bg-[#9A2D3A] transition-colors"
                     >
                       <Facebook size={18} />
                     </a>
                     <a
                       href="#"
-                      className="w-10 h-10 rounded-full bg-[#7B2F63] text-white flex items-center justify-center hover:bg-[#9B3F7D] transition-colors"
+                      className="w-10 h-10 rounded-full bg-[#5B1420] text-white flex items-center justify-center hover:bg-[#7F1F2A] transition-colors"
                     >
                       <Instagram size={18} />
                     </a>
                     <a
                       href="#"
-                      className="w-10 h-10 rounded-full bg-[#2C4F8E] text-white flex items-center justify-center hover:bg-[#3C5F9E] transition-colors"
+                      className="w-10 h-10 rounded-full bg-[#9A2D3A] text-white flex items-center justify-center hover:bg-[#A63845] transition-colors"
                     >
                       <Twitter size={18} />
                     </a>

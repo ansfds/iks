@@ -121,8 +121,8 @@ export default function NewsPage() {
                 onClick={() => setActiveTab(tab)}
                 className={`px-6 py-2.5 text-sm font-medium rounded-full transition-all ${
                   activeTab === tab
-                    ? "bg-[#213B6F] text-white"
-                    : "bg-[#F8F9FA] text-[#7C7C7C] hover:bg-[#D8E0F0]"
+                    ? "bg-[#7A1E2A] text-white"
+                    : "bg-[#F8F9FA] text-[#7C7C7C] hover:bg-[#F2D7DC]"
                 }`}
               >
                 {tab === "all"
@@ -169,7 +169,7 @@ export default function NewsPage() {
                             ? item.excerptAr
                             : item.excerpt ?? ""}
                         </p>
-                        <span className="inline-flex items-center gap-1 text-sm text-[#213B6F] font-medium">
+                        <span className="inline-flex items-center gap-1 text-sm text-[#7A1E2A] font-medium">
                           {t("news.readMore")}
                           <ArrowRight
                             size={14}
@@ -196,7 +196,7 @@ export default function NewsPage() {
                         key={event.id}
                         className="news-animate card-shadow bg-[#F8F9FA] border border-[rgba(11,30,53,0.08)] rounded-lg p-6 flex flex-col md:flex-row md:items-center gap-4"
                       >
-                        <div className="flex items-center justify-center w-16 h-16 bg-[#213B6F] text-white rounded-lg shrink-0">
+                        <div className="flex items-center justify-center w-16 h-16 bg-[#7A1E2A] text-white rounded-lg shrink-0">
                           <div className="text-center">
                             <div className="text-lg font-bold">
                               {event.eventDate
@@ -226,7 +226,7 @@ export default function NewsPage() {
                           </p>
                         </div>
                         <div className="md:ml-auto shrink-0">
-                          <div className="flex items-center gap-2 text-sm text-[#213B6F]">
+                          <div className="flex items-center gap-2 text-sm text-[#7A1E2A]">
                             <Calendar size={16} />
                             <span>{formatDate(event.eventDate)}</span>
                           </div>

@@ -69,7 +69,7 @@ export default function Admin() {
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-[#213B6F]" />
+        <Loader2 className="w-8 h-8 animate-spin text-[#7A1E2A]" />
       </div>
     );
   }
@@ -83,37 +83,37 @@ export default function Admin() {
       title: "Total Contacts",
       value: stats?.totalContacts,
       icon: Mail,
-      color: "#213B6F",
+      color: "#7A1E2A",
     },
     {
       title: "Unread Messages",
       value: stats?.unreadContacts,
       icon: MailOpen,
-      color: "#7B2F63",
+      color: "#5B1420",
     },
     {
       title: "This Month",
       value: stats?.contactsThisMonth,
       icon: TrendingUp,
-      color: "#2C4F8E",
+      color: "#9A2D3A",
     },
     {
       title: "Gallery Items",
       value: stats?.totalGallery,
       icon: Image,
-      color: "#0B1E35",
+      color: "#171923",
     },
     {
       title: "News Items",
       value: stats?.totalNews,
       icon: Newspaper,
-      color: "#213B6F",
+      color: "#7A1E2A",
     },
     {
       title: "Testimonials",
       value: stats?.totalTestimonials,
       icon: MessageSquare,
-      color: "#7B2F63",
+      color: "#5B1420",
     },
   ];
 

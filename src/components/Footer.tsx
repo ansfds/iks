@@ -21,7 +21,7 @@ export default function Footer() {
   const { t, dir } = useLanguage();
 
   return (
-    <footer className="bg-[#0B1E35] text-white" dir={dir}>
+    <footer className="bg-[#171923] text-white" dir={dir}>
       <div className="container-main px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1: About */}

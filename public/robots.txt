@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://iks.sch.ly/sitemap.xml

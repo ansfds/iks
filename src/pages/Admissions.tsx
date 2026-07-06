@@ -88,25 +88,25 @@ export default function Admissions() {
       icon: FileText,
       title: t("admissions.step1.title"),
       desc: t("admissions.step1.desc"),
-      color: "#7B2F63",
+      color: "#5B1420",
     },
     {
       icon: ClipboardCheck,
       title: t("admissions.step2.title"),
       desc: t("admissions.step2.desc"),
-      color: "#213B6F",
+      color: "#7A1E2A",
     },
     {
       icon: MessageSquare,
       title: t("admissions.step3.title"),
       desc: t("admissions.step3.desc"),
-      color: "#2C4F8E",
+      color: "#9A2D3A",
     },
     {
       icon: UserCheck,
       title: t("admissions.step4.title"),
       desc: t("admissions.step4.desc"),
-      color: "#0B1E35",
+      color: "#171923",
     },
   ];
 
@@ -152,7 +152,7 @@ export default function Admissions() {
             {/* Timeline */}
             <div className="relative max-w-4xl mx-auto">
               {/* Line - Desktop */}
-              <div className="hidden md:block absolute top-12 left-0 right-0 h-0.5 bg-[#D8E0F0]" />
+              <div className="hidden md:block absolute top-12 left-0 right-0 h-0.5 bg-[#F2D7DC]" />
 
               <div className="grid md:grid-cols-4 gap-8">
                 {steps.map((step, i) => (
@@ -212,7 +212,7 @@ export default function Admissions() {
                     >
                       <CheckCircle
                         size={20}
-                        className="text-[#213B6F] mt-0.5 shrink-0"
+                        className="text-[#7A1E2A] mt-0.5 shrink-0"
                       />
                       <span className="text-base text-[#1A1A1A]">{doc}</span>
                     </li>
@@ -234,7 +234,7 @@ export default function Admissions() {
                       onChange={(e) =>
                         setFormData({ ...formData, studentName: e.target.value })
                       }
-                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
+                      className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm"
                       required
                     />
                     <input
@@ -244,7 +244,7 @@ export default function Admissions() {
                       onChange={(e) =>
                         setFormData({ ...formData, parentName: e.target.value })
                       }
-                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
+                      className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm"
                       required
                     />
                     <input
@@ -254,7 +254,7 @@ export default function Admissions() {
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
+                      className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm"
                       required
                     />
                     <input
@@ -264,7 +264,7 @@ export default function Admissions() {
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
                       }
-                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
+                      className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm"
                     />
                     <input
                       type="text"
@@ -273,7 +273,7 @@ export default function Admissions() {
                       onChange={(e) =>
                         setFormData({ ...formData, grade: e.target.value })
                       }
-                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
+                      className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm"
                     />
                     <textarea
                       placeholder={isArabic ? "الرسالة *" : "Message *"}
@@ -282,13 +282,13 @@ export default function Admissions() {
                         setFormData({ ...formData, message: e.target.value })
                       }
                       rows={4}
-                      className="w-full px-4 py-3 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm resize-none"
+                      className="w-full px-4 py-3 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm resize-none"
                       required
                     />
                     <button
                       type="submit"
                       disabled={submitMutation.isPending}
-                      className="w-full h-12 bg-[#213B6F] text-white font-medium rounded-md hover:bg-[#2C4F8E] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                      className="w-full h-12 bg-[#7A1E2A] text-white font-medium rounded-md hover:bg-[#9A2D3A] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       <Send size={16} />
                       {submitMutation.isPending

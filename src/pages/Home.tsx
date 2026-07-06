@@ -153,13 +153,13 @@ export default function Home() {
         <StarDecoration className="absolute bottom-[35%] right-[5%] w-6 h-6 opacity-50" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <div className="hero-animate inline-flex items-center px-5 py-2 rounded-full text-sm font-semibold text-white bg-white/15 border border-white/20 mb-8">
+          <div className="hero-animate inline-flex items-center px-5 py-2 rounded-full text-sm font-semibold text-white bg-white/[0.15] border border-white/20 mb-8">
             {t("hero.welcome")}
           </div>
           <div className="hero-animate mb-4">
             <PerspectiveText text={isArabic ? "المعرفة" : "Knowledge"} isArabic={isArabic} />
           </div>
-          <p className="hero-animate text-xl sm:text-2xl md:text-[28px] font-medium text-white/85 mb-6">
+          <p className="hero-animate text-xl sm:text-2xl md:text-[28px] font-medium text-white/[0.85] mb-6">
             {t("hero.subtitle")}
           </p>
           <p className="hero-animate text-base md:text-lg text-white/70 max-w-xl mx-auto mb-10 leading-relaxed">
@@ -178,7 +178,7 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0">
             {stats.map((stat, i) => (
               <div key={i} className={`stat-item text-center ${i < stats.length - 1 ? "md:border-r md:border-gray-100" : ""}`}>
-                <div className="text-3xl md:text-[42px] font-bold text-[#213B6F] mb-1">{stat.number}</div>
+                <div className="text-3xl md:text-[42px] font-bold text-[#7A1E2A] mb-1">{stat.number}</div>
                 <div className="text-sm text-[#7C7C7C]">{stat.label}</div>
               </div>
             ))}
@@ -190,10 +190,10 @@ export default function Home() {
         <div className="container-main">
           <div className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${dir === "rtl" ? "lg:direction-rtl" : ""}`}>
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
-              <span className="about-animate inline-block text-sm font-semibold text-[#213B6F] uppercase tracking-wider mb-3">{t("about.label")}</span>
+              <span className="about-animate inline-block text-sm font-semibold text-[#7A1E2A] uppercase tracking-wider mb-3">{t("about.label")}</span>
               <h2 className="about-animate text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1A1A1A] leading-tight mb-6">{t("about.title")}</h2>
               <p className="about-animate text-base text-[#7C7C7C] leading-relaxed mb-6">{t("about.body")}</p>
-              <Link to="/about" className="about-animate inline-flex items-center gap-2 text-[#213B6F] font-medium hover:gap-3 transition-all">
+              <Link to="/about" className="about-animate inline-flex items-center gap-2 text-[#7A1E2A] font-medium hover:gap-3 transition-all">
                 {t("about.learnMore")}
                 <ArrowRight size={18} className={dir === "rtl" ? "rotate-180" : ""} />
               </Link>
@@ -214,7 +214,7 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 gap-6">
             {features.map((feature, i) => (
               <div key={i} className="why-card card-shadow bg-white border border-[rgba(11,30,53,0.08)] p-8">
-                <feature.icon size={48} className="text-[#213B6F] mb-4" strokeWidth={1.5} />
+                <feature.icon size={48} className="text-[#7A1E2A] mb-4" strokeWidth={1.5} />
                 <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">{feature.title}</h3>
                 <p className="text-base text-[#7C7C7C] leading-relaxed">{feature.description}</p>
               </div>
@@ -232,7 +232,7 @@ export default function Home() {
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <h2 className="curriculum-animate text-3xl md:text-[42px] font-bold text-white mb-6">{t("curriculum.title")}</h2>
               <p className="curriculum-animate text-base md:text-lg text-white/80 leading-relaxed mb-8">{t("curriculum.description")}</p>
-              <Link to="/curriculum" className="curriculum-animate inline-flex items-center px-8 py-3.5 bg-white text-[#213B6F] font-medium rounded-md hover:bg-white/90 transition-colors">
+              <Link to="/curriculum" className="curriculum-animate inline-flex items-center px-8 py-3.5 bg-white text-[#7A1E2A] font-medium rounded-md hover:bg-white/90 transition-colors">
                 {t("curriculum.cta")}
               </Link>
             </div>
@@ -252,7 +252,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-6">
             {(testimonialsData ?? []).slice(0, 3).map((testimonial) => (
               <div key={testimonial.id} className="testimonial-card bg-white rounded-lg p-8 shadow-sm">
-                <Quote size={32} className="text-[#213B6F]/20 mb-4" />
+                <Quote size={32} className="text-[#7A1E2A]/20 mb-4" />
                 <p className="text-base text-[#1A1A1A] italic leading-relaxed mb-6">
                   {isArabic && testimonial.quoteAr ? testimonial.quoteAr : testimonial.quote}
                 </p>
@@ -275,7 +275,7 @@ export default function Home() {
               { quote: t("about.values.description").slice(0, 120) + "...", authorName: "Fatima Hassan", role: "Parent of KG Student", rating: 5 },
             ].map((item, i) => (
               <div key={i} className="testimonial-card bg-white rounded-lg p-8 shadow-sm">
-                <Quote size={32} className="text-[#213B6F]/20 mb-4" />
+                <Quote size={32} className="text-[#7A1E2A]/20 mb-4" />
                 <p className="text-base text-[#1A1A1A] italic leading-relaxed mb-6">{item.quote}</p>
                 <div className="flex items-center gap-1 mb-3">
                   {[...Array(item.rating)].map((_, j) => (
@@ -320,7 +320,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={contactRef} className="bg-[#0B1E35] section-padding">
+      <section ref={contactRef} className="bg-[#171923] section-padding">
         <div className="container-main text-center">
           <h2 className="contact-animate text-3xl md:text-[42px] font-bold text-white mb-4">{t("contactcta.title")}</h2>
           <p className="contact-animate text-base md:text-lg text-white/70 max-w-2xl mx-auto mb-10">{t("contactcta.description")}</p>

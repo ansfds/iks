@@ -48,7 +48,7 @@ export default function Navbar() {
         <Link
           to="/"
           className={`text-xl font-bold transition-colors duration-300 ${
-            isScrolled ? "text-[#213B6F]" : "text-white"
+            isScrolled ? "text-[#7A1E2A]" : "text-white"
           }`}
         >
           {language === "ar" ? "المعرفة" : "IKS"}
@@ -67,10 +67,10 @@ export default function Navbar() {
               className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
                 isActive(link.href)
                   ? isScrolled
-                    ? "text-[#213B6F] bg-[#213B6F]/10"
+                    ? "text-[#7A1E2A] bg-[#7A1E2A]/10"
                     : "text-white bg-white/20"
                   : isScrolled
-                  ? "text-gray-700 hover:text-[#213B6F] hover:bg-gray-100"
+                  ? "text-gray-700 hover:text-[#7A1E2A] hover:bg-gray-100"
                   : "text-white/80 hover:text-white hover:bg-white/10"
               }`}
             >
@@ -87,7 +87,7 @@ export default function Navbar() {
               className={`px-2 py-1 text-sm font-medium transition-colors ${
                 language === "en"
                   ? isScrolled
-                    ? "text-[#213B6F] border-b-2 border-[#213B6F]"
+                    ? "text-[#7A1E2A] border-b-2 border-[#7A1E2A]"
                     : "text-white border-b-2 border-white"
                   : isScrolled
                   ? "text-gray-400 hover:text-gray-600"
@@ -108,7 +108,7 @@ export default function Navbar() {
               className={`px-2 py-1 text-sm font-medium transition-colors ${
                 language === "ar"
                   ? isScrolled
-                    ? "text-[#213B6F] border-b-2 border-[#213B6F]"
+                    ? "text-[#7A1E2A] border-b-2 border-[#7A1E2A]"
                     : "text-white border-b-2 border-white"
                   : isScrolled
                   ? "text-gray-400 hover:text-gray-600"
@@ -123,8 +123,8 @@ export default function Navbar() {
             to="/admissions"
             className={`hidden sm:inline-flex items-center px-5 py-2 text-sm font-medium rounded-md transition-all duration-300 ${
               isScrolled
-                ? "bg-[#213B6F] text-white hover:bg-[#2C4F8E]"
-                : "bg-white/15 text-white border border-white/30 hover:bg-white/25"
+                ? "bg-[#7A1E2A] text-white hover:bg-[#9A2D3A]"
+                : "bg-white/[0.15] text-white border border-white/30 hover:bg-white/25"
             }`}
           >
             {t("hero.cta.primary")}
@@ -154,8 +154,8 @@ export default function Navbar() {
                 to={link.href}
                 className={`block px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
                   isActive(link.href)
-                    ? "text-[#213B6F] bg-[#213B6F]/10"
-                    : "text-gray-700 hover:text-[#213B6F] hover:bg-gray-50"
+                    ? "text-[#7A1E2A] bg-[#7A1E2A]/10"
+                    : "text-gray-700 hover:text-[#7A1E2A] hover:bg-gray-50"
                 }`}
               >
                 {t(link.key)}
@@ -166,7 +166,7 @@ export default function Navbar() {
                 onClick={() => language !== "en" && toggleLanguage()}
                 className={`px-3 py-1.5 text-sm font-medium rounded ${
                   language === "en"
-                    ? "text-[#213B6F] bg-[#213B6F]/10"
+                    ? "text-[#7A1E2A] bg-[#7A1E2A]/10"
                     : "text-gray-500"
                 }`}
               >
@@ -176,7 +176,7 @@ export default function Navbar() {
                 onClick={() => language !== "ar" && toggleLanguage()}
                 className={`px-3 py-1.5 text-sm font-medium rounded ${
                   language === "ar"
-                    ? "text-[#213B6F] bg-[#213B6F]/10"
+                    ? "text-[#7A1E2A] bg-[#7A1E2A]/10"
                     : "text-gray-500"
                 }`}
               >
@@ -185,7 +185,7 @@ export default function Navbar() {
             </div>
             <Link
               to="/admissions"
-              className="block w-full text-center mt-2 px-5 py-2.5 text-sm font-medium bg-[#213B6F] text-white rounded-md"
+              className="block w-full text-center mt-2 px-5 py-2.5 text-sm font-medium bg-[#7A1E2A] text-white rounded-md"
             >
               {t("hero.cta.primary")}
             </Link>

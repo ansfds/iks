@@ -118,8 +118,8 @@ export default function GalleryPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-5 py-2.5 text-sm font-medium rounded-full transition-all ${
                   activeCategory === cat
-                    ? "bg-[#213B6F] text-white"
-                    : "bg-[#F8F9FA] text-[#7C7C7C] hover:bg-[#D8E0F0]"
+                    ? "bg-[#7A1E2A] text-white"
+                    : "bg-[#F8F9FA] text-[#7C7C7C] hover:bg-[#F2D7DC]"
                 }`}
               >
                 {t(`gallery.${cat}`)}

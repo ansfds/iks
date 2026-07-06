@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Baby, BookOpen, Compass, GraduationCap } from "lucide-react";
+import { siteImages } from "@/config/site";
+import { ArrowRight, Globe2, MapPinned, School } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -18,183 +19,115 @@ export default function Curriculum() {
     const ctx = gsap.context(() => {
       if (sectionRef.current) {
         GSAP.fromTo(
-          sectionRef.current.querySelectorAll(".curriculum-animate"),
-          { opacity: 0, y: 30 },
+          sectionRef.current.querySelectorAll(".curricula-card"),
+          { opacity: 0, y: 28 },
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
-            stagger: 0.12,
+            duration: 0.75,
+            stagger: 0.14,
+            ease: "power3.out",
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top 80%",
+              start: "top 82%",
             },
           }
         );
       }
     });
+
     return () => ctx.revert();
   }, []);
 
-  const stages = [
+  const options = [
     {
-      icon: Baby,
-      title: t("curriculum.early.title"),
-      ages: t("curriculum.early.ages"),
-      desc: t("curriculum.early.desc"),
-      color: "#7B2F63",
-      borderColor: "border-[#7B2F63]",
+      href: "/curriculum/international",
+      image: siteImages.scienceLab,
+      icon: Globe2,
+      title: isArabic ? "المناهج الدولية" : "International Curricula",
+      eyebrow: isArabic ? "British & American Pathways" : "British & American Pathways",
+      description: isArabic
+        ? "مسارات دولية معترف بها تشمل Pearson Edexcel، المنهج الأمريكي، التحضير لاختبار SAT، والإرشاد الجامعي."
+        : "Recognized international pathways including Pearson Edexcel, American high school learning, SAT readiness, and university counseling.",
     },
     {
-      icon: BookOpen,
-      title: t("curriculum.primary.title"),
-      ages: t("curriculum.primary.ages"),
-      desc: t("curriculum.primary.desc"),
-      color: "#213B6F",
-      borderColor: "border-[#213B6F]",
+      href: "/curriculum/local",
+      image: siteImages.aboutClassroom,
+      icon: MapPinned,
+      title: isArabic ? "المنهج المحلي" : "Local Curriculum",
+      eyebrow: isArabic ? "Libyan National Curriculum" : "Libyan National Curriculum",
+      description: isArabic
+        ? "تعليم باللغة العربية متوافق مع المنهج الوطني الليبي، مع تعزيز اللغة الإنجليزية عبر Macmillan في الصفوف 1-8."
+        : "Arabic-led learning aligned with the Libyan National Curriculum, strengthened by Macmillan English from Grades 1-8.",
     },
-    {
-      icon: Compass,
-      title: t("curriculum.lower.title"),
-      ages: t("curriculum.lower.ages"),
-      desc: t("curriculum.lower.desc"),
-      color: "#2C4F8E",
-      borderColor: "border-[#2C4F8E]",
-    },
-    {
-      icon: GraduationCap,
-      title: t("curriculum.upper.title"),
-      ages: t("curriculum.upper.ages"),
-      desc: t("curriculum.upper.desc"),
-      color: "#0B1E35",
-      borderColor: "border-[#0B1E35]",
-    },
-  ];
-
-  const subjects = [
-    isArabic ? "اللغة الإنجليزية" : "English",
-    isArabic ? "الرياضيات" : "Mathematics",
-    isArabic ? "العلوم" : "Science",
-    isArabic ? "الدراسات الاجتماعية" : "Social Studies",
-    isArabic ? "اللغة العربية" : "Arabic Language",
-    isArabic ? "التربية الإسلامية" : "Islamic Studies",
-    isArabic ? "الفنون" : "Art & Design",
-    isArabic ? "التربية البدنية" : "Physical Education",
-    isArabic ? "الحاسوب" : "Computing",
-    isArabic ? "الموسيقى" : "Music",
   ];
 
   return (
     <div dir={dir}>
-      <section className="relative min-h-[40vh] max-h-[400px] flex items-center justify-center bg-gradient-hero">
-        <div className="relative z-10 text-center px-4">
-          <h1 className="text-4xl md:text-[56px] font-bold text-white mb-3">
+      <section className="relative min-h-[46vh] max-h-[480px] flex items-center justify-center overflow-hidden bg-gradient-hero">
+        <div className="absolute inset-0 opacity-[0.18]">
+          <img
+            src={siteImages.library}
+            alt="Students learning in the International Knowledge School library"
+            className="h-full w-full object-cover"
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2B070D]/70 via-[#7A1E2A]/[0.72] to-[#171923]" />
+        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.12] border border-white/20 text-white/90 text-sm font-medium mb-5">
+            <School size={16} />
+            {isArabic ? "اختر المسار الأنسب" : "Choose the right pathway"}
+          </div>
+          <h1 className="text-4xl md:text-[56px] font-bold text-white mb-4">
             {t("page.curriculum")}
           </h1>
-          <div className="flex items-center justify-center gap-2 text-sm text-white/60">
-            <Link to="/" className="hover:text-white transition-colors">
-              {t("nav.home")}
-            </Link>
-            <span>/</span>
-            <span className="text-white/80">{t("page.curriculum")}</span>
-          </div>
+          <p className="text-base md:text-lg text-white/[0.78] max-w-2xl mx-auto leading-relaxed">
+            {isArabic
+              ? "نظرة منظمة على مسارات مدرسة المعرفة الدولية، بين المناهج الدولية والمنهج المحلي."
+              : "A clear gateway to International Knowledge School's international and local academic pathways."}
+          </p>
         </div>
       </section>
 
-      <div ref={sectionRef}>
-        {/* Overview */}
-        <section className="bg-white section-padding">
-          <div className="container-main">
-            <div
-              className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${
-                dir === "rtl" ? "lg:direction-rtl" : ""
-              }`}
-            >
-              <div className={dir === "rtl" ? "lg:order-2" : ""}>
-                <h2 className="curriculum-animate text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-6">
-                  {t("curriculum.page.title")}
-                </h2>
-                <p className="curriculum-animate text-base md:text-lg text-[#7C7C7C] leading-relaxed mb-6">
-                  {t("curriculum.page.description")}
-                </p>
-                <div className="curriculum-animate flex items-center gap-3 px-5 py-3 bg-[#F8F9FA] rounded-lg">
-                  <BookOpen size={20} className="text-[#213B6F]" />
-                  <span className="text-sm font-medium text-[#213B6F]">
-                    {t("curriculum.pearson")}
+      <section ref={sectionRef} className="bg-[#F8F9FA] section-padding">
+        <div className="container-main">
+          <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+            {options.map((option) => (
+              <Link
+                key={option.href}
+                to={option.href}
+                className="curricula-card group relative min-h-[390px] md:min-h-[460px] overflow-hidden rounded-lg shadow-[0_18px_48px_rgba(23,25,35,0.16)] outline-none focus-visible:ring-4 focus-visible:ring-[#7A1E2A]/25"
+                aria-label={option.title}
+              >
+                <img
+                  src={option.image}
+                  alt={`${option.title} at International Knowledge School`}
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.045]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#171923]/[0.92] via-[#3A0B12]/[0.48] to-black/[0.12] transition-colors duration-500 group-hover:from-[#2B070D]/[0.94]" />
+                <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 md:p-10">
+                  <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-md bg-white/[0.14] text-white backdrop-blur-sm ring-1 ring-white/[0.18]">
+                    <option.icon size={26} strokeWidth={1.7} />
+                  </div>
+                  <p className="text-sm font-semibold uppercase tracking-[0.12em] text-[#F0B736] mb-3">
+                    {option.eyebrow}
+                  </p>
+                  <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                    {option.title}
+                  </h2>
+                  <p className="text-sm md:text-base leading-relaxed text-white/[0.78] max-w-xl mb-7">
+                    {option.description}
+                  </p>
+                  <span className="inline-flex items-center gap-2 text-sm font-semibold text-white transition-transform duration-300 group-hover:gap-3">
+                    {isArabic ? "استكشف المسار" : "Explore pathway"}
+                    <ArrowRight size={18} className={dir === "rtl" ? "rotate-180" : ""} />
                   </span>
                 </div>
-              </div>
-              <div className={dir === "rtl" ? "lg:order-1" : ""}>
-                <img
-                  src="/images/science-lab.jpg"
-                  alt="Science Lab"
-                  className="curriculum-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]"
-                />
-              </div>
-            </div>
+              </Link>
+            ))}
           </div>
-        </section>
-
-        {/* Stages */}
-        <section className="bg-[#F8F9FA] section-padding">
-          <div className="container-main">
-            <h2 className="curriculum-animate text-3xl md:text-[42px] font-bold text-[#1A1A1A] text-center mb-12">
-              {t("curriculum.stages.title")}
-            </h2>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {stages.map((stage, i) => (
-                <div
-                  key={i}
-                  className={`curriculum-animate bg-white rounded-lg border-t-4 ${stage.borderColor} p-6 shadow-sm hover:shadow-md transition-shadow`}
-                >
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center mb-4"
-                    style={{ backgroundColor: `${stage.color}15` }}
-                  >
-                    <stage.icon
-                      size={24}
-                      style={{ color: stage.color }}
-                      strokeWidth={1.5}
-                    />
-                  </div>
-                  <div
-                    className="text-xs font-semibold uppercase tracking-wider mb-2"
-                    style={{ color: stage.color }}
-                  >
-                    {stage.ages}
-                  </div>
-                  <h3 className="text-lg font-semibold text-[#1A1A1A] mb-2">
-                    {stage.title}
-                  </h3>
-                  <p className="text-sm text-[#7C7C7C] leading-relaxed">
-                    {stage.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Subjects */}
-        <section className="bg-white section-padding">
-          <div className="container-main">
-            <h2 className="curriculum-animate text-3xl font-bold text-[#1A1A1A] text-center mb-10">
-              {isArabic ? "المواد الدراسية" : "Our Subjects"}
-            </h2>
-            <div className="curriculum-animate flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-              {subjects.map((subject, i) => (
-                <span
-                  key={i}
-                  className="px-5 py-2.5 bg-[#F8F9FA] text-[#1A1A1A] text-sm font-medium rounded-full border border-[#D8E0F0] hover:bg-[#213B6F] hover:text-white hover:border-[#213B6F] transition-colors cursor-default"
-                >
-                  {subject}
-                </span>
-              ))}
-            </div>
-          </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

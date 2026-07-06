@@ -17,7 +17,7 @@ const dictionary: Record<string, Record<Language, string>> = {
   "nav.vision": { en: "Vision & Mission", ar: "الرؤية والرسالة" },
   "nav.values": { en: "Values", ar: "القيم" },
   "nav.goals": { en: "Goals", ar: "الأهداف" },
-  "nav.curriculum": { en: "British Curriculum", ar: "المناهج البريطانية" },
+  "nav.curriculum": { en: "Curricula", ar: "المناهج" },
   "nav.admissions": { en: "Admissions", ar: "القبول" },
   "nav.gallery": { en: "Gallery", ar: "معرض الصور" },
   "nav.news": { en: "News & Events", ar: "الأخبار والفعاليات" },
@@ -79,12 +79,12 @@ const dictionary: Record<string, Record<Language, string>> = {
   },
 
   // Curriculum Preview
-  "curriculum.title": { en: "British Curriculum", ar: "المناهج البريطانية" },
+  "curriculum.title": { en: "Curricula", ar: "المناهج" },
   "curriculum.description": {
-    en: "Our UK-based curriculum, developed in partnership with Pearson, provides a comprehensive educational framework recognized worldwide. From Early Years through Upper Secondary, students follow a structured learning path that builds critical thinking, creativity, and academic excellence.",
-    ar: "يوفر منهجنا المستند إلى المملكة المتحدة، والمطور بالشراكة مع بيرسون، إطاراً تعليمياً شاملاً معترفاً به عالمياً. من السنوات الأولى حتى الثانوية العليا، يتبع الطلاب مساراً تعليمياً منظماً يبني التفكير النقدي والإبداع والتميز الأكاديمي.",
+    en: "Explore clear international and local pathways designed for different learner needs, from Pearson Edexcel and American high school preparation to the Libyan National Curriculum.",
+    ar: "استكشف مسارات دولية ومحلية واضحة مصممة لاحتياجات تعليمية مختلفة، من Pearson Edexcel والمسار الأمريكي إلى المنهج الوطني الليبي.",
   },
-  "curriculum.cta": { en: "Explore Curriculum", ar: "استكشف المناهج" },
+  "curriculum.cta": { en: "Explore Curricula", ar: "استكشف المناهج" },
 
   // Leadership translations removed
 
@@ -123,7 +123,7 @@ const dictionary: Record<string, Record<Language, string>> = {
   "page.vision": { en: "Vision & Mission", ar: "الرؤية والرسالة" },
   "page.values": { en: "Our Values", ar: "قيمنا" },
   "page.goals": { en: "Our Goals", ar: "أهدافنا" },
-  "page.curriculum": { en: "British Curriculum", ar: "المناهج البريطانية" },
+  "page.curriculum": { en: "Curricula", ar: "المناهج" },
   // page.leadership removed
   "page.admissions": { en: "Admissions", ar: "القبول" },
   "page.gallery": { en: "School Gallery", ar: "معرض المدرسة" },
@@ -195,10 +195,10 @@ const dictionary: Record<string, Record<Language, string>> = {
   },
 
   // Curriculum Page
-  "curriculum.page.title": { en: "World-Class British Education", ar: "تعليم بريطاني عالمي المستوى" },
+  "curriculum.page.title": { en: "Curricula Pathways", ar: "مسارات المناهج" },
   "curriculum.page.description": {
-    en: "Knowledge International School delivers a comprehensive British curriculum in partnership with Pearson, the world's leading education company. Our program follows the UK National Curriculum, ensuring students receive a globally recognized education that prepares them for universities and careers worldwide.",
-    ar: "تقدم مدرسة المعرفة الدولية منهجاً بريطانياً شاملاً بالشراكة مع بيرسون، الشركة الرائدة في مجال التعليم في العالم. يتبع برنامجنا المنهج الوطني البريطاني، مما يضمن حصول الطلاب على تعليم معترف به عالمياً يعدهم للجامعات والمهن في جميع أنحاء العالم.",
+    en: "International Knowledge School offers international and local curriculum pathways that help families choose the most suitable academic route for each learner.",
+    ar: "تقدم مدرسة المعرفة الدولية مسارات مناهج دولية ومحلية تساعد الأسر على اختيار المسار الأكاديمي الأنسب لكل طالب.",
   },
   "curriculum.stages.title": { en: "Educational Stages", ar: "المراحل التعليمية" },
   "curriculum.early.title": { en: "Early Years", ar: "السنوات الأولى" },
@@ -226,8 +226,8 @@ const dictionary: Record<string, Record<Language, string>> = {
     ar: "المراحل الرئيسية 4-5 تعد الطلاب لشهادات IGCSE وA-Levels، مع إرشاد الجامعة والمهن.",
   },
   "curriculum.pearson": {
-    en: "In partnership with Pearson, a global leader in education",
-    ar: "بالشراكة مع بيرسون، الرائدة عالمياً في مجال التعليم",
+    en: "International, American, and local pathways in one school community",
+    ar: "مسارات دولية وأمريكية ومحلية داخل مجتمع مدرسي واحد",
   },
 
   // Admissions Page

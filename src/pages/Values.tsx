@@ -41,25 +41,25 @@ export default function Values() {
       icon: Shield,
       title: t("about.values.integrity.title"),
       desc: t("about.values.integrity.desc"),
-      color: "#213B6F",
+      color: "#7A1E2A",
     },
     {
       icon: Users,
       title: t("about.values.respect.title"),
       desc: t("about.values.respect.desc"),
-      color: "#7B2F63",
+      color: "#5B1420",
     },
     {
       icon: Award,
       title: t("about.values.excellence.title"),
       desc: t("about.values.excellence.desc"),
-      color: "#2C4F8E",
+      color: "#9A2D3A",
     },
     {
       icon: Zap,
       title: t("about.values.innovation.title"),
       desc: t("about.values.innovation.desc"),
-      color: "#0B1E35",
+      color: "#171923",
     },
     {
       icon: BookOpen,
@@ -67,7 +67,7 @@ export default function Values() {
       desc: isArabic
         ? "نعزز حب المعرفة والاكتشاف المستمر طوال الحياة"
         : "We foster a love of knowledge and continuous discovery throughout life",
-      color: "#213B6F",
+      color: "#7A1E2A",
     },
     {
       icon: Heart,
@@ -75,7 +75,7 @@ export default function Values() {
       desc: isArabic
         ? "نرعى بيئة داعمة حيث يشعر كل طالب بالتقدير والاحترام"
         : "We nurture a supportive environment where every student feels valued",
-      color: "#7B2F63",
+      color: "#5B1420",
     },
   ];
 
