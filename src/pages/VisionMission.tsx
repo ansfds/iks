@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+﻿import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Target, Eye, Lightbulb, Heart } from "lucide-react";
@@ -10,8 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 const GSAP: any = gsap;
 
 export default function VisionMission() {
-  const { language, t, dir } = useLanguage();
-  const isArabic = language === "ar";
+  const { t, dir } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -63,15 +62,13 @@ export default function VisionMission() {
           >
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
               <div className="vm-animate flex items-center gap-3 mb-4">
-                <Eye size={28} className="text-[#5B1420]" />
-                <span className="text-sm font-semibold text-[#7A1E2A] uppercase tracking-wider">
-                  {isArabic ? "رؤيتنا" : "Our Vision"}
+                <Eye size={28} className="text-[#1D7FEA]" />
+                <span className="text-sm font-semibold text-[#213B6F] uppercase tracking-wider">
+                  رؤيتنا
                 </span>
               </div>
               <h2 className="vm-animate text-2xl sm:text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-6 leading-tight">
-                {isArabic
-                  ? "أن نكون مدرسة دولية رائدة معترفاً بها في التميز التعليمي والابتكار في التدريس والتنمية الشاملة للطلاب"
-                  : "To be a leading international school recognized for excellence in education, innovation in teaching, and the holistic development of students"}
+                أن نكون شريكًا ماليًا موثوقًا في الدفع الإلكتروني والحوالات والشراء العالمي
               </h2>
               <p className="vm-animate text-base text-[#7C7C7C] leading-relaxed">
                 {t("about.vision.text")}
@@ -80,7 +77,7 @@ export default function VisionMission() {
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <img
                 src="/images/students-group.jpg"
-                alt="Students"
+                alt="عملاء وخدمات مالية"
                 className="vm-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]"
               />
             </div>
@@ -95,15 +92,15 @@ export default function VisionMission() {
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
               <img
                 src="/images/about-classroom.jpg"
-                alt="Classroom"
+                alt="خدمات الوسيط العالمي"
                 className="vm-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]"
               />
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <div className="vm-animate flex items-center gap-3 mb-4">
-                <Target size={28} className="text-[#7A1E2A]" />
-                <span className="text-sm font-semibold text-[#7A1E2A] uppercase tracking-wider">
-                  {isArabic ? "رسالتنا" : "Our Mission"}
+                <Target size={28} className="text-[#213B6F]" />
+                <span className="text-sm font-semibold text-[#213B6F] uppercase tracking-wider">
+                  رسالتنا
                 </span>
               </div>
               <h2 className="vm-animate text-2xl sm:text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-6 leading-tight">
@@ -114,17 +111,13 @@ export default function VisionMission() {
                 {[
                   {
                     icon: Lightbulb,
-                    title: isArabic ? "التميز الأكاديمي" : "Academic Excellence",
-                    desc: isArabic
-                      ? "توفير تعليم عالمي المستوى يحفز الطلاب على التفكير النقدي والإبداع"
-                      : "Providing world-class education that stimulates critical thinking and creativity",
+                    title: "دقة التنفيذ",
+                    desc: "تأكيد التفاصيل والعملة والوجهة قبل تنفيذ أي دفعة أو حوالة",
                   },
                   {
                     icon: Heart,
-                    title: isArabic ? "العناية الشخصية" : "Personal Care",
-                    desc: isArabic
-                      ? "توفير بيئة داعمة وآمنة يشعر فيها كل طالب بالتقدير والاحترام"
-                      : "Providing a supportive and safe environment where every student feels valued",
+                    title: "عناية العملاء",
+                    desc: "تواصل مباشر ومتابعة واضحة حتى اكتمال الخدمة",
                   },
                 ].map((item, i) => (
                   <div
@@ -133,7 +126,7 @@ export default function VisionMission() {
                   >
                     <item.icon
                       size={24}
-                      className="text-[#7A1E2A] mt-0.5 shrink-0"
+                      className="text-[#213B6F] mt-0.5 shrink-0"
                     />
                     <div>
                       <h3 className="font-semibold text-[#1A1A1A] mb-1">

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useCallback, type ReactNode } from "react";
 
 export type Language = "en" | "ar";
 
@@ -11,264 +11,261 @@ interface LanguageContextType {
 }
 
 const dictionary: Record<string, Record<Language, string>> = {
-  // Navigation
   "nav.home": { en: "Home", ar: "الرئيسية" },
   "nav.about": { en: "About Us", ar: "من نحن" },
   "nav.vision": { en: "Vision & Mission", ar: "الرؤية والرسالة" },
-  "nav.values": { en: "Values", ar: "القيم" },
-  "nav.goals": { en: "Goals", ar: "الأهداف" },
-  "nav.curriculum": { en: "Curricula", ar: "المناهج" },
-  "nav.admissions": { en: "Admissions", ar: "القبول" },
+  "nav.values": { en: "Values", ar: "قيمنا" },
+  "nav.goals": { en: "Goals", ar: "أهدافنا" },
+  "nav.curriculum": { en: "Services", ar: "الخدمات" },
+  "nav.transfers": { en: "Transfers", ar: "التحويلات" },
+  "nav.admissions": { en: "Request a Service", ar: "طلب خدمة" },
   "nav.gallery": { en: "Gallery", ar: "معرض الصور" },
-  "nav.news": { en: "News & Events", ar: "الأخبار والفعاليات" },
+  "nav.news": { en: "Updates", ar: "الأخبار والتحديثات" },
   "nav.contact": { en: "Contact Us", ar: "اتصل بنا" },
 
-  // Hero
-  "hero.welcome": { en: "Welcome to", ar: "مرحبا بكم في" },
-  "hero.subtitle": { en: "International School", ar: "المدرسة الدولية" },
-  "hero.description": {
-    en: "Unlock Your Child's Potential with World-Class Education & Global Readiness",
-    ar: "اكتشف إمكانيات طفلك مع تعليم عالمي واستعداد للعالمية",
+  "hero.welcome": { en: "Alwaseet Global Money Transfers", ar: "الوسيط العالمي للحوالات" },
+  "hero.subtitle": {
+    en: "Leaders in digital payments, transfers, and global purchasing",
+    ar: "رواد في الدفع الإلكتروني والحوالات والشراء العالمي",
   },
-  "hero.cta.primary": { en: "Book a Tour", ar: "احجز جولة" },
+  "hero.description": {
+    en: "Integrated financial solutions for payment, transfer, and purchasing from international markets with speed, simplicity, and trust.",
+    ar: "حلول مالية متكاملة للدفع والتحويل والشراء من مختلف المواقع والأسواق العالمية، بسرعة وسهولة وأمان.",
+  },
+  "hero.cta.primary": { en: "Request a Service", ar: "اطلب خدمة" },
   "hero.cta.secondary": { en: "About Us", ar: "من نحن" },
 
-  // Stats
-  "stats.students": { en: "Students", ar: "طالب" },
-  "stats.classrooms": { en: "Classrooms", ar: "فصل دراسي" },
-  "stats.nationalities": { en: "Nationalities", ar: "جنسية" },
-  "stats.satisfaction": { en: "Satisfaction Rate", ar: "نسبة الرضا" },
+  "stats.students": { en: "Facebook followers", ar: "متابع على فيسبوك" },
+  "stats.classrooms": { en: "Core services", ar: "خدمات رئيسية" },
+  "stats.nationalities": { en: "Global payments", ar: "مدفوعات عالمية" },
+  "stats.satisfaction": { en: "Secure support", ar: "دعم موثوق" },
 
-  // About Preview
-  "about.label": { en: "About Our School", ar: "عن مدرستنا" },
+  "about.label": { en: "About Alwaseet", ar: "عن الوسيط العالمي" },
   "about.title": {
-    en: "Knowledge International School is a modern educational institution providing world-class education for students from Kindergarten to High School.",
-    ar: "مدرسة المعرفة الدولية هي مؤسسة تعليمية حديثة تقدم تعليماً عالمياً للطلاب من رياض الأطفال حتى الثانوية.",
+    en: "Alwaseet Global Money Transfers provides trusted financial services for digital payments, international transfers, and online purchasing.",
+    ar: "الوسيط العالمي للحوالات شركة تقدم حلولًا مالية موثوقة للدفع الإلكتروني والحوالات الخارجية والشراء من الأسواق العالمية.",
   },
   "about.body": {
-    en: "We believe every child has unique potential waiting to be unlocked. Through our innovative curriculum, experienced educators, and state-of-the-art facilities, we create an environment where students thrive academically, socially, and emotionally. Our holistic approach ensures each student develops critical thinking skills, creativity, and a love for lifelong learning.",
-    ar: "نؤمن بأن لكل طفل إمكانيات فريدة في انتظار أن يتم اكتشافها. من خلال مناهجنا المبتكرة ومربينا ذوي الخبرة ومرافقنا الحديثة، نخلق بيئة يزدهر فيها الطلاب أكاديمياً واجتماعياً وعاطفياً. يضمن نهجنا الشامل تطوير كل طالب لمهارات التفكير النقدي والإبداع وحب التعلم مدى الحياة.",
+    en: "We help customers complete payments, transfers, wallet top-ups, SHEIN cards, Chinese yuan payments, and dollar exchange through clear service channels and reliable follow-up.",
+    ar: "نساعد العملاء على تنفيذ المدفوعات والحوالات وشحن المحافظ وبطاقات SHEIN وخدمات اليوان الصيني وبيع وشراء الدولار عبر قنوات واضحة ومتابعة موثوقة.",
   },
   "about.learnMore": { en: "Learn More", ar: "المزيد" },
 
-  // Why Choose Us
-  "why.title": { en: "Why Choose Knowledge?", ar: "لماذا تختار المعرفة؟" },
+  "why.title": { en: "Why Choose Alwaseet?", ar: "لماذا تختار الوسيط العالمي؟" },
   "why.subtitle": {
-    en: "We combine academic excellence with character building to prepare students for a global future.",
-    ar: "نجمع بين التميز الأكاديمي وبناء الشخصية لإعداد الطلاب لمستقبل عالمي.",
+    en: "A clean, reliable financial service experience for transfers, payments, and global purchases.",
+    ar: "تجربة مالية واضحة وموثوقة للحوالات والمدفوعات والشراء العالمي.",
   },
-  "why.character.title": { en: "Character Education", ar: "تعليم الشخصية" },
+  "why.character.title": { en: "Trust & Clarity", ar: "موثوقية ووضوح" },
   "why.character.desc": {
-    en: "We nurture responsibility, empathy, integrity, and leadership in every student.",
-    ar: "نرعى المسؤولية والتعاطف والنزاهة والقيادة في كل طالب.",
+    en: "Clear procedures and direct communication before every payment or transfer.",
+    ar: "إجراءات واضحة وتواصل مباشر قبل تنفيذ كل دفعة أو حوالة.",
   },
-  "why.facilities.title": { en: "Modern Facilities", ar: "مرافق حديثة" },
+  "why.facilities.title": { en: "Digital Payments", ar: "دفع إلكتروني" },
   "why.facilities.desc": {
-    en: "State-of-the-art classrooms, science labs, sports facilities, and technology centers.",
-    ar: "فصول دراسية ومعامل علوم ومرافق رياضية ومراكز تكنولوجيا على أحدث مستوى.",
+    en: "Payment and top-up services for international stores, wallets, and digital platforms.",
+    ar: "خدمات دفع وشحن للمتاجر العالمية والمحافظ والمنصات الرقمية.",
   },
-  "why.global.title": { en: "Global Perspective", ar: "منظور عالمي" },
+  "why.global.title": { en: "Global Reach", ar: "وصول عالمي" },
   "why.global.desc": {
-    en: "Our diverse community and international curriculum prepare students for the world.",
-    ar: "مجتمعنا المتنوع ومناهجنا الدولي يعدان الطلاب للعالم.",
+    en: "International transfers and purchasing support across markets and currencies.",
+    ar: "حوالات خارجية ودعم للشراء من الأسواق العالمية وبعملات متعددة.",
   },
-  "why.wellbeing.title": { en: "Student Wellbeing", ar: "رفاهية الطلاب" },
+  "why.wellbeing.title": { en: "Fast Support", ar: "دعم سريع" },
   "why.wellbeing.desc": {
-    en: "Comprehensive support systems ensuring every child thrives emotionally and socially.",
-    ar: "أنظمة دعم شاملة تضمن ازدهار كل طفل عاطفياً واجتماعياً.",
+    en: "Responsive service for confirming details, rates, and completion steps.",
+    ar: "استجابة سريعة لتأكيد التفاصيل والأسعار وخطوات التنفيذ.",
   },
 
-  // Curriculum Preview
-  "curriculum.title": { en: "Curricula", ar: "المناهج" },
+  "curriculum.title": { en: "Our Services", ar: "خدماتنا" },
   "curriculum.description": {
-    en: "Explore clear international and local pathways designed for different learner needs, from Pearson Edexcel and American high school preparation to the Libyan National Curriculum.",
-    ar: "استكشف مسارات دولية ومحلية واضحة مصممة لاحتياجات تعليمية مختلفة، من Pearson Edexcel والمسار الأمريكي إلى المنهج الوطني الليبي.",
+    en: "Pay international invoices, send external transfers, buy SHEIN cards, convert Chinese yuan, exchange dollars, and top up electronic wallets from one trusted place.",
+    ar: "دفع الفواتير العالمية، الحوالات الخارجية، بطاقات SHEIN، تحويل اليوان الصيني، بيع وشراء الدولار، وشحن المحافظ الإلكترونية من مكان واحد موثوق.",
   },
-  "curriculum.cta": { en: "Explore Curricula", ar: "استكشف المناهج" },
+  "curriculum.cta": { en: "Explore Services", ar: "استكشف الخدمات" },
 
-  // Leadership translations removed
-
-  // Gallery Preview
-  "gallery.title": { en: "School Life Gallery", ar: "معرض الحياة المدرسية" },
+  "gallery.title": { en: "Service Gallery", ar: "معرض الخدمات" },
   "gallery.subtitle": {
-    en: "Moments from our vibrant school community.",
-    ar: "لحظات من مجتمعنا المدرسي النابض بالحياة.",
+    en: "Visuals from our payment, transfer, and global purchasing services.",
+    ar: "لمحات بصرية من خدمات الدفع والتحويل والشراء العالمي.",
   },
-  "gallery.cta": { en: "View Full Gallery", ar: "عرض المعرض الكامل" },
+  "gallery.cta": { en: "View Gallery", ar: "عرض المعرض" },
 
-  // Contact CTA
-  "contactcta.title": { en: "Get in Touch", ar: "تواصل معنا" },
+  "contactcta.title": { en: "Ready to complete a payment or transfer?", ar: "جاهز لتنفيذ دفعة أو حوالة؟" },
   "contactcta.description": {
-    en: "We'd love to hear from you. Reach out for admissions, inquiries, or to book a school tour.",
-    ar: "نود أن نسمع منك. تواصل معنا للقبول أو الاستفسارات أو لحجز جولة في المدرسة.",
+    en: "Contact us to confirm details and complete your transfer, payment, or wallet top-up.",
+    ar: "تواصل معنا لتأكيد التفاصيل وتنفيذ حوالتك أو دفعتك أو شحن محفظتك الإلكترونية.",
   },
-  "contactcta.contact": { en: "Contact Us", ar: "اتصل بنا" },
-  "contactcta.visit": { en: "Book a Visit", ar: "احجز زيارة" },
+  "contactcta.contact": { en: "Contact Us", ar: "تواصل معنا" },
+  "contactcta.visit": { en: "View Location", ar: "عرض الموقع" },
 
-  // Footer
   "footer.description": {
-    en: "Empowering students with world-class education, fostering critical thinking, creativity, and global citizenship since our founding.",
-    ar: "تمكين الطلاب بتعليم عالمي المستوى، وتعزيز التفكير النقدي والإبداع والمواطنة العالمية منذ تأسيسنا.",
+    en: "Trusted digital payment, transfer, and global purchasing services from Tripoli, Libya.",
+    ar: "خدمات موثوقة للدفع الإلكتروني والحوالات والشراء العالمي من طرابلس، ليبيا.",
   },
   "footer.quickLinks": { en: "Quick Links", ar: "روابط سريعة" },
   "footer.information": { en: "Information", ar: "معلومات" },
   "footer.contactInfo": { en: "Contact Info", ar: "معلومات الاتصال" },
-  "footer.address": { en: "Ein Zara Street - near Nasser University, Tripoli, Libya", ar: "عيـن زارة - بالقرب من جامعة نـاصر " },
-  "footer.phone": { en: "092-2000011", ar: "092-2000011" },
-  "footer.email": { en: "info@iks.sch.ly", ar: "info@iks.sch.ly" },
-  "footer.copyright": { en: "International Knowledge School. All rights reserved.", ar: "مدرسة المعرفة الدولية. جميع الحقوق محفوظة." },
+  "footer.address": { en: "Zanata, opposite Kayan Mobile - Tripoli, Libya", ar: "زناتة مقابل كيان موبايل - طرابلس، ليبيا" },
+  "footer.phone": { en: "093-5095091", ar: "093-5095091" },
+  "footer.email": { en: "hosambizniz12@gmail.com", ar: "hosambizniz12@gmail.com" },
+  "footer.hoursTitle": { en: "Working Hours", ar: "ساعات العمل" },
+  "footer.hours.weekdays": {
+    en: "Saturday - Wednesday: 11:00 AM - 7:00 PM",
+    ar: "السبت – الأربعاء: 11:00 صباحًا – 7:00 مساءً",
+  },
+  "footer.hours.thursday": {
+    en: "Thursday: 11:00 AM - 5:00 PM",
+    ar: "الخميس: 11:00 صباحًا – 5:00 مساءً",
+  },
+  "footer.hours.friday": { en: "Friday: Closed", ar: "الجمعة: مغلق" },
+  "footer.copyright": { en: "Alwaseet Global Money Transfers. All rights reserved.", ar: "الوسيط العالمي للحوالات. جميع الحقوق محفوظة." },
 
-  // Page Titles
   "page.about": { en: "About Us", ar: "من نحن" },
   "page.vision": { en: "Vision & Mission", ar: "الرؤية والرسالة" },
   "page.values": { en: "Our Values", ar: "قيمنا" },
   "page.goals": { en: "Our Goals", ar: "أهدافنا" },
-  "page.curriculum": { en: "Curricula", ar: "المناهج" },
-  // page.leadership removed
-  "page.admissions": { en: "Admissions", ar: "القبول" },
-  "page.gallery": { en: "School Gallery", ar: "معرض المدرسة" },
-  "page.news": { en: "News & Events", ar: "الأخبار والفعاليات" },
+  "page.curriculum": { en: "Services", ar: "الخدمات" },
+  "page.transfers": { en: "Transfers", ar: "التحويلات" },
+  "page.admissions": { en: "Request a Service", ar: "طلب خدمة" },
+  "page.gallery": { en: "Gallery", ar: "معرض الصور" },
+  "page.news": { en: "News & Updates", ar: "الأخبار والتحديثات" },
   "page.contact": { en: "Contact Us", ar: "اتصل بنا" },
 
-  // About Page
   "about.mission.title": { en: "Our Mission", ar: "رسالتنا" },
   "about.mission.text": {
-    en: "To provide a nurturing, inclusive, and stimulating learning environment that empowers students to achieve academic excellence, develop strong character, and become responsible global citizens who contribute positively to society.",
-    ar: "توفير بيئة تعليمية داعمة وشاملة ومحفزة تمكن الطلاب من تحقيق التميز الأكاديمي وتطوير شخصية قوية والصيرورة مواطنين عالميين مسؤولين يساهمون إيجابياً في المجتمع.",
+    en: "To provide accessible, reliable, and secure payment and transfer services that help customers complete their local and international transactions with confidence.",
+    ar: "تقديم خدمات دفع وتحويل آمنة وسهلة وموثوقة تساعد العملاء على إنجاز معاملاتهم المحلية والدولية بثقة.",
   },
   "about.vision.title": { en: "Our Vision", ar: "رؤيتنا" },
   "about.vision.text": {
-    en: "To be a leading international school recognized for excellence in education, innovation in teaching, and the holistic development of students who are prepared to thrive in a rapidly changing global landscape.",
-    ar: "أن نكون مدرسة دولية رائدة معترفاً بها في التميز التعليمي والابتكار في التدريس والتنمية الشاملة للطلاب المستعدين للازدهار في مشهد عالمي يتغير بسرعة.",
+    en: "To be a trusted financial service partner for digital payments, international transfers, and global purchasing in Libya.",
+    ar: "أن نكون شريكًا ماليًا موثوقًا في ليبيا لخدمات الدفع الإلكتروني والحوالات الخارجية والشراء العالمي.",
   },
   "about.values.title": { en: "Our Values", ar: "قيمنا" },
   "about.values.description": {
-    en: "Our core values guide everything we do at Knowledge . They shape our culture, inform our decisions, and inspire our community to strive for excellence.",
-    ar: "قيمنا الأساسية ترشد كل ما نقوم به في المعرفة. إنها تشكل ثقافتنا وتوجه قراراتنا وتح inspire مجتمعنا للسعي نحو التميز.",
+    en: "Our values guide every transaction, from the first question to the final confirmation.",
+    ar: "قيمنا تقود كل معاملة، من أول استفسار حتى تأكيد التنفيذ.",
   },
   "about.values.integrity.title": { en: "Integrity", ar: "النزاهة" },
   "about.values.integrity.desc": {
-    en: "We uphold the highest ethical standards in all our actions and decisions.",
-    ar: "نحافظ على أعلى المعايير الأخلاقية في جميع أفعالنا وقراراتنا.",
+    en: "We handle customer requests with transparency and clear communication.",
+    ar: "نتعامل مع طلبات العملاء بشفافية وتواصل واضح.",
   },
-  "about.values.respect.title": { en: "Respect", ar: "الاحترام" },
+  "about.values.respect.title": { en: "Care", ar: "العناية" },
   "about.values.respect.desc": {
-    en: "We value diversity and treat every individual with dignity and kindness.",
-    ar: "نقدر التنوع ونعامل كل فرد بكرامة ولطف.",
+    en: "We respect every customer request and follow up with practical support.",
+    ar: "نحترم كل طلب ونقدّم متابعة عملية تناسب احتياج العميل.",
   },
-  "about.values.excellence.title": { en: "Excellence", ar: "التميز" },
+  "about.values.excellence.title": { en: "Reliability", ar: "الاعتمادية" },
   "about.values.excellence.desc": {
-    en: "We pursue the highest standards in education and continuous improvement.",
-    ar: "نسعى لأعلى المعايير في التعليم والتحسين المستمر.",
+    en: "We focus on accurate details, secure handling, and dependable completion.",
+    ar: "نركّز على دقة التفاصيل وأمان التعامل وموثوقية التنفيذ.",
   },
-  "about.values.innovation.title": { en: "Innovation", ar: "الابتكار" },
+  "about.values.innovation.title": { en: "Agility", ar: "المرونة" },
   "about.values.innovation.desc": {
-    en: "We embrace creativity and forward-thinking approaches to teaching and learning.",
-    ar: "ن adopting الإبداع والنهج التقدمي في التدريس والتعلم.",
+    en: "We keep pace with digital payment needs and global purchasing channels.",
+    ar: "نواكب احتياجات الدفع الإلكتروني وقنوات الشراء العالمية.",
   },
 
-  // Goals Page
   "goals.title": { en: "Our Strategic Goals", ar: "أهدافنا الاستراتيجية" },
   "goals.subtitle": {
-    en: "We are committed to achieving excellence through clear, measurable goals that drive our school's continuous development.",
-    ar: "نلتزم بتحقيق التميز من خلال أهداف واضحة وقابلة للقياس تدفع التطوير المستمر لمدرستنا.",
+    en: "Focused goals for a stronger, faster, and more reliable financial service experience.",
+    ar: "أهداف واضحة لتجربة مالية أقوى وأسرع وأكثر موثوقية.",
   },
-  "goals.academic.title": { en: "Academic Excellence", ar: "التميز الأكاديمي" },
+  "goals.academic.title": { en: "Service Accuracy", ar: "دقة الخدمة" },
   "goals.academic.desc": {
-    en: "Achieve top-tier academic results through rigorous curriculum delivery, personalized learning plans, and continuous assessment. Maintain above-average standardized test scores and ensure 100% of graduates gain admission to reputable universities worldwide.",
-    ar: "تحقيق نتائج أكاديمية من الدرجة الأولى من خلال تسليم منهج صارم وخطط تعلم مخصصة وتقييم مستمر. الحفاظ على درجات اختبارات موحدة فوق المتوسط وضمان قبول 100% من الخريجين في جامعات مرموقة حول العالم.",
+    en: "Confirm transfer and payment details carefully before execution and keep customers informed at each step.",
+    ar: "تأكيد تفاصيل الحوالات والمدفوعات بعناية قبل التنفيذ وإبقاء العميل على اطلاع بكل خطوة.",
   },
-  "goals.character.title": { en: "Character Development", ar: "تنمية الشخصية" },
+  "goals.character.title": { en: "Secure Handling", ar: "تعامل آمن" },
   "goals.character.desc": {
-    en: "Foster a school culture that promotes integrity, respect, responsibility, and empathy. Implement comprehensive character education programs that develop well-rounded individuals prepared for life's challenges.",
-    ar: "تعزيز ثقافة مدرسية تعزز النزاهة والاحترام والمسؤولية والتعاطف. تطبيق برامج تعليم الشخصية الشاملة التي تنمي أفراداً متكاملين مستعدين لتحديات الحياة.",
+    en: "Protect customer data and transaction details while maintaining clear communication channels.",
+    ar: "حماية بيانات العملاء وتفاصيل المعاملات مع الحفاظ على قنوات تواصل واضحة.",
   },
-  "goals.innovation.title": { en: "Innovation & Technology", ar: "الابتكار والتكنولوجيا" },
+  "goals.innovation.title": { en: "Digital Expansion", ar: "توسع رقمي" },
   "goals.innovation.desc": {
-    en: "Integrate cutting-edge technology across all subjects and grade levels. Develop digital literacy skills and promote innovative thinking through STEM programs, coding clubs, and technology-driven projects.",
-    ar: "دمج التكنولوجيا المتطورة في جميع المواد والمراحل الدراسية. تطوير مهارات المحو الأمية الرقمية وتعزيز التفكير المبتكر من خلال برامج العلوم والتكنولوجيا والهندسة والرياضيات ونوادي البرمجة والمشاريع المعتمدة على التكنولوجيا.",
+    en: "Expand wallet top-ups, digital cards, online payments, and global purchasing support.",
+    ar: "توسيع خدمات شحن المحافظ والبطاقات الرقمية والمدفوعات والشراء العالمي.",
   },
-  "goals.community.title": { en: "Community Engagement", ar: "التواصل المجتمعي" },
+  "goals.community.title": { en: "Customer Trust", ar: "ثقة العملاء" },
   "goals.community.desc": {
-    en: "Build strong partnerships with parents, local organizations, and the global educational community. Create opportunities for students to engage in meaningful service projects and develop a sense of social responsibility.",
-    ar: "بناء شراكات قوية مع أولياء الأمور والمنظمات المحلية ومجتمع التعليم العالمي. خلق فرص للطلاب للمشاركة في مشاريع خدمة هادفة وتطوير إحساس بالمسؤولية الاجتماعية.",
+    en: "Build long-term relationships through reliable service, quick response, and honest guidance.",
+    ar: "بناء علاقات طويلة المدى عبر خدمة موثوقة واستجابة سريعة وإرشاد واضح.",
   },
 
-  // Curriculum Page
-  "curriculum.page.title": { en: "Curricula Pathways", ar: "مسارات المناهج" },
+  "curriculum.page.title": { en: "Integrated Financial Services", ar: "خدمات مالية متكاملة" },
   "curriculum.page.description": {
-    en: "International Knowledge School offers international and local curriculum pathways that help families choose the most suitable academic route for each learner.",
-    ar: "تقدم مدرسة المعرفة الدولية مسارات مناهج دولية ومحلية تساعد الأسر على اختيار المسار الأكاديمي الأنسب لكل طالب.",
+    en: "Alwaseet Global supports payments, transfers, marketplace purchases, currency exchange, yuan payments, SHEIN cards, and digital wallet top-ups.",
+    ar: "يدعم الوسيط العالمي خدمات الدفع والتحويل والشراء من المتاجر العالمية وصرف العملات ومدفوعات اليوان وبطاقات SHEIN وشحن المحافظ الإلكترونية.",
   },
-  "curriculum.stages.title": { en: "Educational Stages", ar: "المراحل التعليمية" },
-  "curriculum.early.title": { en: "Early Years", ar: "السنوات الأولى" },
-  "curriculum.early.ages": { en: "Ages 3-5", ar: "الأعمار 3-5" },
+  "curriculum.stages.title": { en: "Main Services", ar: "الخدمات الرئيسية" },
+  "curriculum.early.title": { en: "Global Bills", ar: "دفع الفواتير العالمية" },
+  "curriculum.early.ages": { en: "Payments", ar: "مدفوعات" },
   "curriculum.early.desc": {
-    en: "Foundation Stage focusing on play-based learning, social development, and early literacy and numeracy skills.",
-    ar: "المرحلة التأسيسية تركز على التعلم القائم على اللعب والتنمية الاجتماعية ومهارات محو الأمية والحساب المبكرة.",
+    en: "Pay invoices and orders from different international websites and stores.",
+    ar: "دفع فواتير وطلبات من مختلف المواقع والمتاجر العالمية.",
   },
-  "curriculum.primary.title": { en: "Primary", ar: "الابتدائية" },
-  "curriculum.primary.ages": { en: "Ages 5-11", ar: "الأعمار 5-11" },
+  "curriculum.primary.title": { en: "International Transfers", ar: "الحوالات الخارجية" },
+  "curriculum.primary.ages": { en: "Transfers", ar: "حوالات" },
   "curriculum.primary.desc": {
-    en: "Key Stages 1-2 covering core subjects including English, Mathematics, Science, and introducing specialist subjects.",
-    ar: "المراحل الرئيسية 1-2 تغطي المواد الأساسية بما في ذلك اللغة الإنجليزية والرياضيات والعلوم وتقديم مواد متخصصة.",
+    en: "External money transfer services to multiple countries with clear follow-up.",
+    ar: "إجراء حوالات مالية خارجية لمختلف الدول مع متابعة واضحة.",
   },
-  "curriculum.lower.title": { en: "Lower Secondary", ar: "الثانوية الدنيا" },
-  "curriculum.lower.ages": { en: "Ages 11-14", ar: "الأعمار 11-14" },
+  "curriculum.lower.title": { en: "SHEIN Cards & Yuan", ar: "بطاقات SHEIN واليوان" },
+  "curriculum.lower.ages": { en: "Shopping", ar: "شراء عالمي" },
   "curriculum.lower.desc": {
-    en: "Key Stage 3 with a broad and balanced curriculum, developing independent learning skills and subject knowledge.",
-    ar: "المرحلة الرئيسية 3 مع منهج واسع ومتوازن، يطور مهارات التعلم المستقل والمعرفة الموضوعية.",
+    en: "SHEIN shopping cards plus Chinese yuan transfer and payment services.",
+    ar: "توفير بطاقات وكروت SHEIN وخدمات تحويل ودفع باليوان الصيني.",
   },
-  "curriculum.upper.title": { en: "Upper Secondary", ar: "الثانوية العليا" },
-  "curriculum.upper.ages": { en: "Ages 14-19", ar: "الأعمار 14-19" },
+  "curriculum.upper.title": { en: "Dollars & Wallets", ar: "الدولار والمحافظ" },
+  "curriculum.upper.ages": { en: "Exchange", ar: "صرف وشحن" },
   "curriculum.upper.desc": {
-    en: "Key Stages 4-5 preparing students for IGCSEs and A-Levels, with university and career counseling.",
-    ar: "المراحل الرئيسية 4-5 تعد الطلاب لشهادات IGCSE وA-Levels، مع إرشاد الجامعة والمهن.",
+    en: "Buy, sell, and transfer dollars, and top up wallets, virtual cards, and Facebook services.",
+    ar: "تحويل وبيع وشراء الدولار وشحن المحافظ والبطاقات الافتراضية وخدمات Facebook.",
   },
   "curriculum.pearson": {
-    en: "International, American, and local pathways in one school community",
-    ar: "مسارات دولية وأمريكية ومحلية داخل مجتمع مدرسي واحد",
+    en: "Payment, transfer, global shopping, yuan, dollars, and wallet top-ups",
+    ar: "الدفع والتحويل والشراء العالمي واليوان والدولار وشحن المحافظ",
   },
 
-  // Admissions Page
-  "admissions.process.title": { en: "Admission Process", ar: "عملية القبول" },
+  "admissions.process.title": { en: "How Requests Work", ar: "آلية طلب الخدمة" },
   "admissions.process.subtitle": {
-    en: "Joining Knowledge is a simple, straightforward process designed to ensure the best fit for your child.",
-    ar: "الانضمام إلى المعرفة هو عملية بسيطة ومباشرة مصممة لضمان أفضل توافق لطفلك.",
+    en: "A simple process to confirm the service details and complete the transaction.",
+    ar: "خطوات بسيطة لتأكيد تفاصيل الخدمة وتنفيذ المعاملة.",
   },
-  "admissions.step1.title": { en: "Submit Application", ar: "تقديم الطلب" },
+  "admissions.step1.title": { en: "Send Request", ar: "إرسال الطلب" },
   "admissions.step1.desc": {
-    en: "Complete our online application form and submit required documents including previous school records.",
-    ar: "أكمل استمارة الطلب عبر الإنترنت وأرسل المستندات المطلوبة بما في ذلك سجلات المدرسة السابقة.",
+    en: "Share the service you need with your contact details.",
+    ar: "أرسل نوع الخدمة المطلوبة مع بيانات التواصل.",
   },
-  "admissions.step2.title": { en: "Assessment", ar: "التقييم" },
+  "admissions.step2.title": { en: "Confirm Details", ar: "تأكيد التفاصيل" },
   "admissions.step2.desc": {
-    en: "Students complete age-appropriate assessments in English and Mathematics to determine academic readiness.",
-    ar: "يكمل الطلاب تقييمات مناسبة للعمر في اللغة الإنجليزية والرياضيات لتحديد الجاهزية الأكاديمية.",
+    en: "We confirm amount, destination, currency, and required steps.",
+    ar: "نؤكد المبلغ والوجهة والعملة والخطوات المطلوبة.",
   },
-  "admissions.step3.title": { en: "Interview", ar: "المقابلة" },
+  "admissions.step3.title": { en: "Complete Payment", ar: "تنفيذ الدفع" },
   "admissions.step3.desc": {
-    en: "A friendly meeting with the student and parents to discuss goals, expectations, and school fit.",
-    ar: "اجتماع ودي مع الطالب وأولياء الأمور لمناقشة الأهداف والتوقعات ومدى ملاءمة المدرسة.",
+    en: "The transaction is processed through the suitable official channel.",
+    ar: "تُنفذ المعاملة عبر القناة المناسبة والمعتمدة.",
   },
-  "admissions.step4.title": { en: "Enrollment", ar: "التسجيل" },
+  "admissions.step4.title": { en: "Final Confirmation", ar: "تأكيد الإنجاز" },
   "admissions.step4.desc": {
-    en: "Upon acceptance, complete enrollment forms and secure your child's place for the upcoming academic year.",
-    ar: "عند القبول، أكمل استمارات التسجيل وتأكد من مكان طفلك للعام الدراسي القادم.",
+    en: "You receive the confirmation details after completion.",
+    ar: "تستلم تفاصيل التأكيد بعد إتمام العملية.",
   },
-  "admissions.requirements.title": { en: "Required Documents", ar: "المستندات المطلوبة" },
+  "admissions.requirements.title": { en: "Useful Request Details", ar: "بيانات مفيدة للطلب" },
   "admissions.requirements.subtitle": {
-    en: "Please prepare the following documents for your application:",
-    ar: "يرجى إعداد المستندات التالية للتطبيق:",
+    en: "Preparing these details helps us respond faster.",
+    ar: "تجهيز هذه البيانات يساعدنا على الرد بشكل أسرع.",
   },
-  "admissions.doc1": { en: "Completed application form", ar: "استمارة الطلب مكتملة" },
-  "admissions.doc2": { en: "Copy of student's passport or birth certificate", ar: "نسخة من جواز سفر الطلب أو شهادة الميلاد" },
-  "admissions.doc3": { en: "Recent passport-sized photographs (4)", ar: "صور حديثة بحجم جواز السفر (4)" },
-  "admissions.doc4": { en: "Previous school records/transcripts (last 2 years)", ar: "سجلات/كشوفات المدرسة السابقة (آخر سنتين)" },
-  "admissions.doc5": { en: "Immunization records", ar: "سجلات التطعيم" },
-  "admissions.doc6": { en: "Copy of parent's ID and residence permit", ar: "نسخة من هوية الوالد وتصريح الإقامة" },
+  "admissions.doc1": { en: "Requested service type", ar: "نوع الخدمة المطلوبة" },
+  "admissions.doc2": { en: "Amount and currency", ar: "المبلغ والعملة" },
+  "admissions.doc3": { en: "Destination or website/store link", ar: "الوجهة أو رابط الموقع/المتجر" },
+  "admissions.doc4": { en: "Preferred payment method", ar: "طريقة الدفع المفضلة" },
+  "admissions.doc5": { en: "Contact phone number", ar: "رقم الهاتف للتواصل" },
+  "admissions.doc6": { en: "Any notes needed to complete the service", ar: "أي ملاحظات مطلوبة لإتمام الخدمة" },
 
-  // Contact Page
   "contact.info.title": { en: "Contact Information", ar: "معلومات الاتصال" },
   "contact.form.title": { en: "Send us a Message", ar: "أرسل لنا رسالة" },
   "contact.form.name": { en: "Your Name", ar: "اسمك" },
@@ -279,66 +276,53 @@ const dictionary: Record<string, Record<Language, string>> = {
   "contact.form.submit": { en: "Send Message", ar: "إرسال الرسالة" },
   "contact.form.success": {
     en: "Thank you! Your message has been sent successfully. We will get back to you soon.",
-    ar: "شكراً لك! تم إرسال رسالتك بنجاح. سنتواصل معك قريباً.",
+    ar: "شكرًا لك! تم إرسال رسالتك بنجاح. سنتواصل معك قريبًا.",
   },
 
-  // Gallery Page
   "gallery.all": { en: "All", ar: "الكل" },
-  "gallery.classrooms": { en: "Classrooms", ar: "الفصول" },
-  "gallery.activities": { en: "Activities", ar: "الأنشطة" },
-  "gallery.campus": { en: "Campus", ar: "الحرم" },
-  "gallery.students": { en: "Students", ar: "الطلاب" },
+  "gallery.classrooms": { en: "Payments", ar: "المدفوعات" },
+  "gallery.activities": { en: "Transfers", ar: "الحوالات" },
+  "gallery.campus": { en: "Currencies", ar: "العملات" },
+  "gallery.students": { en: "Wallets", ar: "المحافظ" },
 
-  // News Page
-  "news.upcoming": { en: "Upcoming Events", ar: "الفعاليات القادمة" },
+  "news.upcoming": { en: "Upcoming Updates", ar: "التحديثات القادمة" },
   "news.readMore": { en: "Read More", ar: "اقرأ المزيد" },
-  "news.noEvents": { en: "No upcoming events at this time.", ar: "لا توجد فعاليات قادمة في الوقت الحالي." },
+  "news.noEvents": { en: "No upcoming updates at this time.", ar: "لا توجد تحديثات قادمة في الوقت الحالي." },
 
-  // Admin
   "admin.dashboard": { en: "Dashboard", ar: "لوحة التحكم" },
   "admin.contacts": { en: "Contact Submissions", ar: "طلبات التواصل" },
   "admin.gallery": { en: "Gallery", ar: "معرض الصور" },
-  "admin.news": { en: "News & Events", ar: "الأخبار والفعاليات" },
+  "admin.news": { en: "News & Updates", ar: "الأخبار والتحديثات" },
   "admin.logout": { en: "Logout", ar: "تسجيل الخروج" },
 };
 
 const LanguageContext = createContext<LanguageContextType | null>(null);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window !== "undefined") {
-      return (localStorage.getItem("language") as Language) || "en";
-    }
-    return "en";
-  });
-
-  const dir = language === "ar" ? "rtl" : "ltr";
+  const language = "ar" as const satisfies Language;
+  const dir = "rtl" as const;
 
   useEffect(() => {
     document.documentElement.dir = dir;
     document.documentElement.lang = language;
     localStorage.setItem("language", language);
-  }, [language, dir]);
+  }, [dir, language]);
 
-  const setLanguage = useCallback((lang: Language) => {
-    setLanguageState(lang);
+  const setLanguage = useCallback(() => {
+    localStorage.setItem("language", "ar");
   }, []);
 
-  const toggleLanguage = useCallback(() => {
-    setLanguageState((prev) => (prev === "en" ? "ar" : "en"));
-  }, []);
+  const toggleLanguage = useCallback(() => {}, []);
 
   const t = useCallback(
     (key: string): string => {
-      return dictionary[key]?.[language] || key;
+      return dictionary[key]?.ar || key;
     },
-    [language]
+    []
   );
 
   return (
-    <LanguageContext.Provider
-      value={{ language, setLanguage, toggleLanguage, dir, t }}
-    >
+    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, dir, t }}>
       {children}
     </LanguageContext.Provider>
   );

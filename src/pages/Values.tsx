@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+﻿import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Shield, Users, Award, Zap, BookOpen, Heart } from "lucide-react";
@@ -10,8 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 const GSAP: any = gsap;
 
 export default function Values() {
-  const { language, t, dir } = useLanguage();
-  const isArabic = language === "ar";
+  const { t, dir } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -41,41 +40,37 @@ export default function Values() {
       icon: Shield,
       title: t("about.values.integrity.title"),
       desc: t("about.values.integrity.desc"),
-      color: "#7A1E2A",
+      color: "#213B6F",
     },
     {
       icon: Users,
       title: t("about.values.respect.title"),
       desc: t("about.values.respect.desc"),
-      color: "#5B1420",
+      color: "#1D7FEA",
     },
     {
       icon: Award,
       title: t("about.values.excellence.title"),
       desc: t("about.values.excellence.desc"),
-      color: "#9A2D3A",
+      color: "#2C4F8E",
     },
     {
       icon: Zap,
       title: t("about.values.innovation.title"),
       desc: t("about.values.innovation.desc"),
-      color: "#171923",
+      color: "#0B1E35",
     },
     {
       icon: BookOpen,
-      title: isArabic ? "التعلم مدى الحياة" : "Lifelong Learning",
-      desc: isArabic
-        ? "نعزز حب المعرفة والاكتشاف المستمر طوال الحياة"
-        : "We foster a love of knowledge and continuous discovery throughout life",
-      color: "#7A1E2A",
+      title: "جاهزية رقمية",
+      desc: "نواكب احتياجات الدفع الإلكتروني والشراء العالمي المتغيرة",
+      color: "#213B6F",
     },
     {
       icon: Heart,
-      title: isArabic ? "التعاطف والرعاية" : "Compassion & Care",
-      desc: isArabic
-        ? "نرعى بيئة داعمة حيث يشعر كل طالب بالتقدير والاحترام"
-        : "We nurture a supportive environment where every student feels valued",
-      color: "#5B1420",
+      title: "قرب من العميل",
+      desc: "نستمع لاحتياج العميل ونقدّم له خطوات واضحة قبل التنفيذ",
+      color: "#1D7FEA",
     },
   ];
 

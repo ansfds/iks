@@ -35,11 +35,11 @@ function upsertLink(rel: string, href: string) {
 }
 
 function upsertJsonLd(schema: unknown) {
-  let element = document.getElementById("iks-schema-jsonld") as HTMLScriptElement | null;
+  let element = document.getElementById("alwaseet-schema-jsonld") as HTMLScriptElement | null;
 
   if (!element) {
     element = document.createElement("script");
-    element.id = "iks-schema-jsonld";
+    element.id = "alwaseet-schema-jsonld";
     element.type = "application/ld+json";
     document.head.appendChild(element);
   }
@@ -52,14 +52,25 @@ export default function SEOManager() {
   const location = useLocation();
 
   useEffect(() => {
-    const seo = pageSeo[location.pathname] ?? pageSeo["/"];
+    const isAccountPage = location.pathname.startsWith("/accounts/");
+    const seo =
+      pageSeo[location.pathname] ??
+      (isAccountPage
+        ? {
+            ...pageSeo["/accounts"],
+            canonicalPath: location.pathname,
+            title: {
+              ar: "حساب تحويل مباشر | الوسيط العالمي للحوالات",
+              en: "حساب تحويل مباشر | الوسيط العالمي للحوالات",
+            },
+          }
+        : pageSeo["/"]);
     const title = seo.title[language];
     const description = seo.description[language];
     const canonicalUrl = getAbsoluteUrl(seo.canonicalPath);
     const pageUrl = getAbsoluteUrl(location.pathname);
     const imageUrl = getAbsoluteUrl(siteConfig.socialPreviewImage);
-    const locale = language === "ar" ? "ar_LY" : "en_US";
-    const alternateLocale = language === "ar" ? "en_US" : "ar_LY";
+    const locale = "ar_LY";
 
     document.title = title;
 
@@ -67,7 +78,7 @@ export default function SEOManager() {
     upsertMeta("name", "keywords", seoKeywords.join(", "));
     upsertMeta("name", "author", siteConfig.name);
     upsertMeta("name", "robots", "index, follow, max-image-preview:large");
-    upsertMeta("name", "theme-color", "#7A1E2A");
+    upsertMeta("name", "theme-color", "#0f3b82");
 
     upsertMeta("property", "og:type", "website");
     upsertMeta("property", "og:site_name", siteConfig.name);
@@ -76,25 +87,25 @@ export default function SEOManager() {
     upsertMeta("property", "og:url", pageUrl);
     upsertMeta("property", "og:image", imageUrl);
     upsertMeta("property", "og:image:secure_url", imageUrl);
+    upsertMeta("property", "og:image:type", "image/png");
     upsertMeta("property", "og:image:width", "1200");
     upsertMeta("property", "og:image:height", "630");
-    upsertMeta("property", "og:image:alt", `${siteConfig.name} social preview`);
+    upsertMeta("property", "og:image:alt", `معاينة ${siteConfig.name}`);
     upsertMeta("property", "og:locale", locale);
-    upsertMeta("property", "og:locale:alternate", alternateLocale);
 
     upsertMeta("name", "twitter:card", "summary_large_image");
     upsertMeta("name", "twitter:title", title);
     upsertMeta("name", "twitter:description", description);
     upsertMeta("name", "twitter:image", imageUrl);
-    upsertMeta("name", "twitter:image:alt", `${siteConfig.name} social preview`);
+    upsertMeta("name", "twitter:image:alt", `معاينة ${siteConfig.name}`);
 
     upsertLink("canonical", canonicalUrl);
 
     upsertJsonLd([
       {
         "@context": "https://schema.org",
-        "@type": "EducationalOrganization",
-        "@id": `${siteConfig.siteUrl}/#school`,
+        "@type": "FinancialService",
+        "@id": `${siteConfig.siteUrl}/#financial-service`,
         name: siteConfig.name,
         alternateName: siteConfig.alternateNames,
         url: siteConfig.siteUrl,
@@ -117,9 +128,9 @@ export default function SEOManager() {
         url: canonicalUrl,
         name: title,
         description,
-        inLanguage: language === "ar" ? "ar-LY" : "en",
+        inLanguage: "ar-LY",
         isPartOf: {
-          "@id": `${siteConfig.siteUrl}/#school`,
+          "@id": `${siteConfig.siteUrl}/#financial-service`,
         },
       },
     ]);

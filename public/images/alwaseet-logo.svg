@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 220" role="img" aria-label="شعار الوسيط العالمي للحوالات">
+  <defs>
+    <linearGradient id="bg" x1="70" y1="18" x2="468" y2="210" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#eef7ff"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="104" y1="42" x2="426" y2="174" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0894dd"/>
+      <stop offset="1" stop-color="#0f3b82"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="544" height="204" rx="102" fill="url(#bg)" stroke="#cce8ff" stroke-width="8"/>
+  <circle cx="160" cy="100" r="70" fill="#ffffff" stroke="#0c8bd2" stroke-width="10"/>
+  <path d="M72 58c24-35 72-52 117-34 41 16 66 55 63 98" fill="none" stroke="#0f3b82" stroke-width="8" stroke-linecap="round"/>
+  <path d="M88 166c28 27 72 34 108 14" fill="none" stroke="#0f3b82" stroke-width="8" stroke-linecap="round"/>
+  <path d="M78 86h92" stroke="#0f3b82" stroke-width="8" stroke-linecap="round"/>
+  <path d="M80 110h70" stroke="#0f3b82" stroke-width="8" stroke-linecap="round"/>
+  <path d="M84 134h74" stroke="#0f3b82" stroke-width="8" stroke-linecap="round"/>
+  <path d="M154 126c8 22 29 34 54 32-8-18-9-38-4-59l-33 7c-12 2-20 8-17 20Z" fill="#ffffff" stroke="#0f3b82" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M184 100c16-31 39-50 67-58l66 42c-35 6-60 24-78 55l8-54-63 15Z" fill="#ffffff" stroke="#0f3b82" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M253 42c34-4 63 2 88 14l24 72c-30-9-65-5-101 15 11-25 28-45 51-59l-62-42Z" fill="#ffffff" stroke="#0f3b82" stroke-width="8" stroke-linejoin="round"/>
+  <text x="305" y="100" fill="url(#blue)" font-family="Arial, Tahoma, sans-serif" font-size="34" font-weight="900" letter-spacing="1">ELWASEET ELALAMY</text>
+  <rect x="303" y="114" width="204" height="36" rx="12" fill="#0f3b82"/>
+  <text x="405" y="139" text-anchor="middle" fill="#ffffff" font-family="Tahoma, Arial, sans-serif" font-size="20" font-weight="700">للدفع الإلكتروني والحوالات</text>
+</svg>

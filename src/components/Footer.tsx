@@ -1,11 +1,12 @@
-import { Link } from "react-router";
+﻿import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { MapPin, Phone, Mail, Facebook, Instagram, Twitter, Youtube } from "lucide-react";
+import { MapPin, Phone, Mail, Facebook, MessageCircle } from "lucide-react";
 
 const quickLinks = [
   { key: "nav.home", href: "/" },
   { key: "nav.about", href: "/about" },
   { key: "nav.curriculum", href: "/curriculum" },
+  { key: "nav.transfers", href: "/transfers" },
   { key: "nav.gallery", href: "/gallery" },
   { key: "nav.admissions", href: "/admissions" },
   { key: "nav.contact", href: "/contact" },
@@ -13,12 +14,18 @@ const quickLinks = [
 
 const infoLinks = [
   { key: "nav.curriculum", href: "/curriculum" },
+  { key: "nav.transfers", href: "/transfers" },
   // Leadership link removed
   { key: "nav.news", href: "/news" },
 ];
 
 export default function Footer() {
   const { t, dir } = useLanguage();
+  const phone = "093-5095091";
+  const email = "hosambizniz12@gmail.com";
+  const facebookUrl = "https://www.facebook.com/profile.php?id=61560408535771";
+  const mapsUrl = "https://maps.app.goo.gl/GE4p2GdUZd8o8v9DA";
+  const whatsappUrl = "https://wa.me/218935095091";
 
   return (
     <footer className="bg-[#171923] text-white" dir={dir}>
@@ -26,9 +33,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1: About */}
           <div>
-            <h3 className="text-xl font-bold mb-4">
-              {t("nav.home") === "Home" ? "IKS" : "المعرفة"}
-            </h3>
+            <img
+              src="/images/alwaseet-logo.svg"
+              alt="الوسيط العالمي للحوالات"
+              className="mb-4 h-14 w-auto max-w-[230px] object-contain"
+            />
             <p className="text-sm text-gray-400 leading-relaxed">
               {t("footer.description")}
             </p>
@@ -73,16 +82,36 @@ export default function Footer() {
             <h4 className="text-base font-semibold mb-4">{t("footer.contactInfo")}</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-2.5">
-                <MapPin size={16} className="text-[#F0B736] mt-0.5 shrink-0" />
-                <span className="text-sm text-gray-400">{t("footer.address")}</span>
+                <MapPin size={16} className="text-[#38BDF8] mt-0.5 shrink-0" />
+                <a
+                  href={mapsUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-sm text-gray-400 hover:text-white transition-colors"
+                >
+                  {t("footer.address")}
+                </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Phone size={16} className="text-[#F0B736] shrink-0" />
-                <span className="text-sm text-gray-400">{t("footer.phone")}</span>
+                <Phone size={16} className="text-[#38BDF8] shrink-0" />
+                <a href={`tel:${phone}`} className="text-sm text-gray-400 hover:text-white transition-colors">
+                  {t("footer.phone")}
+                </a>
               </li>
               <li className="flex items-center gap-2.5">
-                <Mail size={16} className="text-[#F0B736] shrink-0" />
-                <span className="text-sm text-gray-400">{t("footer.email")}</span>
+                <Mail size={16} className="text-[#38BDF8] shrink-0" />
+                <a href={`mailto:${email}`} className="text-sm text-gray-400 hover:text-white transition-colors">
+                  {t("footer.email")}
+                </a>
+              </li>
+              <li className="flex items-start gap-2.5">
+                <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[#38BDF8]" />
+                <div className="space-y-1 text-sm text-gray-400">
+                  <p className="font-semibold text-white">{t("footer.hoursTitle")}</p>
+                  <p>{t("footer.hours.weekdays")}</p>
+                  <p>{t("footer.hours.thursday")}</p>
+                  <p>{t("footer.hours.friday")}</p>
+                </div>
               </li>
             </ul>
           </div>
@@ -96,17 +125,11 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} {t("footer.copyright")}
           </p>
           <div className="flex items-center gap-4">
-            <a href="https://www.facebook.com/InternationalKnowledgeSchool" className="text-gray-400 hover:text-white transition-colors">
+            <a href={facebookUrl} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="Facebook">
               <Facebook size={18} />
             </a>
-            <a href="https://www.instagram.com/InternationalKnowledgeSchool" className="text-gray-400 hover:text-white transition-colors">
-              <Instagram size={18} />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              <Twitter size={18} />
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              <Youtube size={18} />
+            <a href={whatsappUrl} target="_blank" rel="noreferrer" className="text-gray-400 hover:text-white transition-colors" aria-label="WhatsApp">
+              <MessageCircle size={18} />
             </a>
           </div>
         </div>

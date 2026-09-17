@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://iks.sch.ly/sitemap.xml
+Sitemap: https://alwaseet-global.com/sitemap.xml

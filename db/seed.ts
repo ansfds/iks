@@ -8,117 +8,115 @@ const db = drizzle(connection, { schema, mode: "planetscale" });
 async function seed() {
   console.log("Seeding database...");
 
-  // Seed testimonials
   await db.insert(schema.testimonials).values([
     {
-      authorName: "Sarah Ahmed",
-      authorNameAr: "سارة أحمد",
-      role: "Parent of Grade 3 Student",
-      roleAr: "ولية أمر طالبة في الصف الثالث",
+      authorName: "Tripoli Customer",
+      authorNameAr: "عميل من طرابلس",
+      role: "International transfer",
+      roleAr: "حوالات خارجية",
       quote:
-        "The teachers at Al-Maarefa truly care about each student's growth. My daughter has flourished both academically and socially.",
+        "The transfer process was clear and the follow-up continued until final confirmation.",
       quoteAr:
-        "المعلمون في المعرفة يهتمون حقاً بنمو كل طالب. لقد ازدهرت ابنتي أكاديمياً واجتماعياً.",
+        "كانت خطوات الحوالة واضحة واستمرت المتابعة حتى تأكيد التنفيذ النهائي.",
       rating: 5,
       sortOrder: 1,
     },
     {
-      authorName: "Mohammed Al-Rashid",
-      authorNameAr: "محمد الراشد",
-      role: "Parent of Grade 7 Student",
-      roleAr: "ولي أمر طالب في الصف السابع",
+      authorName: "Digital Payment Customer",
+      authorNameAr: "عميلة دفع إلكتروني",
+      role: "Digital payments",
+      roleAr: "دفع إلكتروني",
       quote:
-        "Moving from abroad, we were worried about the transition. The welcoming community made our son feel at home from day one.",
+        "A reliable option for paying international orders and topping up digital services.",
       quoteAr:
-        "بعد الانتقال من الخارج، كنا قلقين بشأن التحول. جعلنا المجتمع المرحب ابننا يشعر بالارتياح من اليوم الأول.",
+        "خيار موثوق لدفع الطلبات العالمية وشحن الخدمات الإلكترونية.",
       rating: 5,
       sortOrder: 2,
     },
     {
-      authorName: "Fatima Hassan",
-      authorNameAr: "فاطمة حسن",
-      role: "Parent of KG Student",
-      roleAr: "ولية أمر طالب في الروضة",
+      authorName: "Global Shopping Customer",
+      authorNameAr: "عميل شراء عالمي",
+      role: "Global purchasing",
+      roleAr: "شراء عالمي",
       quote:
-        "The British curriculum combined with Arabic culture creates the perfect balance. Our children are getting the best of both worlds.",
+        "Confirming details before payment made the transaction feel safe and organized.",
       quoteAr:
-        "المنهج البريطاني جنباً إلى جنب مع الثقافة العربية يخلق التوازن المثالي. أطفالنا يحصلون على أفضل ما في العالمين.",
+        "تأكيد التفاصيل قبل الدفع جعل المعاملة آمنة ومنظمة.",
       rating: 5,
       sortOrder: 3,
     },
   ]);
   console.log("Seeded testimonials");
 
-  // Seed gallery items
   await db.insert(schema.galleryItems).values([
     {
-      title: "Modern Classroom",
-      titleAr: "فصل دراسي حديث",
-      description: "Students engaged in collaborative learning",
-      descriptionAr: "طلاب مشاركون في التعلم التعاوني",
+      title: "Digital Payment Workspace",
+      titleAr: "خدمات الدفع الإلكتروني",
+      description: "Payment support for international stores and platforms",
+      descriptionAr: "دعم الدفع للمتاجر والمنصات العالمية",
       imageUrl: "/images/hero-classroom.jpg",
       category: "classrooms",
       sortOrder: 1,
     },
     {
-      title: "Science Laboratory",
-      titleAr: "مختبر العلوم",
-      description: "Hands-on experiments and discovery",
-      descriptionAr: "تجارب عملية واكتشاف",
+      title: "International Transfers",
+      titleAr: "الحوالات الخارجية",
+      description: "Money transfer services for multiple destinations",
+      descriptionAr: "خدمات حوالات مالية لوجهات متعددة",
       imageUrl: "/images/science-lab.jpg",
       category: "activities",
       sortOrder: 2,
     },
     {
-      title: "School Campus",
-      titleAr: "حرم المدرسة",
-      description: "Our beautiful modern campus",
-      descriptionAr: "حرمنا الجميل والعصري",
+      title: "Global Commerce",
+      titleAr: "الشراء العالمي",
+      description: "Support for orders from global marketplaces",
+      descriptionAr: "دعم الطلبات من الأسواق العالمية",
       imageUrl: "/images/campus-exterior.jpg",
       category: "campus",
       sortOrder: 3,
     },
     {
-      title: "Art Classroom",
-      titleAr: "فصل الفنون",
-      description: "Creative expression and imagination",
-      descriptionAr: "التعبير الإبداعي والخيال",
+      title: "SHEIN Cards",
+      titleAr: "بطاقات SHEIN",
+      description: "SHEIN shopping cards and purchasing support",
+      descriptionAr: "بطاقات مشتريات SHEIN ودعم الشراء",
       imageUrl: "/images/art-classroom.jpg",
       category: "activities",
       sortOrder: 4,
     },
     {
-      title: "Sports Facility",
-      titleAr: "المرفق الرياضي",
-      description: "State-of-the-art sports facilities",
-      descriptionAr: "مرافق رياضية على أحدث مستوى",
+      title: "Currency Exchange",
+      titleAr: "بيع وشراء الدولار",
+      description: "Dollar buying, selling, and transfer services",
+      descriptionAr: "خدمات بيع وشراء وتحويل الدولار",
       imageUrl: "/images/sports-facility.jpg",
       category: "campus",
       sortOrder: 5,
     },
     {
-      title: "School Library",
-      titleAr: "مكتبة المدرسة",
-      description: "A world of knowledge at their fingertips",
-      descriptionAr: "عالم من المعرفة في متناول أيديهم",
+      title: "Electronic Wallets",
+      titleAr: "المحافظ الإلكترونية",
+      description: "Wallet, virtual card, and Facebook service top-ups",
+      descriptionAr: "شحن المحافظ والبطاقات الافتراضية وخدمات Facebook",
       imageUrl: "/images/library.jpg",
       category: "campus",
       sortOrder: 6,
     },
     {
-      title: "Graduation Ceremony",
-      titleAr: "حفل التخرج",
-      description: "Celebrating our graduates' achievements",
-      descriptionAr: "الاحتفال بإنجازات خريجينا",
+      title: "Chinese Yuan Payments",
+      titleAr: "تحويل اليوان الصيني",
+      description: "Chinese yuan payment support for purchases and transactions",
+      descriptionAr: "خدمات دفع وتحويل باليوان الصيني للمشتريات والمعاملات",
       imageUrl: "/images/graduation.jpg",
       category: "students",
       sortOrder: 7,
     },
     {
-      title: "Student Community",
-      titleAr: "مجتمع الطلاب",
-      description: "Diverse and inclusive student body",
-      descriptionAr: "جسم طلابي متنوع وشامل",
+      title: "Customer Support",
+      titleAr: "دعم العملاء",
+      description: "Clear follow-up from request to final confirmation",
+      descriptionAr: "متابعة واضحة من الطلب حتى التأكيد النهائي",
       imageUrl: "/images/students-group.jpg",
       category: "students",
       sortOrder: 8,
@@ -126,46 +124,45 @@ async function seed() {
   ]);
   console.log("Seeded gallery items");
 
-  // Seed news/events
   await db.insert(schema.newsEvents).values([
     {
-      title: "Al-Maarefa Hosts International Education Conference",
-      titleAr: "المعرفة تستضيف مؤتمر التعليم الدولي",
+      title: "Global Bill Payments Available",
+      titleAr: "دفع الفواتير والطلبات العالمية",
       excerpt:
-        "Join us for a day of learning and networking with educators from around the world.",
+        "Customers can request payment for invoices and orders from international websites and stores.",
       excerptAr:
-        "انضم إلينا يوماً من التعلم والتواصل مع المربين من جميع أنحاء العالم.",
+        "يمكن للعملاء طلب دفع الفواتير والطلبات من مختلف المواقع والمتاجر العالمية.",
       content:
-        "Al-Maarefa International School is proud to host the annual International Education Conference. This year's theme focuses on innovation in teaching and learning, bringing together educators, researchers, and policymakers from over 20 countries. The conference will feature keynote speeches, workshops, and panel discussions on topics ranging from STEM education to social-emotional learning.",
+        "Alwaseet Global provides payment support for global invoices, shopping orders, digital wallets, and electronic services through clear contact channels.",
       contentAr:
-        "تفخر مدرسة المعرفة الدولية باستضافة مؤتمر التعليم الدولي السنوي. يركز موضوع هذا العام على الابتكار في التدريس والتعلم، حيث يجمع المربين والباحثين وصناع السياسات من أكثر من 20 دولة. سيتضمن المؤتمر خطابات رئيسية وورش عمل ومناقشات لوحية حول موضوعات تتراوح من تعليم العلوم والتكنولوجيا والهندسة والرياضيات إلى التعلم الاجتماعي والعاطفي.",
+        "يوفر الوسيط العالمي خدمات دفع للفواتير العالمية وطلبات التسوق والمحافظ والخدمات الإلكترونية عبر قنوات تواصل واضحة.",
       imageUrl: "/images/about-classroom.jpg",
     },
     {
-      title: "Open Day: Discover Our Campus",
-      titleAr: "يوم مفتوح: اكتشف حرمنا",
+      title: "Visit Alwaseet Location",
+      titleAr: "زيارة موقع الوسيط العالمي",
       excerpt:
-        "Experience Al-Maarefa firsthand. Tour our facilities, meet our teachers, and learn about our curriculum.",
+        "Find us in Zanata, opposite Kayan Mobile, Tripoli.",
       excerptAr:
-        "جرب المعرفة عن كثب. جول في مرافقنا، قابل معلمينا، وتعرف على منهجنا.",
+        "تجدوننا في زناتة مقابل كيان موبايل، طرابلس.",
       content:
-        "We invite all prospective families to our Open Day event. This is a wonderful opportunity to explore our campus, meet our dedicated teaching staff, and learn more about the British curriculum we offer. Activities include classroom demonstrations, science experiments, art exhibitions, and sports demonstrations. Admissions counselors will be available to answer all your questions.",
+        "Customers can visit Alwaseet Global in Zanata, opposite Kayan Mobile, Tripoli, Libya, or contact us by phone and email for service confirmation.",
       contentAr:
-        "ندعو جميع العائلات المحتملة إلى يومنا المفتوح. هذه فرصة رائعة لاستكشاف حرمنا، والتعرف على كادرنا التعليمي المتفاني، ومعرفة المزيد عن المنهج البريطاني الذي نقدمه. تشمل الأنشطة عروضاً صفية وتجارب علمية ومعارض فنية وعروض رياضية. سيكون مستشارو القبول متاحين للإجابة على جميع أسئلتك.",
+        "يمكن للعملاء زيارة الوسيط العالمي في زناتة مقابل كيان موبايل، طرابلس، ليبيا، أو التواصل عبر الهاتف والبريد لتأكيد الخدمة.",
       imageUrl: "/images/campus-exterior.jpg",
-      eventDate: new Date("2025-03-15"),
+      eventDate: new Date("2026-10-01"),
     },
     {
-      title: "Student Wins Regional Science Competition",
-      titleAr: "طالب يفوز بمسابقة العلوم الإقليمية",
+      title: "SHEIN Cards and Yuan Payments",
+      titleAr: "بطاقات SHEIN وخدمات اليوان الصيني",
       excerpt:
-        "Congratulations to Omar Khalid for winning first place in the Regional Science Fair.",
+        "SHEIN cards and Chinese yuan payment services are available for global purchasing needs.",
       excerptAr:
-        "تهانينا لعمر خالد لحصوله على المركز الأول في معرض العلوم الإقليمي.",
+        "تتوفر بطاقات SHEIN وخدمات الدفع باليوان الصيني لاحتياجات الشراء العالمي.",
       content:
-        "We are thrilled to announce that Omar Khalid, a Grade 10 student at Al-Maarefa International School, has won first place in the Regional Science Fair. Omar's innovative project on renewable energy solutions impressed the judges with its creativity, scientific rigor, and potential real-world impact. This achievement reflects the school's commitment to fostering scientific inquiry and innovation among our students.",
+        "Alwaseet Global supports SHEIN cards, Chinese yuan payments, dollar exchange, and wallet top-ups for customers who need reliable global purchasing services.",
       contentAr:
-        "يسعدنا أن نعلن أن عمر خالد، طالب في الصف العاشر في مدرسة المعرفة الدولية، فاز بالمركز الأول في معرض العلوم الإقليمي. أ impressed لقضاة مشروعه المبتكر حول حلول الطاقة المتجددة بإبداعه وصرامته العلمية وتأثيره المحتمل في العالم الحقيقي. يعكس هذا الإنجاز التزام المدرسة بتعزيز البحث العلمي والابتكار بين طلابنا.",
+        "يدعم الوسيط العالمي بطاقات SHEIN ومدفوعات اليوان الصيني وصرف الدولار وشحن المحافظ للعملاء الذين يحتاجون خدمات شراء عالمية موثوقة.",
       imageUrl: "/images/science-lab.jpg",
     },
   ]);

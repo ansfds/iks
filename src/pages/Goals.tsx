@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+﻿import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { GraduationCap, Users, Cpu, HandHeart } from "lucide-react";
@@ -40,29 +40,29 @@ export default function Goals() {
       icon: GraduationCap,
       title: t("goals.academic.title"),
       desc: t("goals.academic.desc"),
-      color: "#7A1E2A",
-      borderColor: "border-[#7A1E2A]",
+      color: "#213B6F",
+      borderColor: "border-[#213B6F]",
     },
     {
       icon: Users,
       title: t("goals.character.title"),
       desc: t("goals.character.desc"),
-      color: "#5B1420",
-      borderColor: "border-[#5B1420]",
+      color: "#1D7FEA",
+      borderColor: "border-[#1D7FEA]",
     },
     {
       icon: Cpu,
       title: t("goals.innovation.title"),
       desc: t("goals.innovation.desc"),
-      color: "#9A2D3A",
-      borderColor: "border-[#9A2D3A]",
+      color: "#2C4F8E",
+      borderColor: "border-[#2C4F8E]",
     },
     {
       icon: HandHeart,
       title: t("goals.community.title"),
       desc: t("goals.community.desc"),
-      color: "#171923",
-      borderColor: "border-[#171923]",
+      color: "#0B1E35",
+      borderColor: "border-[#0B1E35]",
     },
   ];
 

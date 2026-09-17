@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+﻿import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { trpc } from "@/providers/trpc";
@@ -20,7 +20,6 @@ const GSAP: any = gsap;
 
 export default function Admissions() {
   const { language, t, dir } = useLanguage();
-  const isArabic = language === "ar";
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState({
@@ -45,14 +44,14 @@ export default function Admissions() {
       });
     },
     onError: () => {
-      toast.error(isArabic ? "حدث خطأ. يرجى المحاولة مرة أخرى." : "An error occurred. Please try again.");
+      toast.error("حدث خطأ. يرجى المحاولة مرة أخرى.");
     },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.studentName || !formData.parentName || !formData.email || !formData.message) {
-      toast.error(isArabic ? "يرجى ملء جميع الحقول المطلوبة" : "Please fill all required fields");
+      toast.error("يرجى ملء جميع الحقول المطلوبة");
       return;
     }
     submitMutation.mutate({
@@ -88,25 +87,25 @@ export default function Admissions() {
       icon: FileText,
       title: t("admissions.step1.title"),
       desc: t("admissions.step1.desc"),
-      color: "#5B1420",
+      color: "#1D7FEA",
     },
     {
       icon: ClipboardCheck,
       title: t("admissions.step2.title"),
       desc: t("admissions.step2.desc"),
-      color: "#7A1E2A",
+      color: "#213B6F",
     },
     {
       icon: MessageSquare,
       title: t("admissions.step3.title"),
       desc: t("admissions.step3.desc"),
-      color: "#9A2D3A",
+      color: "#2C4F8E",
     },
     {
       icon: UserCheck,
       title: t("admissions.step4.title"),
       desc: t("admissions.step4.desc"),
-      color: "#171923",
+      color: "#0B1E35",
     },
   ];
 
@@ -152,7 +151,7 @@ export default function Admissions() {
             {/* Timeline */}
             <div className="relative max-w-4xl mx-auto">
               {/* Line - Desktop */}
-              <div className="hidden md:block absolute top-12 left-0 right-0 h-0.5 bg-[#F2D7DC]" />
+              <div className="hidden md:block absolute top-12 left-0 right-0 h-0.5 bg-[#D8E0F0]" />
 
               <div className="grid md:grid-cols-4 gap-8">
                 {steps.map((step, i) => (
@@ -212,7 +211,7 @@ export default function Admissions() {
                     >
                       <CheckCircle
                         size={20}
-                        className="text-[#7A1E2A] mt-0.5 shrink-0"
+                        className="text-[#213B6F] mt-0.5 shrink-0"
                       />
                       <span className="text-base text-[#1A1A1A]">{doc}</span>
                     </li>
@@ -229,72 +228,70 @@ export default function Admissions() {
                   <form onSubmit={handleSubmit} className="space-y-4">
                     <input
                       type="text"
-                      placeholder={isArabic ? "اسم الطالب *" : "Student Name *"}
+                      placeholder="اسم العميل *"
                       value={formData.studentName}
                       onChange={(e) =>
                         setFormData({ ...formData, studentName: e.target.value })
                       }
-                      className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm"
+                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
                       required
                     />
                     <input
                       type="text"
-                      placeholder={isArabic ? "اسم ولي الأمر *" : "Parent Name *"}
+                      placeholder="نوع الخدمة المطلوبة *"
                       value={formData.parentName}
                       onChange={(e) =>
                         setFormData({ ...formData, parentName: e.target.value })
                       }
-                      className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm"
+                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
                       required
                     />
                     <input
                       type="email"
-                      placeholder={isArabic ? "البريد الإلكتروني *" : "Email *"}
+                      placeholder="البريد الإلكتروني *"
                       value={formData.email}
                       onChange={(e) =>
                         setFormData({ ...formData, email: e.target.value })
                       }
-                      className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm"
+                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
                       required
                     />
                     <input
                       type="tel"
-                      placeholder={isArabic ? "الهاتف" : "Phone"}
+                      placeholder="الهاتف"
                       value={formData.phone}
                       onChange={(e) =>
                         setFormData({ ...formData, phone: e.target.value })
                       }
-                      className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm"
+                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
                     />
                     <input
                       type="text"
-                      placeholder={isArabic ? "الصف المتقدم له" : "Grade Applying For"}
+                      placeholder="المبلغ والعملة"
                       value={formData.grade}
                       onChange={(e) =>
                         setFormData({ ...formData, grade: e.target.value })
                       }
-                      className="w-full h-12 px-4 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm"
+                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
                     />
                     <textarea
-                      placeholder={isArabic ? "الرسالة *" : "Message *"}
+                      placeholder="الرسالة *"
                       value={formData.message}
                       onChange={(e) =>
                         setFormData({ ...formData, message: e.target.value })
                       }
                       rows={4}
-                      className="w-full px-4 py-3 border border-[#F2D7DC] rounded-md focus:border-[#7A1E2A] focus:ring-2 focus:ring-[#7A1E2A]/10 outline-none transition-all text-sm resize-none"
+                      className="w-full px-4 py-3 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm resize-none"
                       required
                     />
                     <button
                       type="submit"
                       disabled={submitMutation.isPending}
-                      className="w-full h-12 bg-[#7A1E2A] text-white font-medium rounded-md hover:bg-[#9A2D3A] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
+                      className="w-full h-12 bg-[#213B6F] text-white font-medium rounded-md hover:bg-[#2C4F8E] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       <Send size={16} />
                       {submitMutation.isPending
-                        ? isArabic
-                          ? "جاري الإرسال..."
-                          : "Sending..."
+                        ? "جاري الإرسال..."
                         : t("contact.form.submit")}
                     </button>
                   </form>

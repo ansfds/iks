@@ -7,13 +7,14 @@ const navLinks = [
   { key: "nav.home", href: "/" },
   { key: "nav.about", href: "/about" },
   { key: "nav.curriculum", href: "/curriculum" },
+  { key: "nav.transfers", href: "/transfers" },
   { key: "nav.admissions", href: "/admissions" },
   { key: "nav.gallery", href: "/gallery" },
   { key: "nav.contact", href: "/contact" },
 ];
 
 export default function Navbar() {
-  const { language, toggleLanguage, t, dir } = useLanguage();
+  const { t, dir } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -25,10 +26,6 @@ export default function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
 
   const isActive = (href: string) => {
     if (href === "/") return location.pathname === "/";
@@ -44,14 +41,16 @@ export default function Navbar() {
       }`}
     >
       <nav className="container-main flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
-        {/* Logo */}
         <Link
           to="/"
-          className={`text-xl font-bold transition-colors duration-300 ${
-            isScrolled ? "text-[#7A1E2A]" : "text-white"
-          }`}
+          className="flex h-14 w-[120px] shrink-0 -translate-x-28 items-center justify-end sm:w-[156px] sm:-translate-x-32 lg:w-[180px] lg:translate-x-0"
+          aria-label="الوسيط العالمي للحوالات"
         >
-          {language === "ar" ? "المعرفة" : "IKS"}
+          <img
+            src="/images/alwaseet-navbar-logo.png"
+            alt="شعار الوسيط العالمي للحوالات"
+            className="h-auto w-auto max-h-[46px] max-w-full object-contain sm:max-h-[52px] lg:max-h-[56px]"
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -67,10 +66,10 @@ export default function Navbar() {
               className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
                 isActive(link.href)
                   ? isScrolled
-                    ? "text-[#7A1E2A] bg-[#7A1E2A]/10"
+                    ? "text-[#213B6F] bg-[#213B6F]/10"
                     : "text-white bg-white/20"
                   : isScrolled
-                  ? "text-gray-700 hover:text-[#7A1E2A] hover:bg-gray-100"
+                  ? "text-gray-700 hover:text-[#213B6F] hover:bg-gray-100"
                   : "text-white/80 hover:text-white hover:bg-white/10"
               }`}
             >
@@ -79,52 +78,14 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Right side: Language switcher + CTA */}
+        {/* Right side: CTA */}
         <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-1">
-            <button
-              onClick={() => language !== "en" && toggleLanguage()}
-              className={`px-2 py-1 text-sm font-medium transition-colors ${
-                language === "en"
-                  ? isScrolled
-                    ? "text-[#7A1E2A] border-b-2 border-[#7A1E2A]"
-                    : "text-white border-b-2 border-white"
-                  : isScrolled
-                  ? "text-gray-400 hover:text-gray-600"
-                  : "text-white/50 hover:text-white/80"
-              }`}
-            >
-              EN
-            </button>
-            <span
-              className={`text-sm ${
-                isScrolled ? "text-gray-300" : "text-white/30"
-              }`}
-            >
-              |
-            </span>
-            <button
-              onClick={() => language !== "ar" && toggleLanguage()}
-              className={`px-2 py-1 text-sm font-medium transition-colors ${
-                language === "ar"
-                  ? isScrolled
-                    ? "text-[#7A1E2A] border-b-2 border-[#7A1E2A]"
-                    : "text-white border-b-2 border-white"
-                  : isScrolled
-                  ? "text-gray-400 hover:text-gray-600"
-                  : "text-white/50 hover:text-white/80"
-              }`}
-            >
-              AR
-            </button>
-          </div>
-
           <Link
             to="/admissions"
             className={`hidden sm:inline-flex items-center px-5 py-2 text-sm font-medium rounded-md transition-all duration-300 ${
               isScrolled
-                ? "bg-[#7A1E2A] text-white hover:bg-[#9A2D3A]"
-                : "bg-white/[0.15] text-white border border-white/30 hover:bg-white/25"
+                ? "bg-[#213B6F] text-white hover:bg-[#2C4F8E]"
+                : "bg-white/15 text-white border border-white/30 hover:bg-white/25"
             }`}
           >
             {t("hero.cta.primary")}
@@ -133,6 +94,7 @@ export default function Navbar() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
             className={`lg:hidden p-2 rounded-md transition-colors ${
               isScrolled
                 ? "text-gray-700 hover:bg-gray-100"
@@ -152,40 +114,20 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 to={link.href}
+                onClick={() => setIsMobileMenuOpen(false)}
                 className={`block px-3 py-2.5 text-sm font-medium rounded-md transition-colors ${
                   isActive(link.href)
-                    ? "text-[#7A1E2A] bg-[#7A1E2A]/10"
-                    : "text-gray-700 hover:text-[#7A1E2A] hover:bg-gray-50"
+                    ? "text-[#213B6F] bg-[#213B6F]/10"
+                    : "text-gray-700 hover:text-[#213B6F] hover:bg-gray-50"
                 }`}
               >
                 {t(link.key)}
               </Link>
             ))}
-            <div className="flex items-center gap-2 pt-3 border-t">
-              <button
-                onClick={() => language !== "en" && toggleLanguage()}
-                className={`px-3 py-1.5 text-sm font-medium rounded ${
-                  language === "en"
-                    ? "text-[#7A1E2A] bg-[#7A1E2A]/10"
-                    : "text-gray-500"
-                }`}
-              >
-                English
-              </button>
-              <button
-                onClick={() => language !== "ar" && toggleLanguage()}
-                className={`px-3 py-1.5 text-sm font-medium rounded ${
-                  language === "ar"
-                    ? "text-[#7A1E2A] bg-[#7A1E2A]/10"
-                    : "text-gray-500"
-                }`}
-              >
-                العربية
-              </button>
-            </div>
             <Link
               to="/admissions"
-              className="block w-full text-center mt-2 px-5 py-2.5 text-sm font-medium bg-[#7A1E2A] text-white rounded-md"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block w-full text-center mt-2 px-5 py-2.5 text-sm font-medium bg-[#213B6F] text-white rounded-md"
             >
               {t("hero.cta.primary")}
             </Link>

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+﻿import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { trpc } from "@/providers/trpc";
@@ -69,7 +69,7 @@ export default function Admin() {
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-[#7A1E2A]" />
+        <Loader2 className="w-8 h-8 animate-spin text-[#213B6F]" />
       </div>
     );
   }
@@ -80,51 +80,51 @@ export default function Admin() {
 
   const statItems = [
     {
-      title: "Total Contacts",
+      title: "إجمالي طلبات التواصل",
       value: stats?.totalContacts,
       icon: Mail,
-      color: "#7A1E2A",
+      color: "#213B6F",
     },
     {
-      title: "Unread Messages",
+      title: "رسائل غير مقروءة",
       value: stats?.unreadContacts,
       icon: MailOpen,
-      color: "#5B1420",
+      color: "#1D7FEA",
     },
     {
-      title: "This Month",
+      title: "هذا الشهر",
       value: stats?.contactsThisMonth,
       icon: TrendingUp,
-      color: "#9A2D3A",
+      color: "#2C4F8E",
     },
     {
-      title: "Gallery Items",
+      title: "عناصر المعرض",
       value: stats?.totalGallery,
       icon: Image,
-      color: "#171923",
+      color: "#0B1E35",
     },
     {
-      title: "News Items",
+      title: "عناصر الأخبار",
       value: stats?.totalNews,
       icon: Newspaper,
-      color: "#7A1E2A",
+      color: "#213B6F",
     },
     {
-      title: "Testimonials",
+      title: "آراء العملاء",
       value: stats?.totalTestimonials,
       icon: MessageSquare,
-      color: "#5B1420",
+      color: "#1D7FEA",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 pt-20 pb-10">
+    <div className="min-h-screen bg-gray-50 pt-20 pb-10" dir="rtl">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-gray-900">لوحة التحكم</h1>
           <p className="text-gray-500 mt-1">
-            Welcome back, {user?.name || "Admin"}
+            مرحبًا بعودتك، {user?.name || "المشرف"}
           </p>
         </div>
 
@@ -139,33 +139,33 @@ export default function Admin() {
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
             <h2 className="text-lg font-semibold text-gray-900">
-              Recent Contact Submissions
+              أحدث طلبات التواصل
             </h2>
             <span className="text-sm text-gray-500">
-              {contactsData?.total ?? 0} total
+              الإجمالي: {contactsData?.total ?? 0}
             </span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Student
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    العميل
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Parent
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    الخدمة
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Email
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    البريد الإلكتروني
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Grade
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    المبلغ
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Date
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    التاريخ
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    الحالة
                   </th>
                 </tr>
               </thead>
@@ -176,7 +176,7 @@ export default function Admin() {
                       colSpan={6}
                       className="px-6 py-10 text-center text-gray-500"
                     >
-                      No contact submissions yet.
+                      لا توجد طلبات تواصل حتى الآن.
                     </td>
                   </tr>
                 ) : (
@@ -195,7 +195,7 @@ export default function Admin() {
                         {contact.grade || "-"}
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-600">
-                        {new Date(contact.createdAt).toLocaleDateString()}
+                        {new Date(contact.createdAt).toLocaleDateString("ar-LY")}
                       </td>
                       <td className="px-6 py-4">
                         <span
@@ -205,7 +205,7 @@ export default function Admin() {
                               : "bg-yellow-100 text-yellow-800"
                           }`}
                         >
-                          {contact.isRead ? "Read" : "New"}
+                          {contact.isRead ? "مقروء" : "جديد"}
                         </span>
                       </td>
                     </tr>

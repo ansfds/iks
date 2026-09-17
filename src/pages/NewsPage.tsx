@@ -9,10 +9,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const GSAP: any = gsap;
+const legacyContentPattern =
+  /school|student|teacher|classroom|campus|curriculum|admission|parent|grade|مدرس|طالب|طلاب|تعليم|منهج|مناهج|معلم|أولياء|الصف/i;
 
 export default function NewsPage() {
-  const { language, t, dir } = useLanguage();
-  const isArabic = language === "ar";
+  const { t, dir } = useLanguage();
   const [activeTab, setActiveTab] = useState<"all" | "news" | "events">("all");
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -22,35 +23,43 @@ export default function NewsPage() {
     limit: 10,
   });
 
-  const items = newsData?.items ?? [];
+  const items =
+    newsData?.items.filter(
+      (item) =>
+        !legacyContentPattern.test(
+          [item.title, item.titleAr, item.excerpt, item.excerptAr, item.content, item.contentAr]
+            .filter(Boolean)
+            .join(" ")
+        )
+    ) ?? [];
 
   const fallbackNews = [
     {
       id: 1,
-      title: "Knowledge Hosts International Education Conference",
-      titleAr: "المعرفة تستضيف مؤتمر التعليم الدولي",
-      excerpt: "Join us for a day of learning and networking with educators from around the world.",
-      excerptAr: "انضم إلينا يوماً من التعلم والتواصل مع المربين من جميع أنحاء العالم.",
+      title: "دفع الفواتير والطلبات العالمية",
+      titleAr: "دفع الفواتير والطلبات العالمية",
+      excerpt: "يمكن للعملاء طلب دفع الفواتير والطلبات من مختلف المواقع والمتاجر العالمية.",
+      excerptAr: "يمكن للعملاء طلب دفع الفواتير والطلبات من مختلف المواقع والمتاجر العالمية.",
       imageUrl: "/images/about-classroom.jpg",
       eventDate: null,
       createdAt: new Date(),
     },
     {
       id: 2,
-      title: "Open Day: Discover Our Campus",
-      titleAr: "يوم مفتوح: اكتشف حرمنا",
-      excerpt: "Experience Knowledge firsthand. Tour our facilities and meet our teachers.",
-      excerptAr: "جرب المعرفة عن كثب. جول في مرافقنا وقابل معلمينا.",
+      title: "زيارة موقع الوسيط العالمي",
+      titleAr: "زيارة موقع الوسيط العالمي",
+      excerpt: "تجدوننا في زناتة مقابل كيان موبايل، طرابلس.",
+      excerptAr: "تجدوننا في زناتة مقابل كيان موبايل، طرابلس.",
       imageUrl: "/images/campus-exterior.jpg",
-      eventDate: "2025-03-15",
+      eventDate: "2026-10-01",
       createdAt: new Date(),
     },
     {
       id: 3,
-      title: "Student Wins Regional Science Competition",
-      titleAr: "طالب يفوز بمسابقة العلوم الإقليمية",
-      excerpt: "Congratulations to Omar Khalid for winning first place in the Regional Science Fair.",
-      excerptAr: "تهانينا لعمر خالد لحصوله على المركز الأول في معرض العلوم الإقليمي.",
+      title: "بطاقات SHEIN وخدمات اليوان الصيني",
+      titleAr: "بطاقات SHEIN وخدمات اليوان الصيني",
+      excerpt: "تتوفر بطاقات SHEIN وخدمات الدفع باليوان الصيني لاحتياجات الشراء العالمي.",
+      excerptAr: "تتوفر بطاقات SHEIN وخدمات الدفع باليوان الصيني لاحتياجات الشراء العالمي.",
       imageUrl: "/images/science-lab.jpg",
       eventDate: null,
       createdAt: new Date(),
@@ -87,7 +96,7 @@ export default function NewsPage() {
   const formatDate = (date: Date | string | null) => {
     if (!date) return "";
     const d = new Date(date);
-    return d.toLocaleDateString(language === "ar" ? "ar-SA" : "en-US", {
+    return d.toLocaleDateString("ar-SA", {
       year: "numeric",
       month: "long",
       day: "numeric",
@@ -128,9 +137,7 @@ export default function NewsPage() {
                 {tab === "all"
                   ? t("gallery.all")
                   : tab === "news"
-                  ? isArabic
-                    ? "أخبار"
-                    : "News"
+                  ? "أخبار"
                   : t("news.upcoming")}
               </button>
             ))}
@@ -141,7 +148,7 @@ export default function NewsPage() {
             {(activeTab === "all" || activeTab === "news") && news.length > 0 && (
               <div className="space-y-6 mb-12">
                 <h2 className="news-animate text-2xl font-bold text-[#1A1A1A] mb-6">
-                  {isArabic ? "آخر الأخبار" : "Latest News"}
+                  آخر الأخبار
                 </h2>
                 {news.map((item) => (
                   <div
@@ -152,7 +159,7 @@ export default function NewsPage() {
                       <div className="md:col-span-1">
                         <img
                           src={item.imageUrl ?? "/images/about-classroom.jpg"}
-                          alt={isArabic && item.titleAr ? item.titleAr : item.title}
+                          alt={item.titleAr || "تحديث من الوسيط العالمي"}
                           className="w-full h-full object-cover min-h-[200px]"
                         />
                       </div>
@@ -162,12 +169,10 @@ export default function NewsPage() {
                           <span>{formatDate(item.createdAt)}</span>
                         </div>
                         <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">
-                          {isArabic && item.titleAr ? item.titleAr : item.title}
+                          {item.titleAr || "تحديث جديد من الوسيط العالمي"}
                         </h3>
                         <p className="text-sm text-[#7C7C7C] leading-relaxed mb-4">
-                          {isArabic && item.excerptAr
-                            ? item.excerptAr
-                            : item.excerpt ?? ""}
+                          {item.excerptAr || ""}
                         </p>
                         <span className="inline-flex items-center gap-1 text-sm text-[#7A1E2A] font-medium">
                           {t("news.readMore")}
@@ -206,7 +211,7 @@ export default function NewsPage() {
                             <div className="text-[10px] uppercase">
                               {event.eventDate
                                 ? new Date(event.eventDate).toLocaleDateString(
-                                    language === "ar" ? "ar-SA" : "en-US",
+                                    "ar-SA",
                                     { month: "short" }
                                   )
                                 : ""}
@@ -215,14 +220,10 @@ export default function NewsPage() {
                         </div>
                         <div>
                           <h3 className="text-lg font-semibold text-[#1A1A1A] mb-1">
-                            {isArabic && event.titleAr
-                              ? event.titleAr
-                              : event.title}
+                            {event.titleAr || "تحديث جديد من الوسيط العالمي"}
                           </h3>
                           <p className="text-sm text-[#7C7C7C]">
-                            {isArabic && event.excerptAr
-                              ? event.excerptAr
-                              : event.excerpt ?? ""}
+                            {event.excerptAr || ""}
                           </p>
                         </div>
                         <div className="md:ml-auto shrink-0">

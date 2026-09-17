@@ -11,6 +11,8 @@ gsap.registerPlugin(ScrollTrigger);
 const GSAP: any = gsap;
 
 const categories = ["all", "classrooms", "activities", "campus", "students"];
+const legacyContentPattern =
+  /school|student|teacher|classroom|campus|curriculum|admission|parent|grade|مدرس|طالب|طلاب|تعليم|منهج|مناهج|معلم|أولياء|الصف/i;
 
 export default function GalleryPage() {
   const { t, dir } = useLanguage();
@@ -22,21 +24,30 @@ export default function GalleryPage() {
   const { data: galleryItems } = trpc.gallery.list.useQuery(
     activeCategory !== "all" ? { category: activeCategory } : {}
   );
+  const publicGalleryItems =
+    galleryItems?.filter(
+      (item) =>
+        !legacyContentPattern.test(
+          [item.title, item.titleAr, item.description, item.descriptionAr]
+            .filter(Boolean)
+            .join(" ")
+        )
+    ) ?? [];
 
   const images =
-    galleryItems && galleryItems.length > 0
-      ? galleryItems
+    publicGalleryItems.length > 0
+      ? publicGalleryItems
       : [
-          { id: 1, imageUrl: "/images/hero-classroom.jpg", title: "Classroom", category: "classrooms" },
-          { id: 2, imageUrl: "/images/science-lab.jpg", title: "Science Lab", category: "activities" },
-          { id: 3, imageUrl: "/images/campus-exterior.jpg", title: "Campus", category: "campus" },
-          { id: 4, imageUrl: "/images/art-classroom.jpg", title: "Art Class", category: "activities" },
-          { id: 5, imageUrl: "/images/sports-facility.jpg", title: "Sports", category: "campus" },
-          { id: 6, imageUrl: "/images/library.jpg", title: "Library", category: "campus" },
-          { id: 7, imageUrl: "/images/graduation.jpg", title: "Graduation", category: "students" },
-          { id: 8, imageUrl: "/images/students-group.jpg", title: "Students", category: "students" },
-          { id: 9, imageUrl: "/images/about-classroom.jpg", title: "Learning", category: "classrooms" },
-          { id: 10, imageUrl: "/images/hero-classroom.jpg", title: "Collaboration", category: "classrooms" },
+          { id: 1, imageUrl: "/images/hero-classroom.jpg", title: "خدمات دفع إلكتروني", category: "classrooms" },
+          { id: 2, imageUrl: "/images/science-lab.jpg", title: "حوالات خارجية", category: "activities" },
+          { id: 3, imageUrl: "/images/campus-exterior.jpg", title: "شراء عالمي", category: "campus" },
+          { id: 4, imageUrl: "/images/art-classroom.jpg", title: "بطاقات شحن", category: "activities" },
+          { id: 5, imageUrl: "/images/sports-facility.jpg", title: "صرف عملات", category: "campus" },
+          { id: 6, imageUrl: "/images/library.jpg", title: "محافظ إلكترونية", category: "campus" },
+          { id: 7, imageUrl: "/images/graduation.jpg", title: "مدفوعات اليوان", category: "students" },
+          { id: 8, imageUrl: "/images/students-group.jpg", title: "دعم العملاء", category: "students" },
+          { id: 9, imageUrl: "/images/about-classroom.jpg", title: "معاملات آمنة", category: "classrooms" },
+          { id: 10, imageUrl: "/images/hero-classroom.jpg", title: "خدمات دفع إلكتروني", category: "classrooms" },
         ];
 
   const openLightbox = (index: number) => {
@@ -140,7 +151,7 @@ export default function GalleryPage() {
               >
                 <img
                   src={img.imageUrl}
-                  alt={img.title}
+                  alt="صورة من خدمات الوسيط العالمي"
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
@@ -192,7 +203,7 @@ export default function GalleryPage() {
           {/* Image */}
           <img
             src={images[currentImageIndex]?.imageUrl}
-            alt={images[currentImageIndex]?.title}
+            alt="صورة من خدمات الوسيط العالمي"
             className="max-w-[90vw] max-h-[85vh] object-contain"
             onClick={(e) => e.stopPropagation()}
           />

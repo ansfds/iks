@@ -12,8 +12,7 @@ import VisionMission from "./pages/VisionMission";
 import Values from "./pages/Values";
 import Goals from "./pages/Goals";
 import Curriculum from "./pages/Curriculum";
-import InternationalCurricula from "./pages/InternationalCurricula";
-import LocalCurriculum from "./pages/LocalCurriculum";
+import Transfers from "./pages/Transfers";
 import Admissions from "./pages/Admissions";
 import GalleryPage from "./pages/GalleryPage";
 import NewsPage from "./pages/NewsPage";
@@ -25,7 +24,6 @@ import NotFound from "./pages/NotFound";
 function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <SEOManager />
       <Navbar />
       <main>{children}</main>
       <Footer />
@@ -38,6 +36,7 @@ function AppLayout({ children }: { children: React.ReactNode }) {
 export default function App() {
   return (
     <LanguageProvider>
+      <SEOManager />
       <Toaster position="top-center" richColors />
       <Routes>
         {/* Public pages with layout */}
@@ -90,26 +89,10 @@ export default function App() {
           }
         />
         <Route
-          path="/curricula"
+          path="/transfers"
           element={
             <AppLayout>
-              <Curriculum />
-            </AppLayout>
-          }
-        />
-        <Route
-          path="/curriculum/international"
-          element={
-            <AppLayout>
-              <InternationalCurricula />
-            </AppLayout>
-          }
-        />
-        <Route
-          path="/curriculum/local"
-          element={
-            <AppLayout>
-              <LocalCurriculum />
+              <Transfers />
             </AppLayout>
           }
         />

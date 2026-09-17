@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+﻿import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { trpc } from "@/providers/trpc";
@@ -19,11 +19,13 @@ function PerspectiveText({ text, isArabic = false }: { text: string; isArabic?: 
   if (isArabic) {
     return (
       <h1
-        className="text-5xl sm:text-6xl md:text-7xl lg:text-[76px] font-extrabold text-white tracking-tight"
+        dir="rtl"
+        lang="ar"
+        className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-extrabold text-white tracking-normal leading-tight"
         style={{
-          perspective: "10px",
-          transform: "perspective(10px) rotateY(-6deg)",
-          transformStyle: "preserve-3d",
+          letterSpacing: "0",
+          fontKerning: "normal",
+          textRendering: "optimizeLegibility",
         }}
       >
         {text}
@@ -36,7 +38,7 @@ function PerspectiveText({ text, isArabic = false }: { text: string; isArabic?: 
       {text.split("").map((char, i) => (
         <span
           key={i}
-          className="text-5xl sm:text-6xl md:text-7xl lg:text-[76px] font-extrabold text-white inline-block preserve-3d"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-extrabold text-white inline-block preserve-3d"
           style={{
             perspective: "10px",
             transform: "rotateY(6deg)",
@@ -55,7 +57,7 @@ function StarDecoration({ className = "" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
-      className={`text-[#F0B736] star-rotate ${className}`}
+      className={`text-[#38BDF8] star-rotate ${className}`}
       fill="currentColor"
       aria-hidden="true"
     >
@@ -64,9 +66,15 @@ function StarDecoration({ className = "" }: { className?: string }) {
   );
 }
 
+const legacyContentPattern =
+  /school|student|teacher|classroom|campus|curriculum|admission|parent|grade|مدرس|طالب|طلاب|تعليم|منهج|مناهج|معلم|أولياء|الصف/i;
+
+function hasLegacyContent(...values: Array<string | null | undefined>) {
+  return values.some((value) => value ? legacyContentPattern.test(value) : false);
+}
+
 export default function Home() {
-  const { language, t, dir } = useLanguage();
-  const isArabic = language === "ar";
+  const { t, dir } = useLanguage();
 
   const heroRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
@@ -79,6 +87,19 @@ export default function Home() {
 
   const { data: testimonialsData } = trpc.testimonial.list.useQuery();
   const { data: galleryData } = trpc.gallery.list.useQuery({});
+  const mapsUrl = "https://maps.app.goo.gl/GE4p2GdUZd8o8v9DA";
+  const publicTestimonials =
+    testimonialsData?.filter(
+      (testimonial) =>
+        !hasLegacyContent(
+          testimonial.quote,
+          testimonial.quoteAr,
+          testimonial.role,
+          testimonial.roleAr
+        )
+    ) ?? [];
+  const publicGalleryData =
+    galleryData?.filter((item) => !hasLegacyContent(item.title, item.titleAr, item.description, item.descriptionAr)) ?? [];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -115,10 +136,10 @@ export default function Home() {
   }, []);
 
   const stats = [
-    { number: "500+", label: t("stats.students") },
-    { number: "25+", label: t("stats.classrooms") },
-    { number: "15+", label: t("stats.nationalities") },
-    { number: "98%", label: t("stats.satisfaction") },
+    { number: "+1.3K", label: t("stats.students") },
+    { number: "6", label: t("stats.classrooms") },
+    { number: "24/7", label: t("stats.nationalities") },
+    { number: "100%", label: t("stats.satisfaction") },
   ];
 
   const features = [
@@ -128,16 +149,16 @@ export default function Home() {
     { icon: Heart, title: t("why.wellbeing.title"), description: t("why.wellbeing.desc") },
   ];
 
-  const galleryImages = galleryData?.length ? galleryData.slice(0, 9) : [
-    { id: 1, imageUrl: "/images/hero-classroom.jpg", title: "Classroom" },
-    { id: 2, imageUrl: "/images/science-lab.jpg", title: "Science Lab" },
-    { id: 3, imageUrl: "/images/campus-exterior.jpg", title: "Campus" },
-    { id: 4, imageUrl: "/images/art-classroom.jpg", title: "Art" },
-    { id: 5, imageUrl: "/images/sports-facility.jpg", title: "Sports" },
-    { id: 6, imageUrl: "/images/library.jpg", title: "Library" },
-    { id: 7, imageUrl: "/images/graduation.jpg", title: "Graduation" },
-    { id: 8, imageUrl: "/images/students-group.jpg", title: "Students" },
-    { id: 9, imageUrl: "/images/about-classroom.jpg", title: "Learning" },
+  const galleryImages = publicGalleryData.length ? publicGalleryData.slice(0, 9) : [
+    { id: 1, imageUrl: "/images/hero-classroom.jpg", title: "خدمات دفع إلكتروني" },
+    { id: 2, imageUrl: "/images/science-lab.jpg", title: "حوالات خارجية" },
+    { id: 3, imageUrl: "/images/campus-exterior.jpg", title: "شراء عالمي" },
+    { id: 4, imageUrl: "/images/art-classroom.jpg", title: "بطاقات شحن" },
+    { id: 5, imageUrl: "/images/sports-facility.jpg", title: "صرف عملات" },
+    { id: 6, imageUrl: "/images/library.jpg", title: "محافظ إلكترونية" },
+    { id: 7, imageUrl: "/images/graduation.jpg", title: "مدفوعات اليوان" },
+    { id: 8, imageUrl: "/images/students-group.jpg", title: "دعم العملاء" },
+    { id: 9, imageUrl: "/images/about-classroom.jpg", title: "معاملات آمنة" },
   ];
 
   return (
@@ -157,7 +178,7 @@ export default function Home() {
             {t("hero.welcome")}
           </div>
           <div className="hero-animate mb-4">
-            <PerspectiveText text={isArabic ? "المعرفة" : "Knowledge"} isArabic={isArabic} />
+            <PerspectiveText text="الوسيط العالمي للحوالات" isArabic />
           </div>
           <p className="hero-animate text-xl sm:text-2xl md:text-[28px] font-medium text-white/[0.85] mb-6">
             {t("hero.subtitle")}
@@ -199,7 +220,7 @@ export default function Home() {
               </Link>
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
-              <img src="/images/about-classroom.jpg" alt="Classroom" className="about-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]" />
+              <img src="/images/about-classroom.jpg" alt="خدمات مالية إلكترونية" className="about-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]" />
             </div>
           </div>
         </div>
@@ -227,7 +248,7 @@ export default function Home() {
         <div className="container-main">
           <div className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${dir === "rtl" ? "lg:direction-rtl" : ""}`}>
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
-              <img src="/images/science-lab.jpg" alt="Science Lab" className="curriculum-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]" />
+              <img src="/images/science-lab.jpg" alt="حوالات ومدفوعات عالمية" className="curriculum-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]" />
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <h2 className="curriculum-animate text-3xl md:text-[42px] font-bold text-white mb-6">{t("curriculum.title")}</h2>
@@ -246,40 +267,40 @@ export default function Home() {
         <div className="container-main">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-4">
-              {isArabic ? "ماذا يقول أولياء الأمور" : "What Parents Say"}
+              ماذا يقول عملاؤنا
             </h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
-            {(testimonialsData ?? []).slice(0, 3).map((testimonial) => (
+            {publicTestimonials.slice(0, 3).map((testimonial) => (
               <div key={testimonial.id} className="testimonial-card bg-white rounded-lg p-8 shadow-sm">
                 <Quote size={32} className="text-[#7A1E2A]/20 mb-4" />
                 <p className="text-base text-[#1A1A1A] italic leading-relaxed mb-6">
-                  {isArabic && testimonial.quoteAr ? testimonial.quoteAr : testimonial.quote}
+                  {testimonial.quoteAr || "تجربة موثوقة مع متابعة واضحة حتى اكتمال الخدمة."}
                 </p>
                 <div className="flex items-center gap-1 mb-3">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} size={16} className="text-[#F0B736] fill-[#F0B736]" />
+                    <Star key={i} size={16} className="text-[#38BDF8] fill-[#38BDF8]" />
                   ))}
                 </div>
                 <div className="font-semibold text-[#1A1A1A]">
-                  {isArabic && testimonial.authorNameAr ? testimonial.authorNameAr : testimonial.authorName}
+                  {testimonial.authorNameAr || "عميل الوسيط العالمي"}
                 </div>
                 <div className="text-sm text-[#7C7C7C]">
-                  {isArabic && testimonial.roleAr ? testimonial.roleAr : testimonial.role}
+                  {testimonial.roleAr || "خدمات مالية"}
                 </div>
               </div>
             ))}
-            {(!testimonialsData || testimonialsData.length === 0) && [
-              { quote: t("about.mission.text").slice(0, 120) + "...", authorName: "Sarah Ahmed", role: "Parent of Grade 3 Student", rating: 5 },
-              { quote: t("about.vision.text").slice(0, 120) + "...", authorName: "Mohammed Al-Rashid", role: "Parent of Grade 7 Student", rating: 5 },
-              { quote: t("about.values.description").slice(0, 120) + "...", authorName: "Fatima Hassan", role: "Parent of KG Student", rating: 5 },
+            {publicTestimonials.length === 0 && [
+              { quote: "تعامل واضح وسريع في تنفيذ الحوالة ومتابعة ممتازة حتى التأكيد النهائي.", authorName: "عميل من طرابلس", role: "حوالات خارجية", rating: 5 },
+              { quote: "خدمة مفيدة جدًا للدفع من المواقع العالمية وشحن المحافظ الإلكترونية.", authorName: "عميلة دفع إلكتروني", role: "دفع إلكتروني", rating: 5 },
+              { quote: "تأكيد التفاصيل قبل التنفيذ أعطاني ثقة وراحة في التعامل.", authorName: "عميل شراء عالمي", role: "شراء عالمي", rating: 5 },
             ].map((item, i) => (
               <div key={i} className="testimonial-card bg-white rounded-lg p-8 shadow-sm">
                 <Quote size={32} className="text-[#7A1E2A]/20 mb-4" />
                 <p className="text-base text-[#1A1A1A] italic leading-relaxed mb-6">{item.quote}</p>
                 <div className="flex items-center gap-1 mb-3">
                   {[...Array(item.rating)].map((_, j) => (
-                    <Star key={j} size={16} className="text-[#F0B736] fill-[#F0B736]" />
+                    <Star key={j} size={16} className="text-[#38BDF8] fill-[#38BDF8]" />
                   ))}
                 </div>
                 <div className="font-semibold text-[#1A1A1A]">{item.authorName}</div>
@@ -302,7 +323,7 @@ export default function Home() {
                 <div key={img.id} className="gallery-item preserve-3d transition-transform duration-400 hover:scale-105" style={{ transform: "translateZ(0)", transition: "transform 0.4s ease" }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateZ(40px) scale(1.05)"; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateZ(0) scale(1)"; }}>
-                  <img src={img.imageUrl} alt={img.title} className="w-full aspect-square object-cover rounded shadow-[0_8px_24px_rgba(0,0,0,0.2)]" />
+                  <img src={img.imageUrl} alt="صورة من خدمات الوسيط العالمي" className="w-full aspect-square object-cover rounded shadow-[0_8px_24px_rgba(0,0,0,0.2)]" />
                 </div>
               ))}
             </div>
@@ -310,7 +331,7 @@ export default function Home() {
           <div className="md:hidden grid grid-cols-2 gap-3 mb-8">
             {galleryImages.slice(0, 6).map((img) => (
               <div key={img.id} className="gallery-item">
-                <img src={img.imageUrl} alt={img.title} className="w-full aspect-square object-cover rounded-lg shadow-md" />
+                <img src={img.imageUrl} alt="صورة من خدمات الوسيط العالمي" className="w-full aspect-square object-cover rounded-lg shadow-md" />
               </div>
             ))}
           </div>
@@ -326,7 +347,7 @@ export default function Home() {
           <p className="contact-animate text-base md:text-lg text-white/70 max-w-2xl mx-auto mb-10">{t("contactcta.description")}</p>
           <div className={`contact-animate flex flex-col sm:flex-row items-center justify-center gap-4 ${dir === "rtl" ? "sm:flex-row-reverse" : ""}`}>
             <Link to="/contact" className="btn-primary">{t("contactcta.contact")}</Link>
-            <Link to="/admissions" className="btn-secondary">{t("contactcta.visit")}</Link>
+            <a href={mapsUrl} target="_blank" rel="noreferrer" className="btn-secondary">{t("contactcta.visit")}</a>
           </div>
         </div>
       </section>
