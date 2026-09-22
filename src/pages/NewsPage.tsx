@@ -40,7 +40,7 @@ export default function NewsPage() {
       titleAr: "دفع الفواتير والطلبات العالمية",
       excerpt: "يمكن للعملاء طلب دفع الفواتير والطلبات من مختلف المواقع والمتاجر العالمية.",
       excerptAr: "يمكن للعملاء طلب دفع الفواتير والطلبات من مختلف المواقع والمتاجر العالمية.",
-      imageUrl: "/images/about-classroom.jpg",
+      imageUrl: "/images/alwaseet-libya-cairo.jpg",
       eventDate: null,
       createdAt: new Date(),
     },
@@ -50,7 +50,7 @@ export default function NewsPage() {
       titleAr: "زيارة موقع الوسيط العالمي",
       excerpt: "تجدوننا في زناتة مقابل كيان موبايل، طرابلس.",
       excerptAr: "تجدوننا في زناتة مقابل كيان موبايل، طرابلس.",
-      imageUrl: "/images/campus-exterior.jpg",
+      imageUrl: "/images/alwaseet-transfer-hero.jpg",
       eventDate: "2026-10-01",
       createdAt: new Date(),
     },
@@ -60,7 +60,7 @@ export default function NewsPage() {
       titleAr: "بطاقات SHEIN وخدمات اليوان الصيني",
       excerpt: "تتوفر بطاقات SHEIN وخدمات الدفع باليوان الصيني لاحتياجات الشراء العالمي.",
       excerptAr: "تتوفر بطاقات SHEIN وخدمات الدفع باليوان الصيني لاحتياجات الشراء العالمي.",
-      imageUrl: "/images/science-lab.jpg",
+      imageUrl: "/images/alwaseet-global-finance.jpg",
       eventDate: null,
       createdAt: new Date(),
     },
@@ -158,7 +158,7 @@ export default function NewsPage() {
                     <div className="grid md:grid-cols-3 gap-0">
                       <div className="md:col-span-1">
                         <img
-                          src={item.imageUrl ?? "/images/about-classroom.jpg"}
+                          src={item.imageUrl ?? "/images/alwaseet-libya-cairo.jpg"}
                           alt={item.titleAr || "تحديث من الوسيط العالمي"}
                           className="w-full h-full object-cover min-h-[200px]"
                         />

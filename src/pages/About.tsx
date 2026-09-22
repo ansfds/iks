@@ -93,9 +93,9 @@ export default function About() {
               </div>
               <div className={dir === "rtl" ? "lg:order-1" : ""}>
                 <img
-                  src="/images/hero-classroom.jpg"
-                  alt="خدمات دفع وتحويل"
-                  className="about-section-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]"
+                  src="/images/alwaseet-transfer-hero.jpg"
+                  alt="خدمات دفع وتحويل من الوسيط العالمي"
+                  className="about-section-animate rounded-lg shadow-lg w-full object-contain aspect-[3/4] max-h-[560px] bg-[#EEF6FF] p-2"
                 />
               </div>
             </div>
@@ -112,9 +112,9 @@ export default function About() {
             >
               <div className={dir === "rtl" ? "lg:order-2" : ""}>
                 <img
-                  src="/images/campus-exterior.jpg"
-                  alt="تجارة عالمية ومدفوعات"
-                  className="about-section-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]"
+                  src="/images/alwaseet-libya-cairo.jpg"
+                  alt="تحويلات من ليبيا إلى مصر"
+                  className="about-section-animate rounded-lg shadow-lg w-full object-contain aspect-[3/4] max-h-[560px] bg-[#EEF6FF] p-2"
                 />
               </div>
               <div className={dir === "rtl" ? "lg:order-1" : ""}>

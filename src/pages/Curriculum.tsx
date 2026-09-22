@@ -125,8 +125,8 @@ export default function Curriculum() {
               </div>
               <div className={dir === "rtl" ? "lg:order-1" : ""}>
                 <img
-                  src="/images/science-lab.jpg"
-                  alt="خدمات دفع إلكتروني وتحويلات"
+                  src="/images/alwaseet-global-finance.jpg"
+                  alt="خدمات دفع إلكتروني وتحويلات عالمية"
                   className="curriculum-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]"
                 />
               </div>

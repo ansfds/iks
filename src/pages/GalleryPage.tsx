@@ -38,16 +38,16 @@ export default function GalleryPage() {
     publicGalleryItems.length > 0
       ? publicGalleryItems
       : [
-          { id: 1, imageUrl: "/images/hero-classroom.jpg", title: "خدمات دفع إلكتروني", category: "classrooms" },
-          { id: 2, imageUrl: "/images/science-lab.jpg", title: "حوالات خارجية", category: "activities" },
-          { id: 3, imageUrl: "/images/campus-exterior.jpg", title: "شراء عالمي", category: "campus" },
-          { id: 4, imageUrl: "/images/art-classroom.jpg", title: "بطاقات شحن", category: "activities" },
-          { id: 5, imageUrl: "/images/sports-facility.jpg", title: "صرف عملات", category: "campus" },
-          { id: 6, imageUrl: "/images/library.jpg", title: "محافظ إلكترونية", category: "campus" },
-          { id: 7, imageUrl: "/images/graduation.jpg", title: "مدفوعات اليوان", category: "students" },
-          { id: 8, imageUrl: "/images/students-group.jpg", title: "دعم العملاء", category: "students" },
-          { id: 9, imageUrl: "/images/about-classroom.jpg", title: "معاملات آمنة", category: "classrooms" },
-          { id: 10, imageUrl: "/images/hero-classroom.jpg", title: "خدمات دفع إلكتروني", category: "classrooms" },
+          { id: 1, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "خدمات دفع إلكتروني", category: "classrooms" },
+          { id: 2, imageUrl: "/images/alwaseet-global-finance.jpg", title: "حوالات خارجية", category: "activities" },
+          { id: 3, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "شراء عالمي", category: "campus" },
+          { id: 4, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "بطاقات شحن", category: "activities" },
+          { id: 5, imageUrl: "/images/alwaseet-global-finance.jpg", title: "صرف عملات", category: "campus" },
+          { id: 6, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "محافظ إلكترونية", category: "campus" },
+          { id: 7, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "مدفوعات اليوان", category: "students" },
+          { id: 8, imageUrl: "/images/alwaseet-global-finance.jpg", title: "دعم العملاء", category: "students" },
+          { id: 9, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "معاملات آمنة", category: "classrooms" },
+          { id: 10, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "خدمات دفع إلكتروني", category: "classrooms" },
         ];
 
   const openLightbox = (index: number) => {
@@ -146,13 +146,13 @@ export default function GalleryPage() {
             {images.map((img, i) => (
               <div
                 key={img.id}
-                className="gallery-animate relative group cursor-pointer overflow-hidden rounded-lg aspect-square"
+                className="gallery-animate relative group cursor-pointer overflow-hidden rounded-lg aspect-[3/4] bg-[#EEF6FF]"
                 onClick={() => openLightbox(i)}
               >
                 <img
                   src={img.imageUrl}
                   alt="صورة من خدمات الوسيط العالمي"
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
                   <ZoomIn

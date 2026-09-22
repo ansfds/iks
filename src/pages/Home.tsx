@@ -150,15 +150,15 @@ export default function Home() {
   ];
 
   const galleryImages = publicGalleryData.length ? publicGalleryData.slice(0, 9) : [
-    { id: 1, imageUrl: "/images/hero-classroom.jpg", title: "خدمات دفع إلكتروني" },
-    { id: 2, imageUrl: "/images/science-lab.jpg", title: "حوالات خارجية" },
-    { id: 3, imageUrl: "/images/campus-exterior.jpg", title: "شراء عالمي" },
-    { id: 4, imageUrl: "/images/art-classroom.jpg", title: "بطاقات شحن" },
-    { id: 5, imageUrl: "/images/sports-facility.jpg", title: "صرف عملات" },
-    { id: 6, imageUrl: "/images/library.jpg", title: "محافظ إلكترونية" },
-    { id: 7, imageUrl: "/images/graduation.jpg", title: "مدفوعات اليوان" },
-    { id: 8, imageUrl: "/images/students-group.jpg", title: "دعم العملاء" },
-    { id: 9, imageUrl: "/images/about-classroom.jpg", title: "معاملات آمنة" },
+    { id: 1, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "خدمات دفع إلكتروني" },
+    { id: 2, imageUrl: "/images/alwaseet-global-finance.jpg", title: "حوالات خارجية" },
+    { id: 3, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "شراء عالمي" },
+    { id: 4, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "بطاقات شحن" },
+    { id: 5, imageUrl: "/images/alwaseet-global-finance.jpg", title: "صرف عملات" },
+    { id: 6, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "محافظ إلكترونية" },
+    { id: 7, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "مدفوعات اليوان" },
+    { id: 8, imageUrl: "/images/alwaseet-global-finance.jpg", title: "دعم العملاء" },
+    { id: 9, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "معاملات آمنة" },
   ];
 
   return (
@@ -220,7 +220,7 @@ export default function Home() {
               </Link>
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
-              <img src="/images/about-classroom.jpg" alt="خدمات مالية إلكترونية" className="about-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]" />
+              <img src="/images/alwaseet-libya-cairo.jpg" alt="خدمات تحويل من ليبيا إلى مصر" className="about-animate rounded-lg shadow-lg w-full object-contain aspect-[3/4] max-h-[560px] bg-[#EEF6FF] p-2" />
             </div>
           </div>
         </div>
@@ -248,7 +248,7 @@ export default function Home() {
         <div className="container-main">
           <div className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${dir === "rtl" ? "lg:direction-rtl" : ""}`}>
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
-              <img src="/images/science-lab.jpg" alt="حوالات ومدفوعات عالمية" className="curriculum-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]" />
+              <img src="/images/alwaseet-transfer-hero.jpg" alt="حوالات ومدفوعات عالمية من الوسيط العالمي" className="curriculum-animate rounded-lg shadow-lg w-full object-contain aspect-[3/4] max-h-[560px] bg-white/10 p-2" />
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <h2 className="curriculum-animate text-3xl md:text-[42px] font-bold text-white mb-6">{t("curriculum.title")}</h2>
@@ -323,7 +323,7 @@ export default function Home() {
                 <div key={img.id} className="gallery-item preserve-3d transition-transform duration-400 hover:scale-105" style={{ transform: "translateZ(0)", transition: "transform 0.4s ease" }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateZ(40px) scale(1.05)"; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateZ(0) scale(1)"; }}>
-                  <img src={img.imageUrl} alt="صورة من خدمات الوسيط العالمي" className="w-full aspect-square object-cover rounded shadow-[0_8px_24px_rgba(0,0,0,0.2)]" />
+                  <img src={img.imageUrl} alt="صورة من خدمات الوسيط العالمي" className="w-full aspect-square object-contain rounded bg-[#EEF6FF] p-1 shadow-[0_8px_24px_rgba(0,0,0,0.2)]" />
                 </div>
               ))}
             </div>
@@ -331,7 +331,7 @@ export default function Home() {
           <div className="md:hidden grid grid-cols-2 gap-3 mb-8">
             {galleryImages.slice(0, 6).map((img) => (
               <div key={img.id} className="gallery-item">
-                <img src={img.imageUrl} alt="صورة من خدمات الوسيط العالمي" className="w-full aspect-square object-cover rounded-lg shadow-md" />
+                <img src={img.imageUrl} alt="صورة من خدمات الوسيط العالمي" className="w-full aspect-[3/4] object-contain rounded-lg bg-[#EEF6FF] p-1 shadow-md" />
               </div>
             ))}
           </div>

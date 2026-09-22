@@ -28,15 +28,15 @@ export const siteConfig = {
 
 export const siteImages = {
   socialPreview: "/images/social-preview-fintech.png",
-  heroClassroom: "/images/hero-classroom.jpg",
-  studentsGroup: "/images/students-group.jpg",
-  scienceLab: "/images/science-lab.jpg",
-  library: "/images/library.jpg",
-  campus: "/images/campus-exterior.jpg",
-  aboutClassroom: "/images/about-classroom.jpg",
-  graduation: "/images/graduation.jpg",
-  artClassroom: "/images/art-classroom.jpg",
-  sportsFacility: "/images/sports-facility.jpg",
+  heroClassroom: "/images/alwaseet-transfer-hero.jpg",
+  studentsGroup: "/images/alwaseet-global-finance.jpg",
+  scienceLab: "/images/alwaseet-global-finance.jpg",
+  library: "/images/alwaseet-libya-cairo.jpg",
+  campus: "/images/alwaseet-libya-cairo.jpg",
+  aboutClassroom: "/images/alwaseet-libya-cairo.jpg",
+  graduation: "/images/alwaseet-transfer-hero.jpg",
+  artClassroom: "/images/alwaseet-transfer-hero.jpg",
+  sportsFacility: "/images/alwaseet-global-finance.jpg",
 };
 
 export const seoKeywords = [

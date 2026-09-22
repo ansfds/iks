@@ -76,8 +76,8 @@ export default function VisionMission() {
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <img
-                src="/images/students-group.jpg"
-                alt="عملاء وخدمات مالية"
+                src="/images/alwaseet-global-finance.jpg"
+                alt="شبكة حوالات ومدفوعات عالمية"
                 className="vm-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]"
               />
             </div>
@@ -91,9 +91,9 @@ export default function VisionMission() {
           >
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
               <img
-                src="/images/about-classroom.jpg"
-                alt="خدمات الوسيط العالمي"
-                className="vm-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]"
+                src="/images/alwaseet-libya-cairo.jpg"
+                alt="خدمات الوسيط العالمي للتحويلات"
+                className="vm-animate rounded-lg shadow-lg w-full object-contain aspect-[3/4] max-h-[560px] bg-[#EEF6FF] p-2"
               />
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
