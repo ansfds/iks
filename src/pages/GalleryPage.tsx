@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useCallback, useState, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { trpc } from "@/providers/trpc";
+import { SiteImage } from "@/components/SiteImage";
+import { SITE_IMAGES } from "@/config/site-images";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -38,36 +40,41 @@ export default function GalleryPage() {
     publicGalleryItems.length > 0
       ? publicGalleryItems
       : [
-          { id: 1, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "خدمات دفع إلكتروني", category: "classrooms" },
-          { id: 2, imageUrl: "/images/alwaseet-global-finance.jpg", title: "حوالات خارجية", category: "activities" },
-          { id: 3, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "شراء عالمي", category: "campus" },
-          { id: 4, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "بطاقات شحن", category: "activities" },
-          { id: 5, imageUrl: "/images/alwaseet-global-finance.jpg", title: "صرف عملات", category: "campus" },
-          { id: 6, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "محافظ إلكترونية", category: "campus" },
-          { id: 7, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "مدفوعات اليوان", category: "students" },
-          { id: 8, imageUrl: "/images/alwaseet-global-finance.jpg", title: "دعم العملاء", category: "students" },
-          { id: 9, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "معاملات آمنة", category: "classrooms" },
-          { id: 10, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "خدمات دفع إلكتروني", category: "classrooms" },
+          { id: 1, imageUrl: SITE_IMAGES.gallery.paymentServices, title: "خدمات دفع إلكتروني", category: "classrooms" },
+          { id: 2, imageUrl: SITE_IMAGES.gallery.transfers, title: "حوالات خارجية", category: "activities" },
+          { id: 3, imageUrl: SITE_IMAGES.gallery.globalShopping, title: "شراء عالمي", category: "campus" },
+          { id: 4, imageUrl: SITE_IMAGES.finance.transferHero, title: "بطاقات شحن", category: "activities" },
+          { id: 5, imageUrl: SITE_IMAGES.gallery.currencyExchange, title: "صرف عملات", category: "campus" },
+          { id: 6, imageUrl: SITE_IMAGES.finance.libyaCairo, title: "محافظ إلكترونية", category: "campus" },
+          { id: 7, imageUrl: SITE_IMAGES.finance.transferHero, title: "مدفوعات اليوان", category: "students" },
+          { id: 8, imageUrl: SITE_IMAGES.finance.globalFinance, title: "دعم العملاء", category: "students" },
+          { id: 9, imageUrl: SITE_IMAGES.finance.libyaCairo, title: "معاملات آمنة", category: "classrooms" },
+          { id: 10, imageUrl: SITE_IMAGES.finance.transferHero, title: "خدمات دفع إلكتروني", category: "classrooms" },
         ];
 
   const openLightbox = (index: number) => {
     setCurrentImageIndex(index);
     setLightboxOpen(true);
-    document.body.style.overflow = "hidden";
   };
 
-  const closeLightbox = () => {
+  const closeLightbox = useCallback(() => {
     setLightboxOpen(false);
-    document.body.style.overflow = "";
-  };
+  }, []);
 
-  const nextImage = () => {
+  const nextImage = useCallback(() => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);
-  };
+  }, [images.length]);
 
-  const prevImage = () => {
+  const prevImage = useCallback(() => {
     setCurrentImageIndex((prev) => (prev - 1 + images.length) % images.length);
-  };
+  }, [images.length]);
+
+  useEffect(() => {
+    document.body.style.overflow = lightboxOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [lightboxOpen]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -78,7 +85,7 @@ export default function GalleryPage() {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [lightboxOpen]);
+  }, [closeLightbox, lightboxOpen, nextImage, prevImage]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -146,13 +153,14 @@ export default function GalleryPage() {
             {images.map((img, i) => (
               <div
                 key={img.id}
-                className="gallery-animate relative group cursor-pointer overflow-hidden rounded-lg aspect-[3/4] bg-[#EEF6FF]"
+                className="gallery-animate relative group cursor-pointer overflow-hidden rounded-lg aspect-[3/4]"
                 onClick={() => openLightbox(i)}
               >
-                <img
+                <SiteImage
                   src={img.imageUrl}
+                  fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
                   alt="صورة من خدمات الوسيط العالمي"
-                  className="w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105"
+                  className="h-full w-full transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
                   <ZoomIn
@@ -201,10 +209,11 @@ export default function GalleryPage() {
           </button>
 
           {/* Image */}
-          <img
-            src={images[currentImageIndex]?.imageUrl}
+          <SiteImage
+            src={images[currentImageIndex]?.imageUrl ?? SITE_IMAGES.finance.transferHero}
+            fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
             alt="صورة من خدمات الوسيط العالمي"
-            className="max-w-[90vw] max-h-[85vh] object-contain"
+            className="max-h-[85vh] max-w-[90vw]"
             onClick={(e) => e.stopPropagation()}
           />
 

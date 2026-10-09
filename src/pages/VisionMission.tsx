@@ -1,6 +1,8 @@
 ﻿import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SiteImage } from "@/components/SiteImage";
+import { SITE_IMAGES } from "@/config/site-images";
 import { Target, Eye, Lightbulb, Heart } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -75,10 +77,11 @@ export default function VisionMission() {
               </p>
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
-              <img
-                src="/images/alwaseet-global-finance.jpg"
+              <SiteImage
+                src={SITE_IMAGES.finance.globalFinance}
+                fallbackSrc={SITE_IMAGES.finance.fallbackGlobalFinance}
                 alt="شبكة حوالات ومدفوعات عالمية"
-                className="vm-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]"
+                className="vm-animate w-full aspect-[4/3]"
               />
             </div>
           </div>
@@ -90,10 +93,11 @@ export default function VisionMission() {
             }`}
           >
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
-              <img
-                src="/images/alwaseet-libya-cairo.jpg"
+              <SiteImage
+                src={SITE_IMAGES.finance.libyaCairo}
+                fallbackSrc={SITE_IMAGES.finance.fallbackLibyaCairo}
                 alt="خدمات الوسيط العالمي للتحويلات"
-                className="vm-animate rounded-lg shadow-lg w-full object-contain aspect-[3/4] max-h-[560px] bg-[#EEF6FF] p-2"
+                className="vm-animate w-full max-h-[560px]"
               />
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>

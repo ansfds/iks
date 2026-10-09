@@ -7,6 +7,7 @@ import {
   seoKeywords,
   siteConfig,
 } from "@/config/site";
+import { SITE_IMAGES } from "@/config/site-images";
 
 function upsertMeta(attribute: "name" | "property", key: string, content: string) {
   let element = document.head.querySelector<HTMLMetaElement>(
@@ -53,8 +54,19 @@ export default function SEOManager() {
 
   useEffect(() => {
     const isAccountPage = location.pathname.startsWith("/accounts/");
+    const isGiftCardPage = location.pathname.startsWith("/gift-cards/");
     const seo =
       pageSeo[location.pathname] ??
+      (isGiftCardPage
+        ? {
+            ...pageSeo["/gift-cards"],
+            canonicalPath: location.pathname,
+            title: {
+              ar: "Gift Card | الوسيط العالمي للحوالات",
+              en: "Gift Card | Alwaseet Global",
+            },
+          }
+        : undefined) ??
       (isAccountPage
         ? {
             ...pageSeo["/accounts"],
@@ -100,6 +112,7 @@ export default function SEOManager() {
     upsertMeta("name", "twitter:image:alt", `معاينة ${siteConfig.name}`);
 
     upsertLink("canonical", canonicalUrl);
+    upsertLink("icon", SITE_IMAGES.branding.favicon);
 
     upsertJsonLd([
       {

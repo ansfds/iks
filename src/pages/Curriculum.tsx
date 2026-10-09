@@ -1,6 +1,8 @@
 ﻿import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SiteImage } from "@/components/SiteImage";
+import { SITE_IMAGES } from "@/config/site-images";
 import { Baby, BookOpen, Compass, GraduationCap } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -124,10 +126,11 @@ export default function Curriculum() {
                 </div>
               </div>
               <div className={dir === "rtl" ? "lg:order-1" : ""}>
-                <img
-                  src="/images/alwaseet-global-finance.jpg"
+                <SiteImage
+                  src={SITE_IMAGES.finance.globalFinance}
+                  fallbackSrc={SITE_IMAGES.finance.fallbackGlobalFinance}
                   alt="خدمات دفع إلكتروني وتحويلات عالمية"
-                  className="curriculum-animate rounded-lg shadow-lg w-full object-cover aspect-[4/3]"
+                  className="curriculum-animate w-full aspect-[4/3]"
                 />
               </div>
             </div>

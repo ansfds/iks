@@ -1,11 +1,14 @@
 ﻿import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SiteImage } from "@/components/SiteImage";
+import { SITE_IMAGES } from "@/config/site-images";
 import { MapPin, Phone, Mail, Facebook, MessageCircle } from "lucide-react";
 
 const quickLinks = [
   { key: "nav.home", href: "/" },
   { key: "nav.about", href: "/about" },
   { key: "nav.curriculum", href: "/curriculum" },
+  { key: "nav.giftCards", href: "/gift-cards" },
   { key: "nav.transfers", href: "/transfers" },
   { key: "nav.gallery", href: "/gallery" },
   { key: "nav.admissions", href: "/admissions" },
@@ -14,6 +17,7 @@ const quickLinks = [
 
 const infoLinks = [
   { key: "nav.curriculum", href: "/curriculum" },
+  { key: "nav.giftCards", href: "/gift-cards" },
   { key: "nav.transfers", href: "/transfers" },
   // Leadership link removed
   { key: "nav.news", href: "/news" },
@@ -33,10 +37,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1: About */}
           <div>
-            <img
-              src="/images/alwaseet-logo.svg"
+            <SiteImage
+              src={SITE_IMAGES.branding.logo}
+              fallbackSrc={SITE_IMAGES.branding.logoFallback}
               alt="الوسيط العالمي للحوالات"
-              className="mb-4 h-14 w-auto max-w-[230px] object-contain"
+              className="mb-4 h-auto max-h-14 w-auto max-w-[230px]"
             />
             <p className="text-sm text-gray-400 leading-relaxed">
               {t("footer.description")}

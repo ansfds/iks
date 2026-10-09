@@ -15,6 +15,8 @@ import Curriculum from "./pages/Curriculum";
 import Transfers from "./pages/Transfers";
 import Admissions from "./pages/Admissions";
 import GalleryPage from "./pages/GalleryPage";
+import GiftCards from "./pages/GiftCards";
+import GiftCardDetail from "./pages/GiftCardDetail";
 import NewsPage from "./pages/NewsPage";
 import Contact from "./pages/Contact";
 import Admin from "./pages/Admin";
@@ -110,6 +112,22 @@ export default function App() {
           element={
             <AppLayout>
               <GalleryPage />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/gift-cards"
+          element={
+            <AppLayout>
+              <GiftCards />
+            </AppLayout>
+          }
+        />
+        <Route
+          path="/gift-cards/:slug"
+          element={
+            <AppLayout>
+              <GiftCardDetail />
             </AppLayout>
           }
         />

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Xbox Gift Card</title>
+  <desc id="desc">Green premium gift card artwork for Xbox.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#052b1a"/>
+      <stop offset=".52" stop-color="#107c10"/>
+      <stop offset="1" stop-color="#7bdc65"/>
+    </linearGradient>
+    <radialGradient id="shine" cx="30%" cy="8%" r="70%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="760" rx="56" fill="url(#bg)"/>
+  <rect width="1200" height="760" rx="56" fill="url(#shine)"/>
+  <circle cx="600" cy="350" r="180" fill="#fff" opacity=".12"/>
+  <circle cx="600" cy="300" r="76" fill="none" stroke="#fff" stroke-width="22" opacity=".92"/>
+  <path d="M542 244c44 38 84 81 116 132M658 244c-44 38-84 81-116 132" stroke="#fff" stroke-width="20" stroke-linecap="round" opacity=".92"/>
+  <path d="M275 540c165-84 319-114 650-78" fill="none" stroke="#fff" stroke-opacity=".16" stroke-width="42" stroke-linecap="round"/>
+  <text x="600" y="463" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="104" font-weight="900" text-anchor="middle">Xbox</text>
+  <text x="600" y="526" fill="#eaffdf" font-family="Inter, Arial, sans-serif" font-size="34" font-weight="800" text-anchor="middle" letter-spacing="4">GIFT CARD</text>
+</svg>

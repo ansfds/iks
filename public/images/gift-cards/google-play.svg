@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Google Play Gift Card</title>
+  <desc id="desc">Colorful gift card artwork for Google Play.</desc>
+  <rect width="1200" height="760" rx="56" fill="#101827"/>
+  <circle cx="252" cy="140" r="190" fill="#00c2ff" opacity=".24"/>
+  <circle cx="950" cy="620" r="230" fill="#fbbc04" opacity=".25"/>
+  <path d="M436 190v380l318-190z" fill="#34a853"/>
+  <path d="M436 190l188 189-188 191z" fill="#4285f4"/>
+  <path d="M624 379l130 1-84 50z" fill="#fbbc04"/>
+  <path d="M436 570l188-191 46 51z" fill="#ea4335"/>
+  <text x="600" y="660" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="70" font-weight="900" text-anchor="middle">Google Play</text>
+</svg>

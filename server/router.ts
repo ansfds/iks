@@ -4,6 +4,8 @@ import { galleryRouter } from "./gallery-router";
 import { newsRouter } from "./news-router";
 import { testimonialRouter } from "./testimonial-router";
 import { adminRouter } from "./admin-router";
+import { financeRouter } from "./finance-router";
+import { giftCardRouter } from "./gift-card-router";
 import { createRouter, publicQuery } from "./middleware";
 
 export const appRouter = createRouter({
@@ -14,6 +16,8 @@ export const appRouter = createRouter({
   news: newsRouter,
   testimonial: testimonialRouter,
   admin: adminRouter,
+  finance: financeRouter,
+  giftCards: giftCardRouter,
 });
 
 export type AppRouter = typeof appRouter;

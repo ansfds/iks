@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Apple Gift Card</title>
+  <desc id="desc">Clean multicolor gift card artwork for Apple.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fafc"/>
+      <stop offset=".45" stop-color="#e2e8f0"/>
+      <stop offset="1" stop-color="#b6d7ff"/>
+    </linearGradient>
+    <linearGradient id="stripe" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff3b30"/>
+      <stop offset=".25" stop-color="#ffcc00"/>
+      <stop offset=".5" stop-color="#34c759"/>
+      <stop offset=".75" stop-color="#007aff"/>
+      <stop offset="1" stop-color="#af52de"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" rx="56" fill="url(#bg)"/>
+  <path d="M240 566c128-196 240-286 377-286 157 0 222 82 350-70" fill="none" stroke="url(#stripe)" stroke-width="70" stroke-linecap="round" opacity=".86"/>
+  <path d="M598 210c36-49 75-75 129-77-1 52-28 94-78 122-26 14-48 17-51 17-9-24-8-44 0-62z" fill="#111827"/>
+  <path d="M560 294c-56-1-108 45-108 126 0 97 75 176 126 176 32 0 46-20 86-20 39 0 50 20 85 20 55 0 103-74 117-120-67-29-79-122-11-159-37-48-80-58-117-58-44 0-63 22-93 22-31 0-52-26-85-27z" fill="#111827"/>
+  <text x="600" y="680" fill="#111827" font-family="Inter, Arial, sans-serif" font-size="66" font-weight="900" text-anchor="middle">Apple Gift Card</text>
+</svg>

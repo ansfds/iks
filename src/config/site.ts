@@ -1,3 +1,5 @@
+import { SITE_IMAGES } from "@/config/site-images";
+
 export type LocalizedText = {
   en: string;
   ar: string;
@@ -14,7 +16,7 @@ export const siteConfig = {
   shortName: "الوسيط العالمي",
   alternateNames: ["الوسيط العالمي", "الوسيط العالمي للدفع الإلكتروني والحوالات"],
   siteUrl: import.meta.env.VITE_SITE_URL || "",
-  socialPreviewImage: "/images/social-preview-fintech.png",
+  socialPreviewImage: SITE_IMAGES.seo.socialPreview,
   email: "hosambizniz12@gmail.com",
   phone: "093-5095091",
   address: {
@@ -27,16 +29,16 @@ export const siteConfig = {
 };
 
 export const siteImages = {
-  socialPreview: "/images/social-preview-fintech.png",
-  heroClassroom: "/images/alwaseet-transfer-hero.jpg",
-  studentsGroup: "/images/alwaseet-global-finance.jpg",
-  scienceLab: "/images/alwaseet-global-finance.jpg",
-  library: "/images/alwaseet-libya-cairo.jpg",
-  campus: "/images/alwaseet-libya-cairo.jpg",
-  aboutClassroom: "/images/alwaseet-libya-cairo.jpg",
-  graduation: "/images/alwaseet-transfer-hero.jpg",
-  artClassroom: "/images/alwaseet-transfer-hero.jpg",
-  sportsFacility: "/images/alwaseet-global-finance.jpg",
+  socialPreview: SITE_IMAGES.seo.socialPreview,
+  heroClassroom: SITE_IMAGES.finance.transferHero,
+  studentsGroup: SITE_IMAGES.finance.globalFinance,
+  scienceLab: SITE_IMAGES.finance.globalFinance,
+  library: SITE_IMAGES.finance.libyaCairo,
+  campus: SITE_IMAGES.finance.libyaCairo,
+  aboutClassroom: SITE_IMAGES.finance.libyaCairo,
+  graduation: SITE_IMAGES.finance.transferHero,
+  artClassroom: SITE_IMAGES.finance.transferHero,
+  sportsFacility: SITE_IMAGES.finance.globalFinance,
 };
 
 export const seoKeywords = [
@@ -49,6 +51,10 @@ export const seoKeywords = [
   "تحويل اليوان الصيني",
   "بيع وشراء الدولار",
   "شحن المحافظ الإلكترونية",
+  "بطاقات هدايا",
+  "Gift Cards",
+  "PlayStation Store",
+  "Xbox Gift Card",
   "خدمات مالية في ليبيا",
 ];
 
@@ -84,6 +90,17 @@ export const pageSeo: Record<string, SeoEntry> = {
     description: {
       ar: "صفحة حسابات التحويل الرسمية لدى الوسيط العالمي للحوالات مع نسخ رقم الحساب مباشرة وبسهولة.",
       en: "صفحة حسابات التحويل الرسمية لدى الوسيط العالمي للحوالات مع نسخ رقم الحساب مباشرة وبسهولة.",
+    },
+  },
+  "/gift-cards": {
+    canonicalPath: "/gift-cards",
+    title: {
+      ar: "Gift Cards | الوسيط العالمي للحوالات",
+      en: "Gift Cards | Alwaseet Global",
+    },
+    description: {
+      ar: "بطاقات PlayStation وXbox الرقمية بريجن أمريكي مع طلب مباشر عبر واتس أب المتجر.",
+      en: "Digital PlayStation and Xbox gift cards with direct WhatsApp ordering.",
     },
   },
   "/about": {
@@ -155,6 +172,7 @@ export const pageSeo: Record<string, SeoEntry> = {
 };
 
 export function getAbsoluteUrl(path: string) {
+  if (/^https?:\/\//i.test(path)) return path;
   const browserOrigin =
     typeof window !== "undefined" ? window.location.origin : "";
   const root = (siteConfig.siteUrl || browserOrigin).replace(/\/$/, "");

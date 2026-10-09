@@ -2,6 +2,9 @@
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { trpc } from "@/providers/trpc";
+import { SiteImage } from "@/components/SiteImage";
+import { HomeGiftCardSwitch } from "@/components/gift-cards/HomeGiftCardSwitch";
+import { SITE_IMAGES } from "@/config/site-images";
 import {
   Star,
   Building2,
@@ -150,20 +153,28 @@ export default function Home() {
   ];
 
   const galleryImages = publicGalleryData.length ? publicGalleryData.slice(0, 9) : [
-    { id: 1, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "خدمات دفع إلكتروني" },
-    { id: 2, imageUrl: "/images/alwaseet-global-finance.jpg", title: "حوالات خارجية" },
-    { id: 3, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "شراء عالمي" },
-    { id: 4, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "بطاقات شحن" },
-    { id: 5, imageUrl: "/images/alwaseet-global-finance.jpg", title: "صرف عملات" },
-    { id: 6, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "محافظ إلكترونية" },
-    { id: 7, imageUrl: "/images/alwaseet-transfer-hero.jpg", title: "مدفوعات اليوان" },
-    { id: 8, imageUrl: "/images/alwaseet-global-finance.jpg", title: "دعم العملاء" },
-    { id: 9, imageUrl: "/images/alwaseet-libya-cairo.jpg", title: "معاملات آمنة" },
+    { id: 1, imageUrl: SITE_IMAGES.gallery.paymentServices, title: "خدمات دفع إلكتروني" },
+    { id: 2, imageUrl: SITE_IMAGES.gallery.transfers, title: "حوالات خارجية" },
+    { id: 3, imageUrl: SITE_IMAGES.gallery.globalShopping, title: "شراء عالمي" },
+    { id: 4, imageUrl: SITE_IMAGES.finance.transferHero, title: "بطاقات شحن" },
+    { id: 5, imageUrl: SITE_IMAGES.gallery.currencyExchange, title: "صرف عملات" },
+    { id: 6, imageUrl: SITE_IMAGES.finance.libyaCairo, title: "محافظ إلكترونية" },
+    { id: 7, imageUrl: SITE_IMAGES.finance.transferHero, title: "مدفوعات اليوان" },
+    { id: 8, imageUrl: SITE_IMAGES.finance.globalFinance, title: "دعم العملاء" },
+    { id: 9, imageUrl: SITE_IMAGES.finance.libyaCairo, title: "معاملات آمنة" },
   ];
 
   return (
     <div dir={dir}>
-      <section ref={heroRef} className="relative min-h-[100vh] max-h-[900px] flex items-center justify-center bg-gradient-hero overflow-hidden">
+      <section
+        ref={heroRef}
+        className="relative min-h-[100vh] max-h-[900px] flex items-center justify-center bg-gradient-hero overflow-hidden"
+        style={{
+          backgroundImage: `linear-gradient(135deg, rgba(11,30,53,.86), rgba(33,59,111,.74)), url(${SITE_IMAGES.homepage.heroBackground})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
         <StarDecoration className="absolute top-[15%] left-[10%] w-6 h-6 opacity-60" />
         <StarDecoration className="absolute top-[20%] left-[18%] w-8 h-8 opacity-40" />
         <StarDecoration className="absolute top-[12%] right-[15%] w-10 h-10 opacity-50" />
@@ -207,6 +218,8 @@ export default function Home() {
         </div>
       </section>
 
+      <HomeGiftCardSwitch />
+
       <section ref={aboutRef} className="bg-[#F8F9FA] section-padding">
         <div className="container-main">
           <div className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${dir === "rtl" ? "lg:direction-rtl" : ""}`}>
@@ -220,7 +233,12 @@ export default function Home() {
               </Link>
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
-              <img src="/images/alwaseet-libya-cairo.jpg" alt="خدمات تحويل من ليبيا إلى مصر" className="about-animate rounded-lg shadow-lg w-full object-contain aspect-[3/4] max-h-[560px] bg-[#EEF6FF] p-2" />
+              <SiteImage
+                src={SITE_IMAGES.homepage.aboutImage}
+                fallbackSrc={SITE_IMAGES.finance.fallbackLibyaCairo}
+                alt="خدمات تحويل من ليبيا إلى مصر"
+                className="about-animate w-full max-h-[560px]"
+              />
             </div>
           </div>
         </div>
@@ -248,7 +266,12 @@ export default function Home() {
         <div className="container-main">
           <div className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${dir === "rtl" ? "lg:direction-rtl" : ""}`}>
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
-              <img src="/images/alwaseet-transfer-hero.jpg" alt="حوالات ومدفوعات عالمية من الوسيط العالمي" className="curriculum-animate rounded-lg shadow-lg w-full object-contain aspect-[3/4] max-h-[560px] bg-white/10 p-2" />
+              <SiteImage
+                src={SITE_IMAGES.homepage.servicesImage}
+                fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
+                alt="حوالات ومدفوعات عالمية من الوسيط العالمي"
+                className="curriculum-animate w-full max-h-[560px]"
+              />
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <h2 className="curriculum-animate text-3xl md:text-[42px] font-bold text-white mb-6">{t("curriculum.title")}</h2>
@@ -323,7 +346,12 @@ export default function Home() {
                 <div key={img.id} className="gallery-item preserve-3d transition-transform duration-400 hover:scale-105" style={{ transform: "translateZ(0)", transition: "transform 0.4s ease" }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateZ(40px) scale(1.05)"; }}
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateZ(0) scale(1)"; }}>
-                  <img src={img.imageUrl} alt="صورة من خدمات الوسيط العالمي" className="w-full aspect-square object-contain rounded bg-[#EEF6FF] p-1 shadow-[0_8px_24px_rgba(0,0,0,0.2)]" />
+                  <SiteImage
+                    src={img.imageUrl}
+                    fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
+                    alt="صورة من خدمات الوسيط العالمي"
+                    className="w-full aspect-square"
+                  />
                 </div>
               ))}
             </div>
@@ -331,7 +359,12 @@ export default function Home() {
           <div className="md:hidden grid grid-cols-2 gap-3 mb-8">
             {galleryImages.slice(0, 6).map((img) => (
               <div key={img.id} className="gallery-item">
-                <img src={img.imageUrl} alt="صورة من خدمات الوسيط العالمي" className="w-full aspect-[3/4] object-contain rounded-lg bg-[#EEF6FF] p-1 shadow-md" />
+                <SiteImage
+                  src={img.imageUrl}
+                  fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
+                  alt="صورة من خدمات الوسيط العالمي"
+                  className="w-full aspect-[3/4]"
+                />
               </div>
             ))}
           </div>

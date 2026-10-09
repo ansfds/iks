@@ -2,6 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { trpc } from "@/providers/trpc";
+import { SiteImage } from "@/components/SiteImage";
+import { SITE_IMAGES } from "@/config/site-images";
 import { Calendar, ArrowRight, Newspaper } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -40,7 +42,7 @@ export default function NewsPage() {
       titleAr: "دفع الفواتير والطلبات العالمية",
       excerpt: "يمكن للعملاء طلب دفع الفواتير والطلبات من مختلف المواقع والمتاجر العالمية.",
       excerptAr: "يمكن للعملاء طلب دفع الفواتير والطلبات من مختلف المواقع والمتاجر العالمية.",
-      imageUrl: "/images/alwaseet-libya-cairo.jpg",
+      imageUrl: SITE_IMAGES.finance.libyaCairo,
       eventDate: null,
       createdAt: new Date(),
     },
@@ -50,7 +52,7 @@ export default function NewsPage() {
       titleAr: "زيارة موقع الوسيط العالمي",
       excerpt: "تجدوننا في زناتة مقابل كيان موبايل، طرابلس.",
       excerptAr: "تجدوننا في زناتة مقابل كيان موبايل، طرابلس.",
-      imageUrl: "/images/alwaseet-transfer-hero.jpg",
+      imageUrl: SITE_IMAGES.finance.transferHero,
       eventDate: "2026-10-01",
       createdAt: new Date(),
     },
@@ -60,7 +62,7 @@ export default function NewsPage() {
       titleAr: "بطاقات SHEIN وخدمات اليوان الصيني",
       excerpt: "تتوفر بطاقات SHEIN وخدمات الدفع باليوان الصيني لاحتياجات الشراء العالمي.",
       excerptAr: "تتوفر بطاقات SHEIN وخدمات الدفع باليوان الصيني لاحتياجات الشراء العالمي.",
-      imageUrl: "/images/alwaseet-global-finance.jpg",
+      imageUrl: SITE_IMAGES.finance.globalFinance,
       eventDate: null,
       createdAt: new Date(),
     },
@@ -157,10 +159,11 @@ export default function NewsPage() {
                   >
                     <div className="grid md:grid-cols-3 gap-0">
                       <div className="md:col-span-1">
-                        <img
-                          src={item.imageUrl ?? "/images/alwaseet-libya-cairo.jpg"}
+                        <SiteImage
+                          src={item.imageUrl ?? SITE_IMAGES.finance.libyaCairo}
+                          fallbackSrc={SITE_IMAGES.finance.fallbackLibyaCairo}
                           alt={item.titleAr || "تحديث من الوسيط العالمي"}
-                          className="w-full h-full object-cover min-h-[200px]"
+                          className="min-h-[200px] w-full"
                         />
                       </div>
                       <div className="md:col-span-2 p-6 lg:p-8 flex flex-col justify-center">

@@ -1,6 +1,12 @@
 import { createRouter, adminQuery } from "./middleware";
 import { getDb } from "./queries/connection";
-import { contacts, galleryItems, newsEvents, testimonials } from "../db/schema";
+import {
+  contacts,
+  galleryItems,
+  giftCards,
+  newsEvents,
+  testimonials,
+} from "../db/schema";
 import { sql, eq } from "drizzle-orm";
 
 export const adminRouter = createRouter({
@@ -23,6 +29,9 @@ export const adminRouter = createRouter({
     const totalTestimonialsResult = await db
       .select({ count: sql<number>`count(*)` })
       .from(testimonials);
+    const totalGiftCardsResult = await db
+      .select({ count: sql<number>`count(*)` })
+      .from(giftCards);
     const contactsThisMonthResult = await db
       .select({ count: sql<number>`count(*)` })
       .from(contacts)
@@ -34,6 +43,7 @@ export const adminRouter = createRouter({
       totalGallery: totalGalleryResult[0]?.count ?? 0,
       totalNews: totalNewsResult[0]?.count ?? 0,
       totalTestimonials: totalTestimonialsResult[0]?.count ?? 0,
+      totalGiftCards: totalGiftCardsResult[0]?.count ?? 0,
       contactsThisMonth: contactsThisMonthResult[0]?.count ?? 0,
     };
   }),

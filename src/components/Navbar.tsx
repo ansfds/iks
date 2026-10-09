@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SiteImage } from "@/components/SiteImage";
+import { SITE_IMAGES } from "@/config/site-images";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { key: "nav.home", href: "/" },
   { key: "nav.about", href: "/about" },
   { key: "nav.curriculum", href: "/curriculum" },
+  { key: "nav.giftCards", href: "/gift-cards" },
   { key: "nav.transfers", href: "/transfers" },
   { key: "nav.admissions", href: "/admissions" },
   { key: "nav.gallery", href: "/gallery" },
@@ -46,10 +49,12 @@ export default function Navbar() {
           className="flex h-14 w-[120px] shrink-0 -translate-x-28 items-center justify-end sm:w-[156px] sm:-translate-x-32 lg:w-[180px] lg:translate-x-0"
           aria-label="الوسيط العالمي للحوالات"
         >
-          <img
-            src="/images/alwaseet-navbar-logo.png"
+          <SiteImage
+            src={SITE_IMAGES.branding.navbarLogo}
+            fallbackSrc={SITE_IMAGES.branding.navbarLogoFallback}
             alt="شعار الوسيط العالمي للحوالات"
-            className="h-auto w-auto max-h-[46px] max-w-full object-contain sm:max-h-[52px] lg:max-h-[56px]"
+            loading="eager"
+            className="h-auto w-auto max-h-[46px] max-w-full sm:max-h-[52px] lg:max-h-[56px]"
           />
         </Link>
 

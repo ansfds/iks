@@ -1,6 +1,8 @@
 ﻿import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { SiteImage } from "@/components/SiteImage";
+import { SITE_IMAGES } from "@/config/site-images";
 import { CheckCircle, ArrowRight } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -92,10 +94,11 @@ export default function About() {
                 </ul>
               </div>
               <div className={dir === "rtl" ? "lg:order-1" : ""}>
-                <img
-                  src="/images/alwaseet-transfer-hero.jpg"
+                <SiteImage
+                  src={SITE_IMAGES.finance.transferHero}
+                  fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
                   alt="خدمات دفع وتحويل من الوسيط العالمي"
-                  className="about-section-animate rounded-lg shadow-lg w-full object-contain aspect-[3/4] max-h-[560px] bg-[#EEF6FF] p-2"
+                  className="about-section-animate w-full max-h-[560px]"
                 />
               </div>
             </div>
@@ -111,10 +114,11 @@ export default function About() {
               }`}
             >
               <div className={dir === "rtl" ? "lg:order-2" : ""}>
-                <img
-                  src="/images/alwaseet-libya-cairo.jpg"
+                <SiteImage
+                  src={SITE_IMAGES.finance.libyaCairo}
+                  fallbackSrc={SITE_IMAGES.finance.fallbackLibyaCairo}
                   alt="تحويلات من ليبيا إلى مصر"
-                  className="about-section-animate rounded-lg shadow-lg w-full object-contain aspect-[3/4] max-h-[560px] bg-[#EEF6FF] p-2"
+                  className="about-section-animate w-full max-h-[560px]"
                 />
               </div>
               <div className={dir === "rtl" ? "lg:order-1" : ""}>

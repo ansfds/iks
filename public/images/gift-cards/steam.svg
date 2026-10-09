@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Steam Gift Card</title>
+  <desc id="desc">Dark blue gift card artwork for Steam.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#08111f"/>
+      <stop offset=".48" stop-color="#123b67"/>
+      <stop offset="1" stop-color="#66c0f4"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" rx="56" fill="url(#bg)"/>
+  <circle cx="772" cy="238" r="170" fill="#fff" opacity=".09"/>
+  <circle cx="457" cy="366" r="75" fill="none" stroke="#fff" stroke-width="24"/>
+  <circle cx="724" cy="245" r="92" fill="none" stroke="#fff" stroke-width="24"/>
+  <path d="M525 333l116-56M509 407l170 108" stroke="#fff" stroke-width="30" stroke-linecap="round"/>
+  <circle cx="706" cy="532" r="57" fill="none" stroke="#fff" stroke-width="22"/>
+  <text x="600" y="632" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="94" font-weight="900" text-anchor="middle">Steam</text>
+</svg>

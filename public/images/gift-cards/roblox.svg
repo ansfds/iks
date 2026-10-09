@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Roblox Gift Card</title>
+  <desc id="desc">Slate and white gift card artwork for Roblox.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset=".55" stop-color="#334155"/>
+      <stop offset="1" stop-color="#cbd5e1"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="760" rx="56" fill="url(#bg)"/>
+  <rect x="474" y="166" width="252" height="252" rx="28" fill="#fff" transform="rotate(14 600 292)"/>
+  <rect x="570" y="262" width="60" height="60" rx="10" fill="#334155" transform="rotate(14 600 292)"/>
+  <text x="600" y="566" fill="#fff" font-family="Inter, Arial, sans-serif" font-size="92" font-weight="900" text-anchor="middle">Roblox</text>
+  <text x="600" y="624" fill="#e2e8f0" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="800" text-anchor="middle" letter-spacing="4">GIFT CARD</text>
+</svg>
