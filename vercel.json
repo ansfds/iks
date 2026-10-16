@@ -2,10 +2,11 @@
   "buildCommand": "npm run build",
   "installCommand": "npm ci",
   "outputDirectory": "dist/public",
+  "functions": {
+    "api/seo.ts": { "includeFiles": "dist/public/index.html" }
+  },
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/sitemap.xml", "destination": "/api/seo?path=/sitemap.xml" },
+    { "source": "/:path((?!api/).*)", "destination": "/api/seo?path=/:path*" }
   ]
 }

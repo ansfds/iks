@@ -97,7 +97,7 @@ export default function About() {
                 <SiteImage
                   src={SITE_IMAGES.finance.transferHero}
                   fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
-                  alt="خدمات دفع وتحويل من الوسيط العالمي"
+                  alt="خدمات دفع وتحويل من الوسيط المعتمد"
                   className="about-section-animate w-full max-h-[560px]"
                 />
               </div>
@@ -191,7 +191,7 @@ export default function About() {
         <section className="bg-[#0B1E35] section-padding">
           <div className="container-main text-center">
             <h2 className="about-section-animate text-3xl font-bold text-white mb-6">
-              تواصل مع الوسيط العالمي اليوم
+              تواصل مع الوسيط المعتمد اليوم
             </h2>
             <Link
               to="/contact"

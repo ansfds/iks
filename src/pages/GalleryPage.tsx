@@ -153,14 +153,15 @@ export default function GalleryPage() {
             {images.map((img, i) => (
               <div
                 key={img.id}
-                className="gallery-animate relative group cursor-pointer overflow-hidden rounded-lg aspect-[3/4]"
+                className="gallery-animate relative group cursor-pointer overflow-hidden rounded-lg self-start"
                 onClick={() => openLightbox(i)}
               >
                 <SiteImage
                   src={img.imageUrl}
+                  fallbackSources={[SITE_IMAGES.gallery.paymentServices]}
                   fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
-                  alt="صورة من خدمات الوسيط العالمي"
-                  className="h-full w-full transition-transform duration-500 group-hover:scale-105"
+                  alt="صورة من خدمات الوسيط المعتمد"
+                  className="h-auto w-full transition-transform duration-500 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors duration-300 flex items-center justify-center">
                   <ZoomIn
@@ -211,8 +212,9 @@ export default function GalleryPage() {
           {/* Image */}
           <SiteImage
             src={images[currentImageIndex]?.imageUrl ?? SITE_IMAGES.finance.transferHero}
+            fallbackSources={[SITE_IMAGES.finance.transferHero]}
             fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
-            alt="صورة من خدمات الوسيط العالمي"
+            alt="صورة من خدمات الوسيط المعتمد"
             className="max-h-[85vh] max-w-[90vw]"
             onClick={(e) => e.stopPropagation()}
           />

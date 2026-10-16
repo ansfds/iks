@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { GiftCardImage } from "@/components/gift-cards/GiftCardImage";
+import { getGiftCardImages } from "@/config/gift-card-images";
 import {
   formatFaceValue,
   giftCardHighlightLabels,
@@ -424,6 +425,7 @@ export function AdminGiftCards() {
               <span className={labelClass}>Gift Card Background Image URL</span>
               <input
                 value={settingsForm.homeGiftCardsBackgroundUrl}
+                placeholder="فارغ = استخدام الخلفية من ملف الصور"
                 onChange={(event) =>
                   setSettingsDraft((current) => ({
                     ...current,
@@ -437,6 +439,7 @@ export function AdminGiftCards() {
               <span className={labelClass}>Services Background Image URL</span>
               <input
                 value={settingsForm.homeServicesBackgroundUrl}
+                placeholder="فارغ = استخدام الخلفية من ملف الصور"
                 onChange={(event) =>
                   setSettingsDraft((current) => ({
                     ...current,
@@ -668,6 +671,7 @@ export function AdminGiftCards() {
               <span className={labelClass}>Card Image URL</span>
               <input
                 value={giftCardForm.imageUrl}
+                placeholder="فارغ = استخدام صورة البطاقة من ملف الصور"
                 onChange={(event) =>
                   setGiftCardForm((current) => ({
                     ...current,
@@ -681,6 +685,7 @@ export function AdminGiftCards() {
               <span className={labelClass}>Background Image URL</span>
               <input
                 value={giftCardForm.backgroundUrl}
+                placeholder="فارغ = استخدام خلفية البطاقة من ملف الصور"
                 onChange={(event) =>
                   setGiftCardForm((current) => ({
                     ...current,
@@ -750,6 +755,8 @@ export function AdminGiftCards() {
                 <div className="aspect-[16/10]">
                   <GiftCardImage
                     src={giftCardForm.imageUrl}
+                    centralFallbackSrc={getGiftCardImages(giftCardForm.slug).cardImage}
+                    fallbackSrc={getGiftCardImages(giftCardForm.slug).localFallback}
                     alt="معاينة صورة البطاقة"
                     title={giftCardForm.displayName || "Gift Card"}
                     fallbackText="تعذر تحميل الصورة"
@@ -764,6 +771,8 @@ export function AdminGiftCards() {
                 <div className="aspect-[16/10]">
                   <GiftCardImage
                     src={giftCardForm.backgroundUrl}
+                    centralFallbackSrc={getGiftCardImages(giftCardForm.slug).backgroundImage}
+                    fallbackSrc={getGiftCardImages(giftCardForm.slug).localFallback}
                     alt="معاينة الخلفية"
                     title={giftCardForm.displayName || "Background"}
                     fallbackText="تعذر تحميل الصورة"

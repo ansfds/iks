@@ -64,7 +64,7 @@ export function FinanceCalculator() {
     if (!result || result.status !== "ok") return;
 
     const message = [
-      "طلب حساب حوالة - الوسيط العالمي للحوالات المالية",
+      "طلب حساب حوالة - الوسيط المعتمد",
       `الخدمة: ${result.service.nameAr}`,
       `المبلغ: ${formatMoney(result.amount)} ${result.currency.symbol}`,
       `سعر الصرف: ${formatMoney(result.exchangeRate)}`,

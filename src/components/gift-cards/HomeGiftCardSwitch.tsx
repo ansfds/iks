@@ -4,28 +4,28 @@ import { GIFT_CARD_IMAGES } from "@/config/gift-card-images";
 import { SITE_IMAGES } from "@/config/site-images";
 import { resolveImageUrl } from "@/lib/image-utils";
 import { trpc } from "@/providers/trpc";
+import { SiteBackground } from "@/components/SiteBackground";
 
 function SectionTile({
   href,
   label,
   icon: Icon,
   imageUrl,
+  fallbacks,
 }: {
   href: string;
   label: string;
   icon: typeof Gift;
   imageUrl: string;
+  fallbacks: string[];
 }) {
   return (
     <Link
       to={href}
       className="group relative flex min-h-52 overflow-hidden rounded-lg border border-white/10 bg-slate-900 p-6 text-white shadow-lg transition hover:-translate-y-1 hover:shadow-2xl"
-      style={{
-        backgroundImage: `linear-gradient(90deg, rgba(2,6,23,.82), rgba(2,6,23,.42)), url(${imageUrl})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
     >
+      <SiteBackground src={imageUrl} fallbackSources={fallbacks} />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,23,.82),rgba(2,6,23,.42))]" />
       <div className="relative z-10 flex h-full w-full flex-col justify-between">
         <Icon className="h-9 w-9 text-cyan-200" />
         <div>
@@ -67,12 +67,14 @@ export function HomeGiftCardSwitch() {
             label="Gift Card"
             icon={Gift}
             imageUrl={giftCardBackground}
+            fallbacks={[GIFT_CARD_IMAGES.playstation.backgroundImage, GIFT_CARD_IMAGES.playstation.localFallback]}
           />
           <SectionTile
             href="/curriculum"
             label="الخدمات المالية"
             icon={Landmark}
             imageUrl={servicesBackground}
+            fallbacks={[SITE_IMAGES.finance.transferHero, SITE_IMAGES.finance.fallbackTransferHero]}
           />
         </div>
       </div>

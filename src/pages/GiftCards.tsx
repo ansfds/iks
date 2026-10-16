@@ -34,7 +34,7 @@ export default function GiftCards() {
   });
 
   useEffect(() => {
-    if (cardsQuery.error) {
+    if (import.meta.env.DEV && cardsQuery.error) {
       console.error("[gift-cards] Failed to load gift cards", cardsQuery.error);
     }
   }, [cardsQuery.error]);
@@ -109,6 +109,7 @@ export default function GiftCards() {
               <div className="aspect-[16/10] overflow-hidden">
                 <GiftCardImage
                   src={cardImage}
+                  centralFallbackSrc={images.cardImage}
                   fallbackSrc={images.localFallback}
                   alt={`صورة ${card.displayName}`}
                   title={card.displayName}
@@ -120,9 +121,9 @@ export default function GiftCards() {
               <div className="p-5">
                 <div className="mb-3 flex items-start justify-between gap-3">
                   <div>
-                    <h2 className="text-xl font-black tracking-normal text-slate-950">
+                    <h3 className="text-xl font-black tracking-normal text-slate-950">
                       {card.displayName}
-                    </h2>
+                    </h3>
                     <p className="mt-1 text-sm font-bold text-slate-500">
                       {range}
                     </p>

@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://alwaseet-global.com/sitemap.xml

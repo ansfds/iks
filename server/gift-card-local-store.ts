@@ -5,11 +5,7 @@ import {
   parsePricingRate,
   resolveGiftCardPrice,
 } from "./gift-card-pricing";
-import {
-  GIFT_CARD_IMAGES,
-  getGiftCardImages,
-} from "../src/config/gift-card-images";
-import { SITE_IMAGES } from "../src/config/site-images";
+import { homeImageOverride, inheritGiftCardImages } from "./gift-card-image-defaults";
 
 export type LocalGiftCardStatus =
   | "AVAILABLE"
@@ -59,8 +55,9 @@ export type LocalGiftCardDenomination = {
 type LocalGiftCardStore = {
   settings: {
     whatsappNumber: string;
-    homeGiftCardsBackgroundUrl: string;
-    homeServicesBackgroundUrl: string;
+    homeGiftCardsBackgroundUrl: string | null;
+    homeServicesBackgroundUrl: string | null;
+    imageOverrides?: { giftCards?: boolean; services?: boolean };
     rate10To100: number;
     rateAbove100: number;
   };
@@ -68,7 +65,7 @@ type LocalGiftCardStore = {
   denominations: LocalGiftCardDenomination[];
 };
 
-const localStorePath = path.resolve("data", "gift-cards-local.json");
+const localStorePath = path.resolve(process.env.GIFT_CARDS_DATA_FILE || "data/gift-cards-local.json");
 const now = () => new Date();
 
 function defaultCard(input: {
@@ -77,8 +74,6 @@ function defaultCard(input: {
   displayName: string;
   slug: string;
   description: string;
-  imageUrl: string;
-  backgroundUrl?: string;
   status: LocalGiftCardStatus;
   sortOrder: number;
   regionCode?: string;
@@ -93,8 +88,8 @@ function defaultCard(input: {
     regionCode: input.regionCode ?? "US",
     regionLabel: input.regionLabel ?? "ريجن أمريكي",
     currency: "USD",
-    backgroundUrl: input.backgroundUrl ?? input.imageUrl,
-    imageUrl: input.imageUrl,
+    backgroundUrl: null,
+    imageUrl: null,
     status: input.status,
     sortOrder: input.sortOrder,
     createdBy: null,
@@ -143,8 +138,6 @@ function createDefaultStore(): LocalGiftCardStore {
       slug: "playstation",
       description:
         "بطاقات PlayStation Store ريجن أمريكي. السعر النهائي يؤكد وقت الشراء عبر واتس أب.",
-      imageUrl: GIFT_CARD_IMAGES.playstation.cardImage,
-      backgroundUrl: GIFT_CARD_IMAGES.playstation.backgroundImage,
       status: "AVAILABLE",
       sortOrder: 1,
     }),
@@ -155,8 +148,6 @@ function createDefaultStore(): LocalGiftCardStore {
       slug: "xbox",
       description:
         "بطاقات Xbox ريجن أمريكي. اختر الفئة ثم تواصل عبر واتس أب لتأكيد السعر النهائي.",
-      imageUrl: GIFT_CARD_IMAGES.xbox.cardImage,
-      backgroundUrl: GIFT_CARD_IMAGES.xbox.backgroundImage,
       status: "AVAILABLE",
       sortOrder: 2,
     }),
@@ -166,8 +157,6 @@ function createDefaultStore(): LocalGiftCardStore {
       displayName: "Steam",
       slug: "steam",
       description: "بطاقات Steam سيتم تفعيلها قريبًا.",
-      imageUrl: GIFT_CARD_IMAGES.steam.cardImage,
-      backgroundUrl: GIFT_CARD_IMAGES.steam.backgroundImage,
       status: "COMING_SOON",
       sortOrder: 3,
     }),
@@ -177,8 +166,6 @@ function createDefaultStore(): LocalGiftCardStore {
       displayName: "Apple",
       slug: "apple",
       description: "بطاقات Apple سيتم تفعيلها قريبًا.",
-      imageUrl: GIFT_CARD_IMAGES.apple.cardImage,
-      backgroundUrl: GIFT_CARD_IMAGES.apple.backgroundImage,
       status: "COMING_SOON",
       sortOrder: 4,
     }),
@@ -188,8 +175,6 @@ function createDefaultStore(): LocalGiftCardStore {
       displayName: "Google Play",
       slug: "google-play",
       description: "بطاقات Google Play سيتم تفعيلها قريبًا.",
-      imageUrl: GIFT_CARD_IMAGES["google-play"].cardImage,
-      backgroundUrl: GIFT_CARD_IMAGES["google-play"].backgroundImage,
       status: "COMING_SOON",
       sortOrder: 5,
     }),
@@ -199,8 +184,6 @@ function createDefaultStore(): LocalGiftCardStore {
       displayName: "Nintendo",
       slug: "nintendo",
       description: "بطاقات Nintendo سيتم تفعيلها قريبًا.",
-      imageUrl: GIFT_CARD_IMAGES.nintendo.cardImage,
-      backgroundUrl: GIFT_CARD_IMAGES.nintendo.backgroundImage,
       status: "COMING_SOON",
       sortOrder: 6,
     }),
@@ -210,8 +193,6 @@ function createDefaultStore(): LocalGiftCardStore {
       displayName: "Roblox",
       slug: "roblox",
       description: "بطاقات Roblox سيتم تفعيلها قريبًا.",
-      imageUrl: GIFT_CARD_IMAGES.roblox.cardImage,
-      backgroundUrl: GIFT_CARD_IMAGES.roblox.backgroundImage,
       status: "COMING_SOON",
       sortOrder: 7,
     }),
@@ -221,8 +202,6 @@ function createDefaultStore(): LocalGiftCardStore {
       displayName: "Razer Gold",
       slug: "razer",
       description: "بطاقات Razer Gold سيتم تفعيلها قريبًا.",
-      imageUrl: GIFT_CARD_IMAGES.razer.cardImage,
-      backgroundUrl: GIFT_CARD_IMAGES.razer.backgroundImage,
       status: "COMING_SOON",
       sortOrder: 8,
     }),
@@ -233,8 +212,6 @@ function createDefaultStore(): LocalGiftCardStore {
       slug: "shein",
       description:
         "بطاقات SHEIN بعروض خاصة على بعض الفئات. اختر الفئة ثم أكمل الطلب عبر واتس أب.",
-      imageUrl: GIFT_CARD_IMAGES.shein.cardImage,
-      backgroundUrl: GIFT_CARD_IMAGES.shein.backgroundImage,
       status: "AVAILABLE",
       sortOrder: 9,
       regionCode: "GLOBAL",
@@ -291,8 +268,8 @@ function createDefaultStore(): LocalGiftCardStore {
   return {
     settings: {
       whatsappNumber: "218935095091",
-      homeGiftCardsBackgroundUrl: GIFT_CARD_IMAGES.playstation.backgroundImage,
-      homeServicesBackgroundUrl: SITE_IMAGES.finance.transferHero,
+      homeGiftCardsBackgroundUrl: null,
+      homeServicesBackgroundUrl: null,
       rate10To100: defaultGiftCardPricingSettings.rate10To100,
       rateAbove100: defaultGiftCardPricingSettings.rateAbove100,
     },
@@ -384,16 +361,9 @@ function ensureSeedData(store: LocalGiftCardStore) {
 function normalizeStore(store: LocalGiftCardStore): LocalGiftCardStore {
   const settings = {
     whatsappNumber: store.settings?.whatsappNumber || "218935095091",
-    homeGiftCardsBackgroundUrl: store.settings?.homeGiftCardsBackgroundUrl?.startsWith(
-      "http",
-    )
-      ? store.settings.homeGiftCardsBackgroundUrl
-      : GIFT_CARD_IMAGES.playstation.backgroundImage,
-    homeServicesBackgroundUrl: store.settings?.homeServicesBackgroundUrl?.startsWith(
-      "http",
-    )
-      ? store.settings.homeServicesBackgroundUrl
-      : SITE_IMAGES.finance.transferHero,
+    homeGiftCardsBackgroundUrl: homeImageOverride(store.settings?.homeGiftCardsBackgroundUrl, "giftCards", store.settings?.imageOverrides?.giftCards),
+    homeServicesBackgroundUrl: homeImageOverride(store.settings?.homeServicesBackgroundUrl, "services", store.settings?.imageOverrides?.services),
+    imageOverrides: store.settings?.imageOverrides,
     rate10To100: parsePricingRate(
       store.settings?.rate10To100,
       defaultGiftCardPricingSettings.rate10To100,
@@ -409,17 +379,8 @@ function normalizeStore(store: LocalGiftCardStore): LocalGiftCardStore {
       ...settings,
     },
     giftCards: (store.giftCards ?? []).map((card) => ({
-      ...card,
+      ...inheritGiftCardImages(card),
       description: card.description ?? null,
-      imageUrl:
-        !card.imageUrl || card.imageUrl === getGiftCardImages(card.slug).localFallback
-          ? getGiftCardImages(card.slug).cardImage
-          : card.imageUrl,
-      backgroundUrl:
-        !card.backgroundUrl ||
-        card.backgroundUrl === getGiftCardImages(card.slug).localFallback
-          ? getGiftCardImages(card.slug).backgroundImage
-          : card.backgroundUrl,
       createdBy: card.createdBy ?? null,
       updatedBy: card.updatedBy ?? null,
       createdAt: parseDate(card.createdAt),
@@ -466,7 +427,6 @@ export async function readLocalGiftCardStore() {
   try {
     const raw = await readFile(localStorePath, "utf8");
     const store = normalizeStore(JSON.parse(raw) as LocalGiftCardStore);
-    await writeStore(store);
     return store;
   } catch (error) {
     const code = (error as NodeJS.ErrnoException).code;

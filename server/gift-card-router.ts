@@ -21,14 +21,12 @@ import {
   resolveGiftCardPrice,
   type GiftCardPricingSettings,
 } from "./gift-card-pricing";
-import { GIFT_CARD_IMAGES } from "../src/config/gift-card-images";
-import { SITE_IMAGES } from "../src/config/site-images";
+import { homeImageOverride, inheritGiftCardImages } from "./gift-card-image-defaults";
 import { getDb } from "./queries/connection";
+import { withGiftCardStorage as withLocalGiftCardFallback } from "./gift-card-storage";
 
 const defaultGiftCardSettings = {
   whatsappNumber: "218935095091",
-  homeGiftCardsBackgroundUrl: GIFT_CARD_IMAGES.playstation.backgroundImage,
-  homeServicesBackgroundUrl: SITE_IMAGES.finance.transferHero,
   rate10To100: defaultGiftCardPricingSettings.rate10To100,
   rateAbove100: defaultGiftCardPricingSettings.rateAbove100,
 };
@@ -225,47 +223,6 @@ function getResolvedDenominationValues(
   };
 }
 
-function getErrorText(error: unknown) {
-  const base = error instanceof Error ? error.message : String(error);
-  const cause = (error as { cause?: unknown })?.cause;
-  const causeMessage =
-    cause instanceof Error
-      ? cause.message
-      : typeof cause === "object" && cause !== null && "message" in cause
-        ? String((cause as { message?: unknown }).message)
-        : "";
-  const causeCode =
-    typeof cause === "object" && cause !== null && "code" in cause
-      ? String((cause as { code?: unknown }).code)
-      : "";
-  return [base, causeMessage, causeCode].filter(Boolean).join(" | ");
-}
-
-function isRecoverableGiftCardDbError(error: unknown) {
-  const text = getErrorText(error);
-  if (/ER_DUP_ENTRY/i.test(text)) return false;
-  return /ECONNREFUSED|ER_NO_SUCH_TABLE|doesn't exist|Unknown column|Failed query/i.test(
-    text,
-  );
-}
-
-async function withLocalGiftCardFallback<T>(
-  action: string,
-  dbAction: () => Promise<T>,
-  localAction: () => Promise<T>,
-) {
-  try {
-    return await dbAction();
-  } catch (error) {
-    if (!isRecoverableGiftCardDbError(error)) throw error;
-    console.error(
-      `[gift-cards] ${action} failed against MySQL; using local JSON fallback.`,
-      getErrorText(error),
-    );
-    return localAction();
-  }
-}
-
 function groupDenominations<T extends DenominationLike>(denominations: T[]) {
   const grouped = new Map<number, T[]>();
   for (const denomination of denominations) {
@@ -322,15 +279,15 @@ async function readDbGiftCardSettings() {
   const values = Object.fromEntries(
     rows.map((setting) => [setting.key, setting.value ?? ""]),
   );
+  const imageSetting = (key: string, section: "giftCards" | "services") => {
+    const row = rows.find((setting) => setting.key === key);
+    return homeImageOverride(row?.value, section, row?.updatedBy != null);
+  };
 
   return {
     whatsappNumber: normalizePhone(values[settingKeys.whatsappNumber]),
-    homeGiftCardsBackgroundUrl:
-      values[settingKeys.homeGiftCardsBackgroundUrl] ||
-      defaultGiftCardSettings.homeGiftCardsBackgroundUrl,
-    homeServicesBackgroundUrl:
-      values[settingKeys.homeServicesBackgroundUrl] ||
-      defaultGiftCardSettings.homeServicesBackgroundUrl,
+    homeGiftCardsBackgroundUrl: imageSetting(settingKeys.homeGiftCardsBackgroundUrl, "giftCards"),
+    homeServicesBackgroundUrl: imageSetting(settingKeys.homeServicesBackgroundUrl, "services"),
     rate10To100: normalizeSettingsRate(
       values[settingKeys.rate10To100],
       defaultGiftCardSettings.rate10To100,
@@ -346,12 +303,8 @@ async function readLocalGiftCardSettings() {
   const store = await readLocalGiftCardStore();
   return {
     whatsappNumber: normalizePhone(store.settings.whatsappNumber),
-    homeGiftCardsBackgroundUrl:
-      store.settings.homeGiftCardsBackgroundUrl ||
-      defaultGiftCardSettings.homeGiftCardsBackgroundUrl,
-    homeServicesBackgroundUrl:
-      store.settings.homeServicesBackgroundUrl ||
-      defaultGiftCardSettings.homeServicesBackgroundUrl,
+    homeGiftCardsBackgroundUrl: store.settings.homeGiftCardsBackgroundUrl,
+    homeServicesBackgroundUrl: store.settings.homeServicesBackgroundUrl,
     rate10To100: normalizeSettingsRate(
       store.settings.rate10To100,
       defaultGiftCardSettings.rate10To100,
@@ -416,7 +369,7 @@ async function getDbCardsWithDenominations(includeHidden = false) {
   return cards.map((card) => {
     const cardDenominations = grouped.get(card.id) ?? [];
     return {
-      ...card,
+      ...inheritGiftCardImages(card),
       denominations: cardDenominations,
       denominationCount: cardDenominations.length,
       valueRange: getFaceValueRange(cardDenominations),
@@ -456,7 +409,7 @@ async function getDbGiftCardBySlug(slug: string) {
     .where(and(eq(giftCards.slug, slug), not(eq(giftCards.status, "HIDDEN"))))
     .limit(1);
 
-  const card = rows[0];
+  const card = rows[0] ? inheritGiftCardImages(rows[0]) : null;
   if (!card) return null;
 
   const settings = await readDbGiftCardSettings();
@@ -508,7 +461,7 @@ async function getDbGiftCardById(id: number) {
     .where(eq(giftCards.id, id))
     .limit(1);
 
-  const card = rows[0];
+  const card = rows[0] ? inheritGiftCardImages(rows[0]) : null;
   if (!card) return null;
 
   const settings = await readDbGiftCardSettings();
@@ -877,17 +830,13 @@ async function updateDbSettings(input: SettingsUpdateInput, userId: number) {
     },
     {
       key: settingKeys.homeGiftCardsBackgroundUrl,
-      value:
-        input.homeGiftCardsBackgroundUrl ||
-        defaultGiftCardSettings.homeGiftCardsBackgroundUrl,
+      value: input.homeGiftCardsBackgroundUrl || null,
       type: "image" as const,
       sortOrder: 2,
     },
     {
       key: settingKeys.homeServicesBackgroundUrl,
-      value:
-        input.homeServicesBackgroundUrl ||
-        defaultGiftCardSettings.homeServicesBackgroundUrl,
+      value: input.homeServicesBackgroundUrl || null,
       type: "image" as const,
       sortOrder: 3,
     },
@@ -939,12 +888,12 @@ async function updateLocalSettings(input: SettingsUpdateInput) {
     ...current,
     settings: {
       whatsappNumber: normalizePhone(input.whatsappNumber),
-      homeGiftCardsBackgroundUrl:
-        input.homeGiftCardsBackgroundUrl ||
-        defaultGiftCardSettings.homeGiftCardsBackgroundUrl,
-      homeServicesBackgroundUrl:
-        input.homeServicesBackgroundUrl ||
-        defaultGiftCardSettings.homeServicesBackgroundUrl,
+      homeGiftCardsBackgroundUrl: input.homeGiftCardsBackgroundUrl || null,
+      homeServicesBackgroundUrl: input.homeServicesBackgroundUrl || null,
+      imageOverrides: {
+        giftCards: Boolean(input.homeGiftCardsBackgroundUrl),
+        services: Boolean(input.homeServicesBackgroundUrl),
+      },
       rate10To100: input.rate10To100,
       rateAbove100: input.rateAbove100,
     },

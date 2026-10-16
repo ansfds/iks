@@ -37,13 +37,14 @@ async function exchangeAuthCode(
   return resp.json() as Promise<TokenResponse>;
 }
 
-const jwks = jose.createRemoteJWKSet(
-  new URL(`${env.kimiAuthUrl}/api/.well-known/jwks.json`),
-);
+let jwks: ReturnType<typeof jose.createRemoteJWKSet> | undefined;
 
 async function verifyAccessToken(
   accessToken: string,
 ): Promise<{ userId: string; clientId: string }> {
+  jwks ??= jose.createRemoteJWKSet(
+    new URL(`${env.kimiAuthUrl}/api/.well-known/jwks.json`),
+  );
   const { payload } = await jose.jwtVerify(accessToken, jwks);
   const userId = payload.user_id as string;
   const clientId = payload.client_id as string;

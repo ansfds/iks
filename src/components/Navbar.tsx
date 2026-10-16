@@ -21,6 +21,7 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const hasSolidBackground = isScrolled || location.pathname.startsWith("/gift-cards");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,7 +39,7 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+        hasSolidBackground
           ? "bg-white/95 backdrop-blur-md shadow-[0_2px_12px_rgba(0,0,0,0.06)]"
           : "bg-transparent"
       }`}
@@ -46,15 +47,15 @@ export default function Navbar() {
       <nav className="container-main flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
         <Link
           to="/"
-          className="flex h-14 w-[120px] shrink-0 -translate-x-28 items-center justify-end sm:w-[156px] sm:-translate-x-32 lg:w-[180px] lg:translate-x-0"
-          aria-label="الوسيط العالمي للحوالات"
+          className="flex h-14 w-[112px] shrink-0 items-center justify-start sm:w-[124px] lg:w-[132px]"
+          aria-label="الوسيط المعتمد"
         >
           <SiteImage
             src={SITE_IMAGES.branding.navbarLogo}
             fallbackSrc={SITE_IMAGES.branding.navbarLogoFallback}
-            alt="شعار الوسيط العالمي للحوالات"
+            alt="شعار الوسيط المعتمد"
             loading="eager"
-            className="h-auto w-auto max-h-[46px] max-w-full sm:max-h-[52px] lg:max-h-[56px]"
+            className="h-auto w-auto max-h-[52px] max-w-full lg:max-h-[56px]"
           />
         </Link>
 
@@ -70,10 +71,10 @@ export default function Navbar() {
               to={link.href}
               className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
                 isActive(link.href)
-                  ? isScrolled
+                  ? hasSolidBackground
                     ? "text-[#213B6F] bg-[#213B6F]/10"
                     : "text-white bg-white/20"
-                  : isScrolled
+                  : hasSolidBackground
                   ? "text-gray-700 hover:text-[#213B6F] hover:bg-gray-100"
                   : "text-white/80 hover:text-white hover:bg-white/10"
               }`}
@@ -88,7 +89,7 @@ export default function Navbar() {
           <Link
             to="/admissions"
             className={`hidden sm:inline-flex items-center px-5 py-2 text-sm font-medium rounded-md transition-all duration-300 ${
-              isScrolled
+              hasSolidBackground
                 ? "bg-[#213B6F] text-white hover:bg-[#2C4F8E]"
                 : "bg-white/15 text-white border border-white/30 hover:bg-white/25"
             }`}
@@ -100,8 +101,9 @@ export default function Navbar() {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? "إغلاق القائمة" : "فتح القائمة"}
+            aria-expanded={isMobileMenuOpen}
             className={`lg:hidden p-2 rounded-md transition-colors ${
-              isScrolled
+              hasSolidBackground
                 ? "text-gray-700 hover:bg-gray-100"
                 : "text-white hover:bg-white/10"
             }`}

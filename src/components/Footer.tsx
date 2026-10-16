@@ -2,6 +2,7 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SiteImage } from "@/components/SiteImage";
 import { SITE_IMAGES } from "@/config/site-images";
+import { siteConfig } from "@/config/site";
 import { MapPin, Phone, Mail, Facebook, MessageCircle } from "lucide-react";
 
 const quickLinks = [
@@ -25,7 +26,6 @@ const infoLinks = [
 
 export default function Footer() {
   const { t, dir } = useLanguage();
-  const phone = "093-5095091";
   const email = "hosambizniz12@gmail.com";
   const facebookUrl = "https://www.facebook.com/profile.php?id=61560408535771";
   const mapsUrl = "https://maps.app.goo.gl/GE4p2GdUZd8o8v9DA";
@@ -40,7 +40,7 @@ export default function Footer() {
             <SiteImage
               src={SITE_IMAGES.branding.logo}
               fallbackSrc={SITE_IMAGES.branding.logoFallback}
-              alt="الوسيط العالمي للحوالات"
+              alt="الوسيط المعتمد"
               className="mb-4 h-auto max-h-14 w-auto max-w-[230px]"
             />
             <p className="text-sm text-gray-400 leading-relaxed">
@@ -99,9 +99,11 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone size={16} className="text-[#38BDF8] shrink-0" />
-                <a href={`tel:${phone}`} className="text-sm text-gray-400 hover:text-white transition-colors">
-                  {t("footer.phone")}
-                </a>
+                <span className="flex flex-col gap-1" dir="ltr">
+                  {siteConfig.displayPhones.map((phone) => (
+                    <a key={phone} href={`tel:${phone}`} className="text-sm text-gray-400 hover:text-white transition-colors">{phone}</a>
+                  ))}
+                </span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail size={16} className="text-[#38BDF8] shrink-0" />

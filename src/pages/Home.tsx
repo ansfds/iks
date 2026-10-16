@@ -3,8 +3,10 @@ import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { trpc } from "@/providers/trpc";
 import { SiteImage } from "@/components/SiteImage";
+import { SiteBackground } from "@/components/SiteBackground";
 import { HomeGiftCardSwitch } from "@/components/gift-cards/HomeGiftCardSwitch";
 import { SITE_IMAGES } from "@/config/site-images";
+import { withCurrentCompanyName } from "@/lib/company-brand";
 import {
   Star,
   Building2,
@@ -169,12 +171,9 @@ export default function Home() {
       <section
         ref={heroRef}
         className="relative min-h-[100vh] max-h-[900px] flex items-center justify-center bg-gradient-hero overflow-hidden"
-        style={{
-          backgroundImage: `linear-gradient(135deg, rgba(11,30,53,.86), rgba(33,59,111,.74)), url(${SITE_IMAGES.homepage.heroBackground})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
       >
+        <SiteBackground src={SITE_IMAGES.homepage.heroBackground} fallbackSources={[SITE_IMAGES.finance.fallbackTransferHero]} priority />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(11,30,53,.86),rgba(33,59,111,.74))]" />
         <StarDecoration className="absolute top-[15%] left-[10%] w-6 h-6 opacity-60" />
         <StarDecoration className="absolute top-[20%] left-[18%] w-8 h-8 opacity-40" />
         <StarDecoration className="absolute top-[12%] right-[15%] w-10 h-10 opacity-50" />
@@ -189,7 +188,7 @@ export default function Home() {
             {t("hero.welcome")}
           </div>
           <div className="hero-animate mb-4">
-            <PerspectiveText text="الوسيط العالمي للحوالات" isArabic />
+            <PerspectiveText text="الوسيط المعتمد" isArabic />
           </div>
           <p className="hero-animate text-xl sm:text-2xl md:text-[28px] font-medium text-white/[0.85] mb-6">
             {t("hero.subtitle")}
@@ -269,7 +268,7 @@ export default function Home() {
               <SiteImage
                 src={SITE_IMAGES.homepage.servicesImage}
                 fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
-                alt="حوالات ومدفوعات عالمية من الوسيط العالمي"
+                alt="حوالات ومدفوعات عالمية من الوسيط المعتمد"
                 className="curriculum-animate w-full max-h-[560px]"
               />
             </div>
@@ -298,7 +297,7 @@ export default function Home() {
               <div key={testimonial.id} className="testimonial-card bg-white rounded-lg p-8 shadow-sm">
                 <Quote size={32} className="text-[#7A1E2A]/20 mb-4" />
                 <p className="text-base text-[#1A1A1A] italic leading-relaxed mb-6">
-                  {testimonial.quoteAr || "تجربة موثوقة مع متابعة واضحة حتى اكتمال الخدمة."}
+                  {withCurrentCompanyName(testimonial.quoteAr) || "تجربة موثوقة مع متابعة واضحة حتى اكتمال الخدمة."}
                 </p>
                 <div className="flex items-center gap-1 mb-3">
                   {[...Array(testimonial.rating)].map((_, i) => (
@@ -306,10 +305,10 @@ export default function Home() {
                   ))}
                 </div>
                 <div className="font-semibold text-[#1A1A1A]">
-                  {testimonial.authorNameAr || "عميل الوسيط العالمي"}
+                  {withCurrentCompanyName(testimonial.authorNameAr) || "عميل الوسيط المعتمد"}
                 </div>
                 <div className="text-sm text-[#7C7C7C]">
-                  {testimonial.roleAr || "خدمات مالية"}
+                  {withCurrentCompanyName(testimonial.roleAr) || "خدمات مالية"}
                 </div>
               </div>
             ))}
@@ -348,9 +347,10 @@ export default function Home() {
                   onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.transform = "translateZ(0) scale(1)"; }}>
                   <SiteImage
                     src={img.imageUrl}
+                    fallbackSources={[SITE_IMAGES.gallery.paymentServices]}
                     fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
-                    alt="صورة من خدمات الوسيط العالمي"
-                    className="w-full aspect-square"
+                    alt="صورة من خدمات الوسيط المعتمد"
+                    className="h-auto w-full"
                   />
                 </div>
               ))}
@@ -361,9 +361,10 @@ export default function Home() {
               <div key={img.id} className="gallery-item">
                 <SiteImage
                   src={img.imageUrl}
+                  fallbackSources={[SITE_IMAGES.gallery.paymentServices]}
                   fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
-                  alt="صورة من خدمات الوسيط العالمي"
-                  className="w-full aspect-[3/4]"
+                  alt="صورة من خدمات الوسيط المعتمد"
+                  className="h-auto w-full"
                 />
               </div>
             ))}

@@ -1,35 +1,39 @@
 import { useState } from "react";
 import { ImageOff } from "lucide-react";
-import { reportImageLoadError } from "@/lib/image-utils";
+import { isSupportedImageUrl, reportImageLoadError } from "@/lib/image-utils";
 import { cn } from "@/lib/utils";
 
-export function GiftCardImage({
-  src,
-  alt,
-  title,
-  className,
-  fallbackText,
-  fallbackSrc,
-  loading = "lazy",
-}: {
+type GiftCardImageProps = {
   src?: string | null;
   alt: string;
   title?: string;
   className?: string;
   fallbackText?: string;
   fallbackSrc?: string | null;
+  centralFallbackSrc?: string;
   loading?: "eager" | "lazy";
-}) {
+};
+
+export function GiftCardImage(props: GiftCardImageProps) {
+  const sourceKey = JSON.stringify([props.src, props.centralFallbackSrc, props.fallbackSrc]);
+  return <GiftCardImageLoader key={sourceKey} {...props} />;
+}
+
+function GiftCardImageLoader({
+  src,
+  alt,
+  title,
+  className,
+  fallbackText,
+  fallbackSrc,
+  centralFallbackSrc,
+  loading = "lazy",
+}: GiftCardImageProps) {
   const [failedUrls, setFailedUrls] = useState<string[]>([]);
   const [loadedUrl, setLoadedUrl] = useState<string | null>(null);
-  const primaryFailed = Boolean(src && failedUrls.includes(src));
-  const fallbackFailed = Boolean(fallbackSrc && failedUrls.includes(fallbackSrc));
-  const activeSrc =
-    src && !primaryFailed
-      ? src
-      : fallbackSrc && !fallbackFailed
-        ? fallbackSrc
-        : null;
+  const activeSrc = [src, centralFallbackSrc, fallbackSrc].find(
+    (url) => isSupportedImageUrl(url) && !failedUrls.includes(url),
+  );
 
   if (!activeSrc) {
     return (
@@ -56,9 +60,10 @@ export function GiftCardImage({
       alt={alt}
       loading={loading}
       decoding="async"
+      referrerPolicy="no-referrer"
       onLoad={() => setLoadedUrl(activeSrc)}
       onError={() => {
-        reportImageLoadError(activeSrc);
+        reportImageLoadError(activeSrc, alt);
         setFailedUrls((current) =>
           current.includes(activeSrc) ? current : [...current, activeSrc],
         );

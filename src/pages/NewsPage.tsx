@@ -4,6 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { trpc } from "@/providers/trpc";
 import { SiteImage } from "@/components/SiteImage";
 import { SITE_IMAGES } from "@/config/site-images";
+import { withCurrentCompanyName } from "@/lib/company-brand";
 import { Calendar, ArrowRight, Newspaper } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -48,8 +49,8 @@ export default function NewsPage() {
     },
     {
       id: 2,
-      title: "زيارة موقع الوسيط العالمي",
-      titleAr: "زيارة موقع الوسيط العالمي",
+      title: "زيارة موقع الوسيط المعتمد",
+      titleAr: "زيارة موقع الوسيط المعتمد",
       excerpt: "تجدوننا في زناتة مقابل كيان موبايل، طرابلس.",
       excerptAr: "تجدوننا في زناتة مقابل كيان موبايل، طرابلس.",
       imageUrl: SITE_IMAGES.finance.transferHero,
@@ -68,7 +69,13 @@ export default function NewsPage() {
     },
   ];
 
-  const displayItems = items.length > 0 ? items : fallbackNews;
+  const displayItems = (items.length > 0 ? items : fallbackNews).map((item) => ({
+    ...item,
+    title: withCurrentCompanyName(item.title),
+    titleAr: withCurrentCompanyName(item.titleAr),
+    excerpt: withCurrentCompanyName(item.excerpt),
+    excerptAr: withCurrentCompanyName(item.excerptAr),
+  }));
 
   const events = displayItems.filter((item) => item.eventDate);
   const news = displayItems.filter((item) => !item.eventDate);
@@ -161,8 +168,9 @@ export default function NewsPage() {
                       <div className="md:col-span-1">
                         <SiteImage
                           src={item.imageUrl ?? SITE_IMAGES.finance.libyaCairo}
+                          fallbackSources={[SITE_IMAGES.finance.libyaCairo]}
                           fallbackSrc={SITE_IMAGES.finance.fallbackLibyaCairo}
-                          alt={item.titleAr || "تحديث من الوسيط العالمي"}
+                          alt={item.titleAr || "تحديث من الوسيط المعتمد"}
                           className="min-h-[200px] w-full"
                         />
                       </div>
@@ -172,7 +180,7 @@ export default function NewsPage() {
                           <span>{formatDate(item.createdAt)}</span>
                         </div>
                         <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">
-                          {item.titleAr || "تحديث جديد من الوسيط العالمي"}
+                          {item.titleAr || "تحديث جديد من الوسيط المعتمد"}
                         </h3>
                         <p className="text-sm text-[#7C7C7C] leading-relaxed mb-4">
                           {item.excerptAr || ""}
@@ -223,7 +231,7 @@ export default function NewsPage() {
                         </div>
                         <div>
                           <h3 className="text-lg font-semibold text-[#1A1A1A] mb-1">
-                            {event.titleAr || "تحديث جديد من الوسيط العالمي"}
+                            {event.titleAr || "تحديث جديد من الوسيط المعتمد"}
                           </h3>
                           <p className="text-sm text-[#7C7C7C]">
                             {event.excerptAr || ""}

@@ -2,29 +2,40 @@ import { useState } from "react";
 import type { MouseEventHandler } from "react";
 import { ImageOff } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { reportImageLoadError } from "@/lib/image-utils";
+import { isSupportedImageUrl, reportImageLoadError } from "@/lib/image-utils";
 
-export function SiteImage({
-  src,
-  fallbackSrc,
-  alt,
-  className,
-  loading = "lazy",
-  onClick,
-}: {
+type SiteImageProps = {
   src: string;
   fallbackSrc?: string;
+  fallbackSources?: readonly (string | null | undefined)[];
   alt: string;
   className?: string;
   loading?: "eager" | "lazy";
+  fetchPriority?: "high" | "low" | "auto";
   onClick?: MouseEventHandler<HTMLImageElement>;
-}) {
+};
+
+export function SiteImage(props: SiteImageProps) {
+  // A new source list must retry URLs that failed before the configuration changed.
+  const sourceKey = JSON.stringify([props.src, props.fallbackSources, props.fallbackSrc]);
+  return <SiteImageLoader key={sourceKey} {...props} />;
+}
+
+function SiteImageLoader({
+  src,
+  fallbackSrc,
+  fallbackSources = [],
+  alt,
+  className,
+  loading = "lazy",
+  fetchPriority = "auto",
+  onClick,
+}: SiteImageProps) {
   const [failedUrls, setFailedUrls] = useState<string[]>([]);
   const [loadedUrl, setLoadedUrl] = useState<string | null>(null);
-  const primaryFailed = failedUrls.includes(src);
-  const fallbackFailed = fallbackSrc ? failedUrls.includes(fallbackSrc) : true;
-  const activeSrc =
-    !primaryFailed ? src : fallbackSrc && !fallbackFailed ? fallbackSrc : null;
+  const activeSrc = [src, ...fallbackSources, fallbackSrc].find(
+    (url) => isSupportedImageUrl(url) && !failedUrls.includes(url),
+  );
 
   if (!activeSrc) {
     return (
@@ -32,7 +43,7 @@ export function SiteImage({
         role="img"
         aria-label={alt}
         className={cn(
-          "flex h-full min-h-40 w-full items-center justify-center bg-slate-100 text-slate-500",
+          "flex h-auto w-full items-center justify-center text-slate-400",
           className,
         )}
       >
@@ -47,11 +58,13 @@ export function SiteImage({
       src={activeSrc}
       alt={alt}
       loading={loading}
+      fetchPriority={fetchPriority}
       decoding="async"
+      referrerPolicy="no-referrer"
       onClick={onClick}
       onLoad={() => setLoadedUrl(activeSrc)}
       onError={() => {
-        reportImageLoadError(activeSrc);
+        reportImageLoadError(activeSrc, alt);
         setFailedUrls((current) =>
           current.includes(activeSrc) ? current : [...current, activeSrc],
         );

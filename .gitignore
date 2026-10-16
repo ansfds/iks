@@ -38,4 +38,5 @@ dist/
 build/
 # Test coverage
 coverage/
+.preview/
 .nyc_output/

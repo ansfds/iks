@@ -24,7 +24,7 @@ const dictionary: Record<string, Record<Language, string>> = {
   "nav.news": { en: "Updates", ar: "الأخبار والتحديثات" },
   "nav.contact": { en: "Contact Us", ar: "اتصل بنا" },
 
-  "hero.welcome": { en: "Alwaseet Global Money Transfers", ar: "الوسيط العالمي للحوالات" },
+  "hero.welcome": { en: "ELWASEET EL-MOATAMAD", ar: "الوسيط المعتمد" },
   "hero.subtitle": {
     en: "Leaders in digital payments, transfers, and global purchasing",
     ar: "رواد في الدفع الإلكتروني والحوالات والشراء العالمي",
@@ -41,10 +41,10 @@ const dictionary: Record<string, Record<Language, string>> = {
   "stats.nationalities": { en: "Global payments", ar: "مدفوعات عالمية" },
   "stats.satisfaction": { en: "Secure support", ar: "دعم موثوق" },
 
-  "about.label": { en: "About Alwaseet", ar: "عن الوسيط العالمي" },
+  "about.label": { en: "About ELWASEET EL-MOATAMAD", ar: "عن الوسيط المعتمد" },
   "about.title": {
-    en: "Alwaseet Global Money Transfers provides trusted financial services for digital payments, international transfers, and online purchasing.",
-    ar: "الوسيط العالمي للحوالات شركة تقدم حلولًا مالية موثوقة للدفع الإلكتروني والحوالات الخارجية والشراء من الأسواق العالمية.",
+    en: "ELWASEET EL-MOATAMAD provides trusted financial services for digital payments, international transfers, and online purchasing.",
+    ar: "الوسيط المعتمد شركة تقدم حلولًا مالية موثوقة للدفع الإلكتروني والحوالات الخارجية والشراء من الأسواق العالمية.",
   },
   "about.body": {
     en: "We help customers complete payments, transfers, wallet top-ups, SHEIN cards, Chinese yuan payments, and dollar exchange through clear service channels and reliable follow-up.",
@@ -52,7 +52,7 @@ const dictionary: Record<string, Record<Language, string>> = {
   },
   "about.learnMore": { en: "Learn More", ar: "المزيد" },
 
-  "why.title": { en: "Why Choose Alwaseet?", ar: "لماذا تختار الوسيط العالمي؟" },
+  "why.title": { en: "Why Choose ELWASEET EL-MOATAMAD?", ar: "لماذا تختار الوسيط المعتمد؟" },
   "why.subtitle": {
     en: "A clean, reliable financial service experience for transfers, payments, and global purchases.",
     ar: "تجربة مالية واضحة وموثوقة للحوالات والمدفوعات والشراء العالمي.",
@@ -120,7 +120,7 @@ const dictionary: Record<string, Record<Language, string>> = {
     ar: "الخميس: 11:00 صباحًا – 5:00 مساءً",
   },
   "footer.hours.friday": { en: "Friday: Closed", ar: "الجمعة: مغلق" },
-  "footer.copyright": { en: "Alwaseet Global Money Transfers. All rights reserved.", ar: "الوسيط العالمي للحوالات. جميع الحقوق محفوظة." },
+  "footer.copyright": { en: "ELWASEET EL-MOATAMAD. All rights reserved.", ar: "الوسيط المعتمد. جميع الحقوق محفوظة." },
 
   "page.about": { en: "About Us", ar: "من نحن" },
   "page.vision": { en: "Vision & Mission", ar: "الرؤية والرسالة" },
@@ -198,8 +198,8 @@ const dictionary: Record<string, Record<Language, string>> = {
 
   "curriculum.page.title": { en: "Integrated Financial Services", ar: "خدمات مالية متكاملة" },
   "curriculum.page.description": {
-    en: "Alwaseet Global supports payments, transfers, marketplace purchases, currency exchange, yuan payments, SHEIN cards, and digital wallet top-ups.",
-    ar: "يدعم الوسيط العالمي خدمات الدفع والتحويل والشراء من المتاجر العالمية وصرف العملات ومدفوعات اليوان وبطاقات SHEIN وشحن المحافظ الإلكترونية.",
+    en: "ELWASEET EL-MOATAMAD supports payments, transfers, marketplace purchases, currency exchange, yuan payments, SHEIN cards, and digital wallet top-ups.",
+    ar: "يدعم الوسيط المعتمد خدمات الدفع والتحويل والشراء من المتاجر العالمية وصرف العملات ومدفوعات اليوان وبطاقات SHEIN وشحن المحافظ الإلكترونية.",
   },
   "curriculum.stages.title": { en: "Main Services", ar: "الخدمات الرئيسية" },
   "curriculum.early.title": { en: "Global Bills", ar: "دفع الفواتير العالمية" },

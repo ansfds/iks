@@ -61,7 +61,7 @@ WHERE NOT EXISTS (SELECT 1 FROM `services` WHERE `name_ar` = 'خدمات الس�
 
 INSERT INTO `site_settings` (`setting_key`, `setting_value`, `setting_type`, `setting_group`, `is_public`, `sort_order`)
 VALUES
-  ('company_name', 'الوسيط العالمي للحوالات المالية', 'text', 'general', true, 10),
+  ('company_name', 'الوسيط المعتمد', 'text', 'general', true, 10),
   ('hero_title', 'تحويلات مالية ومدفوعات محلية ودولية بثقة وسرعة', 'text', 'hero', true, 20),
   ('hero_description', 'احسب حوالتك، راجع أسعار اليوم، وانسخ حساب التحويل المناسب خلال ثوانٍ.', 'text', 'hero', true, 30)
 ON DUPLICATE KEY UPDATE

@@ -1,3 +1,11 @@
+// ==============================
+// صور بطاقات الهدايا وخلفياتها
+// ==============================
+// cardImage: صورة البطاقة في القائمة والتفاصيل.
+// backgroundImage: خلفية أعلى صفحة تفاصيل البطاقة.
+// خلفية قسم Gift Card في الرئيسية تتبع playstation.backgroundImage.
+// القيم الافتراضية القديمة تتبع هذا الملف؛ رابط Admin المخصص له الأولوية.
+// اترك حقل الصورة في Admin فارغًا لإعادته إلى روابط هذا الملف.
 export type GiftCardImageKey =
   | "playstation"
   | "xbox"
@@ -24,12 +32,12 @@ export const GIFT_CARD_IMAGES: Record<GiftCardImageKey, GiftCardImageEntry> = {
     localFallback: "/images/gift-cards/playstation.svg",
   },
   xbox: {
-    cardImage: "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/455251-Card-Feature-Xbox-Game-Pass?wid=517&hei=291&fit=crop",
-    backgroundImage: "https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/455251-Card-Feature-Xbox-Game-Pass?wid=1600&hei=900&fit=crop",
+    cardImage: "https://m.media-amazon.com/images/S/aplus-media-library-service-media/7dcc99ab-6ef3-439b-af61-de1e4977f44a.__CR0,0,600,450_PT0_SX600_V1___.jpg",
+    backgroundImage: "https://i5-richmedia.walmartimages.com/asr-rm/de1babac-4ddc-40ce-91eb-9ccc8af137d5_video_walmart.jpg",
     localFallback: "/images/gift-cards/xbox.svg",
   },
   shein: {
-    cardImage: "https://placehold.co/1200x760/111111/ffffff?text=SHEIN",
+    cardImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcScDNGrXyBHovoG9VCoPPVPnUf8zRf_sfnDpKWHns2e5MbuF5stWcNsVfwo&s=10",
     backgroundImage: "https://placehold.co/1600x900/111111/ffffff?text=SHEIN",
     localFallback: "/images/gift-cards/shein.svg",
   },

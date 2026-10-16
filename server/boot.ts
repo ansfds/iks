@@ -7,6 +7,7 @@ import { createContext } from "./context";
 import { env } from "./lib/env";
 import { createOAuthCallbackHandler } from "./kimi/auth";
 import { Paths } from "../contracts/constants";
+import { registerSeoRoutes } from "./seo";
 
 const app = new Hono<{ Bindings: HttpBindings }>();
 
@@ -27,6 +28,7 @@ export default app;
 if (env.isProduction && process.env.VERCEL !== "1") {
   const { serve } = await import("@hono/node-server");
   const { serveStaticFiles } = await import("./lib/vite");
+  registerSeoRoutes(app);
   serveStaticFiles(app);
 
   const port = parseInt(process.env.PORT || "3000");

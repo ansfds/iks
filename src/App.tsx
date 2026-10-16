@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router";
+import { lazy, Suspense } from "react";
+import { AuthLayoutSkeleton } from "./components/AuthLayoutSkeleton";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { Toaster } from "sonner";
 import Navbar from "./components/Navbar";
@@ -19,7 +21,7 @@ import GiftCards from "./pages/GiftCards";
 import GiftCardDetail from "./pages/GiftCardDetail";
 import NewsPage from "./pages/NewsPage";
 import Contact from "./pages/Contact";
-import Admin from "./pages/Admin";
+const Admin = lazy(() => import("./pages/Admin"));
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 
@@ -148,7 +150,7 @@ export default function App() {
           }
         />
         {/* Admin (no layout - separate) */}
-        <Route path="/admin" element={<Admin />} />
+        <Route path="/admin" element={<Suspense fallback={<AuthLayoutSkeleton />}><Admin /></Suspense>} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -38,7 +38,7 @@ export function ContactBand({
           <div className="rounded-lg bg-slate-950 p-6 text-white sm:p-8">
             <p className="mb-3 text-sm font-bold text-cyan-300">تواصل معنا</p>
             <h2 className="text-3xl font-black sm:text-4xl">
-              فريق الوسيط العالمي جاهز لتأكيد السعر وتنفيذ العملية
+              فريق الوسيط المعتمد جاهز لتأكيد السعر وتنفيذ العملية
             </h2>
             <p className="mt-4 text-sm leading-7 text-slate-300">
               كل قنوات التواصل هنا تُدار من لوحة الإدارة، ويمكن تحديثها بدون

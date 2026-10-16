@@ -24,7 +24,7 @@ export function TrustSection({ items }: { items: TrustItem[] }) {
     <section className="bg-slate-950 py-14 text-white sm:py-20" dir="rtl">
       <div className="container-main px-4 sm:px-6 lg:px-8">
         <div className="mb-8 max-w-3xl">
-          <p className="mb-3 text-sm font-bold text-cyan-300">لماذا الوسيط العالمي</p>
+          <p className="mb-3 text-sm font-bold text-cyan-300">لماذا الوسيط المعتمد</p>
           <h2 className="text-3xl font-black sm:text-4xl">
             مؤشرات ثقة تُدار من لوحة الإدارة
           </h2>

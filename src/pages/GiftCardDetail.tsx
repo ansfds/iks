@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import {
   ArrowLeft,
@@ -8,6 +8,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { GiftCardImage } from "@/components/gift-cards/GiftCardImage";
+import { SiteBackground } from "@/components/SiteBackground";
 import { getGiftCardImages } from "@/config/gift-card-images";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -60,8 +61,12 @@ export default function GiftCardDetail() {
 
   const cardQuery = trpc.giftCards.bySlug.useQuery(
     { slug: slug ?? "" },
-    { enabled: Boolean(slug), staleTime: 20_000 },
+    { enabled: Boolean(slug), staleTime: 20_000, retry: 1 },
   );
+
+  useEffect(() => {
+    if (import.meta.env.DEV && cardQuery.error) console.error("[gift-cards] Failed to load card details", cardQuery.error);
+  }, [cardQuery.error]);
 
   const data = cardQuery.data;
   const card = data?.card;
@@ -70,7 +75,7 @@ export default function GiftCardDetail() {
     denominations.find((denomination) => denomination.id === selectedId) ?? null;
   const selectedPrice = formatLyd(selectedDenomination?.sellingPriceLyd);
   const canBuy =
-    card?.status === "AVAILABLE" &&
+    !cardQuery.error && !cardQuery.isFetching && card?.status === "AVAILABLE" &&
     selectedDenomination?.isAvailable &&
     hasValidLydPrice(selectedDenomination.sellingPriceLyd);
 
@@ -98,8 +103,13 @@ export default function GiftCardDetail() {
     return (
       <div className="min-h-screen bg-slate-50 px-4 pb-20 pt-28 text-center" dir="rtl">
         <h1 className="text-3xl font-black text-slate-950">
-          بطاقة الهدية غير موجودة
+          {cardQuery.error ? "تعذر تحميل بطاقة الهدية الآن" : "بطاقة الهدية غير موجودة"}
         </h1>
+        {cardQuery.error && (
+          <button type="button" disabled={cardQuery.isFetching} onClick={() => void cardQuery.refetch()} className="mt-6 rounded-md bg-blue-700 px-5 py-3 font-bold text-white disabled:opacity-50">
+            {cardQuery.isFetching ? "جارٍ التحميل…" : "إعادة المحاولة"}
+          </button>
+        )}
         <Link
           to="/gift-cards"
           className="mt-6 inline-flex items-center gap-2 rounded-md bg-blue-700 px-5 py-3 text-sm font-black text-white"
@@ -128,13 +138,10 @@ export default function GiftCardDetail() {
     <div className="min-h-screen bg-slate-50 pb-20 pt-16" dir="rtl">
       <section
         className="relative overflow-hidden bg-slate-950"
-        style={{
-          backgroundImage: `linear-gradient(90deg, rgba(2,6,23,.86), rgba(2,6,23,.62)), url(${backgroundImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
       >
-        <div className="container-main px-4 py-14 sm:px-6 lg:px-8">
+        <SiteBackground src={backgroundImage} fallbackSources={[images.backgroundImage, images.localFallback]} priority />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,23,.86),rgba(2,6,23,.62))]" />
+        <div className="container-main relative px-4 py-14 sm:px-6 lg:px-8">
           <Link
             to="/gift-cards"
             className="mb-6 inline-flex items-center gap-2 text-sm font-bold text-cyan-100 transition hover:text-white"
@@ -163,6 +170,7 @@ export default function GiftCardDetail() {
             <div className="aspect-[16/11] bg-slate-100">
               <GiftCardImage
                 src={cardImage}
+                centralFallbackSrc={images.cardImage}
                 fallbackSrc={images.localFallback}
                 alt={`صورة ${card.displayName}`}
                 title={card.displayName}

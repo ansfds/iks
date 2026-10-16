@@ -4,10 +4,12 @@ const __dirname = import.meta.dirname
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
 import { inspectAttr } from 'kimi-plugin-inspect-react'
+import { siteMetadata } from './tools/site-metadata'
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
+    siteMetadata(),
     devServer({ entry: "server/boot.ts", exclude: [/^\/(?!api\/).*$/] }),
     inspectAttr(), react()],
   server: {

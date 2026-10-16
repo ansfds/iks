@@ -1,29 +1,47 @@
+// ==============================
+// صور الموقع
+// ==============================
+// غيّر الرابط ثم احفظ الملف. روابط HTTPS والمسارات المحلية مدعومة.
+// للمعاينة الفورية شغّل npm run local وافتح http://localhost:4173/.
+// نسخة الإنتاج (npm run preview/start) تحتاج npm run build بعد أي تعديل.
+// الشعار محلي لأن الهوية المرفقة لا تملك رابط استضافة رسميًا بعد.
+import { DEFAULT_OG_IMAGE } from "./seo";
+const officialLogo = "/images/elwaseet-el-moatamad-logo.png";
+
 export const SITE_IMAGES = {
+  // الهوية: شعار الهيدر والتذييل وأيقونات المتصفح
   branding: {
-    logo: "https://placehold.co/560x220/ffffff/0b5da8?text=ELWASEET+ELALAMY",
-    navbarLogo:
-      "https://placehold.co/420x160/ffffff/0b5da8?text=ELWASEET+ELALAMY",
-    favicon: "https://placehold.co/64x64/0b5da8/ffffff?text=W",
-    logoFallback: "/images/alwaseet-logo.svg",
-    navbarLogoFallback: "/images/alwaseet-navbar-logo.png",
+    logo: officialLogo,
+    navbarLogo: officialLogo,
+    favicon: "/favicon.svg",
+    appleTouchIcon: "/apple-touch-icon.png",
+    icon192: "/icon-192.png",
+    icon512: "/icon-512.png",
+    logoFallback: officialLogo,
+    navbarLogoFallback: officialLogo,
     faviconFallback: "/favicon.svg",
   },
 
+  // معاينة روابط الموقع عند مشاركتها
   seo: {
-    socialPreview:
-      "https://placehold.co/1200x630/0b5da8/ffffff?text=Elwaseet+Elalamy",
-    socialPreviewFallback: "/images/social-preview-fintech.png",
+    // صورة المشاركة تُعدّل من DEFAULT_OG_IMAGE في ملف seo.ts فقط.
+    socialPreview: DEFAULT_OG_IMAGE,
+    socialPreviewFallback: officialLogo,
   },
 
   homepage: {
+    // خلفية Hero أعلى الصفحة الرئيسية (تُعرض كخلفية cover)
     heroBackground:
-      "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1800&q=85",
+      "https://i.postimg.cc/pXZ1jZY9/bca0a88f-8c23-4525-abf6-8cca2061c6b4.png",
+    // صورة «عن الوسيط المعتمد» في الصفحة الرئيسية
     aboutImage:
-      "https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=1200&q=85",
+      "https://i.postimg.cc/pXZ1jZY9/bca0a88f-8c23-4525-abf6-8cca2061c6b4.png",
+    // صورة الخدمات في الصفحة الرئيسية
     servicesImage:
-      "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=85",
+      "https://i.postimg.cc/pXZ1jZY9/bca0a88f-8c23-4525-abf6-8cca2061c6b4.png",
   },
 
+  // صور التحويلات والصفحات الداخلية وبدائلها المحلية
   finance: {
     transferHero:
       "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1400&q=85",
@@ -36,6 +54,7 @@ export const SITE_IMAGES = {
     fallbackLibyaCairo: "/images/alwaseet-libya-cairo.jpg",
   },
 
+  // صور المعرض الافتراضية؛ صور Admin/Database لها الأولوية
   gallery: {
     paymentServices:
       "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1000&q=85",

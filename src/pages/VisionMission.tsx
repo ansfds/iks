@@ -81,7 +81,7 @@ export default function VisionMission() {
                 src={SITE_IMAGES.finance.globalFinance}
                 fallbackSrc={SITE_IMAGES.finance.fallbackGlobalFinance}
                 alt="شبكة حوالات ومدفوعات عالمية"
-                className="vm-animate w-full aspect-[4/3]"
+                className="vm-animate h-auto w-full"
               />
             </div>
           </div>
@@ -96,7 +96,7 @@ export default function VisionMission() {
               <SiteImage
                 src={SITE_IMAGES.finance.libyaCairo}
                 fallbackSrc={SITE_IMAGES.finance.fallbackLibyaCairo}
-                alt="خدمات الوسيط العالمي للتحويلات"
+                alt="خدمات الوسيط المعتمد للتحويلات"
                 className="vm-animate w-full max-h-[560px]"
               />
             </div>

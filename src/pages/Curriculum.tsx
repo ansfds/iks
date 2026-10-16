@@ -130,7 +130,7 @@ export default function Curriculum() {
                   src={SITE_IMAGES.finance.globalFinance}
                   fallbackSrc={SITE_IMAGES.finance.fallbackGlobalFinance}
                   alt="خدمات دفع إلكتروني وتحويلات عالمية"
-                  className="curriculum-animate w-full aspect-[4/3]"
+                  className="curriculum-animate h-auto w-full"
                 />
               </div>
             </div>

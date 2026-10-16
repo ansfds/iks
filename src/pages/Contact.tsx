@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { siteConfig } from "@/config/site";
 import { trpc } from "@/providers/trpc";
 import {
   MapPin,
@@ -91,12 +92,12 @@ export default function Contact() {
       content: t("footer.address"),
       href: mapsUrl,
     },
-    {
+    ...siteConfig.displayPhones.map((phone) => ({
       icon: Phone,
       title: "الهاتف",
-      content: t("footer.phone"),
-      href: "tel:093-5095091",
-    },
+      content: phone,
+      href: `tel:${phone}`,
+    })),
     {
       icon: Mail,
       title: "البريد الإلكتروني",
@@ -282,7 +283,7 @@ export default function Contact() {
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="موقع الوسيط العالمي للحوالات"
+                    title="موقع الوسيط المعتمد"
                     className="h-full"
                   />
                 </div>

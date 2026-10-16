@@ -133,22 +133,22 @@ async function seed() {
       excerptAr:
         "يمكن للعملاء طلب دفع الفواتير والطلبات من مختلف المواقع والمتاجر العالمية.",
       content:
-        "Alwaseet Global provides payment support for global invoices, shopping orders, digital wallets, and electronic services through clear contact channels.",
+        "ELWASEET EL-MOATAMAD provides payment support for global invoices, shopping orders, digital wallets, and electronic services through clear contact channels.",
       contentAr:
-        "يوفر الوسيط العالمي خدمات دفع للفواتير العالمية وطلبات التسوق والمحافظ والخدمات الإلكترونية عبر قنوات تواصل واضحة.",
+        "يوفر الوسيط المعتمد خدمات دفع للفواتير العالمية وطلبات التسوق والمحافظ والخدمات الإلكترونية عبر قنوات تواصل واضحة.",
       imageUrl: "/images/about-classroom.jpg",
     },
     {
       title: "Visit Alwaseet Location",
-      titleAr: "زيارة موقع الوسيط العالمي",
+      titleAr: "زيارة موقع الوسيط المعتمد",
       excerpt:
         "Find us in Zanata, opposite Kayan Mobile, Tripoli.",
       excerptAr:
         "تجدوننا في زناتة مقابل كيان موبايل، طرابلس.",
       content:
-        "Customers can visit Alwaseet Global in Zanata, opposite Kayan Mobile, Tripoli, Libya, or contact us by phone and email for service confirmation.",
+        "Customers can visit ELWASEET EL-MOATAMAD in Zanata, opposite Kayan Mobile, Tripoli, Libya, or contact us by phone and email for service confirmation.",
       contentAr:
-        "يمكن للعملاء زيارة الوسيط العالمي في زناتة مقابل كيان موبايل، طرابلس، ليبيا، أو التواصل عبر الهاتف والبريد لتأكيد الخدمة.",
+        "يمكن للعملاء زيارة الوسيط المعتمد في زناتة مقابل كيان موبايل، طرابلس، ليبيا، أو التواصل عبر الهاتف والبريد لتأكيد الخدمة.",
       imageUrl: "/images/campus-exterior.jpg",
       eventDate: new Date("2026-10-01"),
     },
@@ -160,9 +160,9 @@ async function seed() {
       excerptAr:
         "تتوفر بطاقات SHEIN وخدمات الدفع باليوان الصيني لاحتياجات الشراء العالمي.",
       content:
-        "Alwaseet Global supports SHEIN cards, Chinese yuan payments, dollar exchange, and wallet top-ups for customers who need reliable global purchasing services.",
+        "ELWASEET EL-MOATAMAD supports SHEIN cards, Chinese yuan payments, dollar exchange, and wallet top-ups for customers who need reliable global purchasing services.",
       contentAr:
-        "يدعم الوسيط العالمي بطاقات SHEIN ومدفوعات اليوان الصيني وصرف الدولار وشحن المحافظ للعملاء الذين يحتاجون خدمات شراء عالمية موثوقة.",
+        "يدعم الوسيط المعتمد بطاقات SHEIN ومدفوعات اليوان الصيني وصرف الدولار وشحن المحافظ للعملاء الذين يحتاجون خدمات شراء عالمية موثوقة.",
       imageUrl: "/images/science-lab.jpg",
     },
   ]);
