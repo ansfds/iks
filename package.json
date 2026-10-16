@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "local": "node tools/start-local.mjs",
-    "build": "vite build && esbuild server/boot.ts --platform=node --bundle --format=esm --outdir=dist --banner:js=\"import { createRequire } from 'module';const require = createRequire(import.meta.url);\"",
+    "build": "vite build && node tools/build-server.mjs",
     "lint": "eslint .",
     "preview": "node tools/start-production.mjs",
     "start": "node tools/start-production.mjs",

@@ -3,10 +3,11 @@
   "installCommand": "npm ci",
   "outputDirectory": "dist/public",
   "functions": {
-    "api/seo.ts": { "includeFiles": "dist/public/index.html" }
+    "api/index.mjs": { "includeFiles": ["dist/vercel.mjs", "dist/public/index.html"] }
   },
   "rewrites": [
-    { "source": "/sitemap.xml", "destination": "/api/seo?path=/sitemap.xml" },
-    { "source": "/:path((?!api/).*)", "destination": "/api/seo?path=/:path*" }
+    { "source": "/api/:path*", "destination": "/api/index?__path=/api/:path*" },
+    { "source": "/sitemap.xml", "destination": "/api/index?__path=/sitemap.xml" },
+    { "source": "/:path((?!api/).*)", "destination": "/api/index?__path=/:path*" }
   ]
 }
