@@ -87,7 +87,8 @@ try {
   await pause(8000);
   report.whatsappWeb = await evaluate(`(() => {
     const composer = document.querySelector('footer [contenteditable="true"][role="textbox"]');
-    return { url: location.href, title: document.title, composerPresent: Boolean(composer), composeText: composer?.innerText ?? null, loginRequired: /log into|log in to|تسجيل الدخول|رمز QR|scan.*QR/i.test(document.body.innerText), serviceError: /sorry, something went wrong/i.test(document.body.innerText) };
+    const bodyText = document.body?.innerText ?? '';
+    return { url: location.href, title: document.title, loadPending: !document.body, composerPresent: Boolean(composer), composeText: composer?.innerText ?? null, loginRequired: /log into|log in to|تسجيل الدخول|رمز QR|scan.*QR/i.test(bodyText), serviceError: /sorry, something went wrong/i.test(bodyText) };
   })()`);
   console.log(JSON.stringify({ whatsappWeb: report.whatsappWeb }));
   await fs.writeFile(path.join(output, "whatsapp-unicode-verification.json"), JSON.stringify(report, null, 2));
