@@ -9,6 +9,8 @@
 
 التحقق: `npm run check`، واختبارات المشروع ومنها 4 اختبارات توجيه جديدة، و`npm run build`، ثم `node tools/verify-vercel.mjs`. يفحص الأمر الأخير ملف الإنتاج بواسطة Node مباشرة، ويضمن أن غياب إعداد قاعدة البيانات يعيد خطأ JSON معالجًا بدل إسقاط الدالة.
 
-إذا عمل `/api/trpc/ping` وبقيت البطاقات تعيد خطأ قاعدة بيانات بعد النشر، يجب ضبط `DATABASE_URL` لاتصال MySQL يمكن الوصول إليه من Vercel وتطبيق migrations الموجودة. لا تنسخ عنوان localhost إلى بيئة الإنتاج، ولا تضع كلمة المرور في ملفات Git أو رسائل الدعم.
+نتيجة فحص الإنتاج بعد النشر: أعاد `/api/trpc/ping` الرمز 200 وبيانات JSON صحيحة، وأعادت `/gift-cards` و`/about` الرمز 200 ووسوم SEO الصحيحة. بقي طلب بيانات البطاقات يعيد 500 وsitemap يعيد 503 لأن `DATABASE_URL` غير مضبوط في بيئة Vercel؛ أكد مسارا القراءة العامان `news.list` و`gallery.list` ذلك برسالة `Missing required environment variable: DATABASE_URL`.
+
+لإكمال ربط البيانات، اضبط `DATABASE_URL` في إعدادات مشروع Vercel ضمن Environment Variables لبيئة Production على اتصال MySQL مستضاف، ثم أعد النشر. يجب أن تكون جداول الموقع والبطاقات موجودة في قاعدة الإنتاج. لا تنسخ عنوان localhost إلى بيئة الإنتاج، ولا تضع كلمة المرور في ملفات Git أو رسائل الدعم. لم تُنشأ قاعدة جديدة ولم تُنسخ أسعار JSON المحلي إلى الإنتاج.
 
 المراجع: [مدخل Vercel المشترك وتوقيع fetch](https://vercel.com/docs/functions/runtimes/node-js)، [تضمين نواتج البناء في الدالة](https://vercel.com/docs/functions/runtimes/node-js/advanced-node-configuration).
