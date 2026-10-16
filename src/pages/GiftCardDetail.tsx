@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useParams } from "react-router";
 import {
   ArrowLeft,
@@ -10,7 +10,6 @@ import {
 import { GiftCardImage } from "@/components/gift-cards/GiftCardImage";
 import { SiteBackground } from "@/components/SiteBackground";
 import { getGiftCardImages } from "@/config/gift-card-images";
-import { Skeleton } from "@/components/ui/skeleton";
 import {
   createGiftCardWhatsAppUrl,
   formatFaceValue,
@@ -20,24 +19,7 @@ import {
 } from "@/lib/giftCards";
 import { resolveImageUrl } from "@/lib/image-utils";
 import { cn } from "@/lib/utils";
-import { trpc } from "@/providers/trpc";
-
-function DetailSkeleton() {
-  return (
-    <div className="container-main grid gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[420px_1fr] lg:px-8">
-      <Skeleton className="aspect-[16/11] rounded-lg" />
-      <div className="space-y-4">
-        <Skeleton className="h-10 w-2/3" />
-        <Skeleton className="h-5 w-36" />
-        <div className="grid grid-cols-3 gap-3 pt-4">
-          {Array.from({ length: 9 }).map((_, index) => (
-            <Skeleton key={index} className="h-16 rounded-lg" />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+import { giftCardCatalog } from "@/lib/gift-card-catalog";
 
 function getSpecialSavings(denomination: {
   faceValue: string | number;
@@ -59,23 +41,14 @@ export default function GiftCardDetail() {
   const { slug } = useParams<{ slug: string }>();
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
-  const cardQuery = trpc.giftCards.bySlug.useQuery(
-    { slug: slug ?? "" },
-    { enabled: Boolean(slug), staleTime: 20_000, retry: 1 },
-  );
-
-  useEffect(() => {
-    if (import.meta.env.DEV && cardQuery.error) console.error("[gift-cards] Failed to load card details", cardQuery.error);
-  }, [cardQuery.error]);
-
-  const data = cardQuery.data;
+  const data = giftCardCatalog.bySlug(slug ?? "");
   const card = data?.card;
   const denominations = data?.denominations ?? [];
   const selectedDenomination =
     denominations.find((denomination) => denomination.id === selectedId) ?? null;
   const selectedPrice = formatLyd(selectedDenomination?.sellingPriceLyd);
   const canBuy =
-    !cardQuery.error && !cardQuery.isFetching && card?.status === "AVAILABLE" &&
+    card?.status === "AVAILABLE" &&
     selectedDenomination?.isAvailable &&
     hasValidLydPrice(selectedDenomination.sellingPriceLyd);
 
@@ -91,25 +64,12 @@ export default function GiftCardDetail() {
         })
       : "";
 
-  if (cardQuery.isLoading) {
-    return (
-      <div className="min-h-screen bg-slate-50 pt-16" dir="rtl">
-        <DetailSkeleton />
-      </div>
-    );
-  }
-
-  if (cardQuery.error || !data || !card) {
+  if (!data || !card) {
     return (
       <div className="min-h-screen bg-slate-50 px-4 pb-20 pt-28 text-center" dir="rtl">
         <h1 className="text-3xl font-black text-slate-950">
-          {cardQuery.error ? "تعذر تحميل بطاقة الهدية الآن" : "بطاقة الهدية غير موجودة"}
+          بطاقة الهدية غير موجودة
         </h1>
-        {cardQuery.error && (
-          <button type="button" disabled={cardQuery.isFetching} onClick={() => void cardQuery.refetch()} className="mt-6 rounded-md bg-blue-700 px-5 py-3 font-bold text-white disabled:opacity-50">
-            {cardQuery.isFetching ? "جارٍ التحميل…" : "إعادة المحاولة"}
-          </button>
-        )}
         <Link
           to="/gift-cards"
           className="mt-6 inline-flex items-center gap-2 rounded-md bg-blue-700 px-5 py-3 text-sm font-black text-white"

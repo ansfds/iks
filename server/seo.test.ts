@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 const store = vi.hoisted(() => ({ list: vi.fn(), bySlug: vi.fn() }));
-vi.mock("./gift-card-router", () => ({ giftCardRouter: { createCaller: () => store } }));
+vi.mock("../src/lib/gift-card-catalog", () => ({ giftCardCatalog: store }));
 import { dynamicSitemap, seoResponse } from "./seo";
 
 afterEach(() => { vi.resetAllMocks(); vi.restoreAllMocks(); });
 const template = async () => '<html lang="ar" dir="rtl"><head></head><body><div id="root"></div></body></html>';
 describe("public SEO responses", () => {
-  it("adds newly created available cards to the sitemap without a rebuild", async () => {
+  it("includes configured available cards in the sitemap", async () => {
     store.list.mockResolvedValue([{ slug: "brand-new-card", status: "AVAILABLE", updatedAt: new Date("2026-10-16T08:00:00Z") }, { slug: "hidden-card", status: "HIDDEN" }]);
     const xml = await dynamicSitemap();
     expect(xml).toContain("/gift-cards/brand-new-card");

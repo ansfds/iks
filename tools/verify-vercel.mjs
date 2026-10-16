@@ -13,23 +13,19 @@ const ping = await handler.fetch(new Request("https://example.com/api/index?__pa
 assert.equal(ping.status, 200);
 assert.equal((await ping.json())[0].result.data.json.ok, true);
 
-for (const pathname of ["/about", "/gift-cards"]) {
+for (const pathname of ["/about", "/gift-cards", "/gift-cards/xbox", "/gift-cards/playstation", "/gift-cards/shein"]) {
   const response = await handler.fetch(new Request(`https://example.com/api/index?__path=${pathname}`));
   assert.equal(response.status, 200);
   assert.match(await response.text(), /<meta property="og:image"/);
 }
 
-// A missing integration must remain a handled JSON error, not crash the function.
-const originalError = console.error;
-let reportedMissingDatabase = false;
-console.error = (...args) => { reportedMissingDatabase ||= args.some(value => value instanceof Error && /Missing required environment variable: DATABASE_URL/.test(value.message)); };
-try {
-  const response = await handler.fetch(new Request("https://example.com/api/index?__path=/api/trpc/giftCards.list&batch=1&input=%7B%7D"));
-  assert.equal(response.status, 500);
-  assert.match(response.headers.get("content-type"), /application\/json/);
-  assert.equal((await response.json())[0].error.json.data.code, "INTERNAL_SERVER_ERROR");
-  assert.equal(reportedMissingDatabase, true);
-} finally {
-  console.error = originalError;
-}
-console.log("Vercel production artifact: startup, nested API, page metadata and database-error handling passed.");
+// The catalog works even if legacy storage variables ask for MySQL and no
+// database exists. Browsing cards and composing orders are file-based.
+const response = await handler.fetch(new Request("https://example.com/api/index?__path=/api/trpc/giftCards.list&batch=1&input=%7B%7D"));
+assert.equal(response.status, 200);
+assert.match(response.headers.get("content-type"), /application\/json/);
+assert.equal((await response.json())[0].result.data.json.some(card => card.slug === "xbox"), true);
+const sitemap = await handler.fetch(new Request("https://example.com/api/index?__path=/sitemap.xml"));
+assert.equal(sitemap.status, 200);
+assert.match(await sitemap.text(), /\/gift-cards\/xbox/);
+console.log("Vercel production artifact: cards, details, API compatibility and sitemap work without DATABASE_URL.");

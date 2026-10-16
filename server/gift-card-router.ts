@@ -24,6 +24,7 @@ import {
 import { homeImageOverride, inheritGiftCardImages } from "./gift-card-image-defaults";
 import { getDb } from "./queries/connection";
 import { withGiftCardStorage as withLocalGiftCardFallback } from "./gift-card-storage";
+import { giftCardCatalog } from "../src/lib/gift-card-catalog";
 
 const defaultGiftCardSettings = {
   whatsappNumber: "218935095091",
@@ -400,58 +401,6 @@ async function getLocalCardsWithDenominations(includeHidden = false) {
       valueRange: getFaceValueRange(cardDenominations),
     };
   });
-}
-
-async function getDbGiftCardBySlug(slug: string) {
-  const rows = await getDb()
-    .select()
-    .from(giftCards)
-    .where(and(eq(giftCards.slug, slug), not(eq(giftCards.status, "HIDDEN"))))
-    .limit(1);
-
-  const card = rows[0] ? inheritGiftCardImages(rows[0]) : null;
-  if (!card) return null;
-
-  const settings = await readDbGiftCardSettings();
-  const rawDenominations = await getDb()
-    .select()
-    .from(giftCardDenominations)
-    .where(eq(giftCardDenominations.giftCardId, card.id))
-    .orderBy(
-      asc(giftCardDenominations.sortOrder),
-      asc(giftCardDenominations.faceValue),
-    );
-  const denominations = resolveDenominations(rawDenominations, settings);
-
-  return {
-    card,
-    denominations,
-    settings,
-  };
-}
-
-async function getLocalGiftCardBySlug(slug: string) {
-  const store = await readLocalGiftCardStore();
-  const card =
-    store.giftCards.find(
-      (item) => item.slug === slug && item.status !== "HIDDEN",
-    ) ?? null;
-  if (!card) return null;
-
-  const settings = await readLocalGiftCardSettings();
-  const denominations = resolveDenominations(store.denominations, settings)
-    .filter((denomination) => denomination.giftCardId === card.id)
-    .sort(
-      (a, b) =>
-        (a.sortOrder ?? 0) - (b.sortOrder ?? 0) ||
-        Number(a.faceValue) - Number(b.faceValue),
-    );
-
-  return {
-    card,
-    denominations,
-    settings,
-  };
 }
 
 async function getDbGiftCardById(id: number) {
@@ -902,31 +851,13 @@ async function updateLocalSettings(input: SettingsUpdateInput) {
 }
 
 export const giftCardRouter = createRouter({
-  list: publicQuery.query(async () =>
-    withLocalGiftCardFallback(
-      "public list",
-      () => getDbCardsWithDenominations(false),
-      () => getLocalCardsWithDenominations(false),
-    ),
-  ),
+  list: publicQuery.query(() => giftCardCatalog.list()),
 
-  settings: publicQuery.query(async () =>
-    withLocalGiftCardFallback(
-      "public settings",
-      () => readDbGiftCardSettings(),
-      () => readLocalGiftCardSettings(),
-    ),
-  ),
+  settings: publicQuery.query(() => giftCardCatalog.settings()),
 
   bySlug: publicQuery
     .input(z.object({ slug: slugInput }))
-    .query(async ({ input }) =>
-      withLocalGiftCardFallback(
-        "public detail",
-        () => getDbGiftCardBySlug(input.slug),
-        () => getLocalGiftCardBySlug(input.slug),
-      ),
-    ),
+    .query(({ input }) => giftCardCatalog.bySlug(input.slug)),
 
   admin: createRouter({
     list: adminQuery.query(async () =>

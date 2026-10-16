@@ -1,45 +1,13 @@
-import { useEffect } from "react";
 import { Link } from "react-router";
 import { ArrowLeft, Ban, Clock3, Gift, Sparkles } from "lucide-react";
 import { GiftCardImage } from "@/components/gift-cards/GiftCardImage";
 import { getGiftCardImages } from "@/config/gift-card-images";
-import { Skeleton } from "@/components/ui/skeleton";
 import { resolveImageUrl } from "@/lib/image-utils";
 import { formatFaceValue, giftCardStatusLabels } from "@/lib/giftCards";
-import { trpc } from "@/providers/trpc";
-
-function GiftCardGridSkeleton() {
-  return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-      {Array.from({ length: 8 }).map((_, index) => (
-        <div
-          key={index}
-          className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm"
-        >
-          <Skeleton className="h-48 rounded-none" />
-          <div className="space-y-3 p-5">
-            <Skeleton className="h-5 w-3/4" />
-            <Skeleton className="h-4 w-1/2" />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
+import { giftCardCatalog } from "@/lib/gift-card-catalog";
 
 export default function GiftCards() {
-  const cardsQuery = trpc.giftCards.list.useQuery(undefined, {
-    staleTime: 30_000,
-    retry: 1,
-  });
-
-  useEffect(() => {
-    if (import.meta.env.DEV && cardsQuery.error) {
-      console.error("[gift-cards] Failed to load gift cards", cardsQuery.error);
-    }
-  }, [cardsQuery.error]);
-
-  const cards = (cardsQuery.data ?? []).filter(
+  const cards = giftCardCatalog.list().filter(
     (card) => card?.id && card.displayName && card.slug,
   );
   const statusOrder = {
@@ -187,20 +155,7 @@ export default function GiftCards() {
       </section>
 
       <section className="container-main px-4 py-10 sm:px-6 lg:px-8">
-        {cardsQuery.isLoading ? (
-          <GiftCardGridSkeleton />
-        ) : cardsQuery.error ? (
-          <div className="rounded-lg border border-red-200 bg-red-50 p-6 text-sm font-bold text-red-700">
-            <p>تعذر تحميل بطاقات الهدايا الآن.</p>
-            <button
-              type="button"
-              onClick={() => void cardsQuery.refetch()}
-              className="mt-4 rounded-md bg-red-700 px-4 py-2 text-sm font-black text-white transition hover:bg-red-800"
-            >
-              إعادة المحاولة
-            </button>
-          </div>
-        ) : sortedCards.length === 0 ? (
+        {sortedCards.length === 0 ? (
           <div className="rounded-lg border border-dashed border-slate-300 bg-white p-10 text-center">
             <Gift className="mx-auto mb-3 h-10 w-10 text-slate-400" />
             <p className="font-bold text-slate-900">

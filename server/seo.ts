@@ -3,19 +3,19 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import type { Hono } from "hono";
 import type { HttpBindings } from "@hono/node-server";
-import { giftCardRouter } from "./gift-card-router";
-import { SITE_URL, giftCardSlug, normalizeSeoPath, pageSeo, resolvePageSeo } from "../src/config/seo";
+import { giftCardCatalog } from "../src/lib/gift-card-catalog";
+import { giftCardSlug, normalizeSeoPath, pageSeo, resolvePageSeo } from "../src/config/seo";
 import { createRobotsTxt, createSitemap, renderSeoDocument } from "../src/lib/seo";
 
 function catalog() {
-  return giftCardRouter.createCaller({ req: new Request(`${SITE_URL}/api/trpc`), resHeaders: new Headers() });
+  return giftCardCatalog;
 }
 export async function resolveServerPageSeo(value: string) {
   const pathname = normalizeSeoPath(value);
   const slug = giftCardSlug(pathname);
   if (!slug) return resolvePageSeo(pathname);
   try {
-    const data = await catalog().bySlug({ slug });
+    const data = await catalog().bySlug(slug);
     return resolvePageSeo(pathname, data ? { giftCard: data.card } : { notFound: true });
   } catch (error) {
     console.error(`[seo] Gift-card metadata unavailable for ${pathname}`, error);

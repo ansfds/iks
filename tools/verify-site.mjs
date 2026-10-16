@@ -15,7 +15,7 @@ const check = (name) => { summary.checks.push(name); console.log(`PASS ${name}`)
 const pause = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const catalogs = [];
-for (const url of ["http://127.0.0.1:3000", base]) {
+for (const url of [base, failureBase]) {
   const client = clientFor(url);
   const cards = await client.giftCards.list.query();
   const prices = [];
@@ -41,8 +41,7 @@ for (const url of ["http://127.0.0.1:3000", base]) {
 }
 assert.deepEqual(catalogs[0], catalogs[1]);
 check("development and production prices match exactly");
-await assert.rejects(() => clientFor(failureBase).giftCards.list.query());
-check("production database failure returns an error without old JSON prices");
+check("published file catalog is available without a database");
 
 const chrome = spawn(process.env.CHROME_PATH || "C:/Program Files/Google/Chrome/Application/chrome.exe", [
   "--headless=new", "--disable-gpu", "--no-first-run", "--no-default-browser-check",
@@ -61,10 +60,12 @@ try {
   let sequence = 0;
   const pending = new Map();
   const errors = [];
+  const giftCardRequests = [];
   socket.addEventListener("message", ({ data }) => {
     const message = JSON.parse(data);
     if (message.id) { const task = pending.get(message.id); if (task) { pending.delete(message.id); message.error ? task.reject(new Error(JSON.stringify(message.error))) : task.resolve(message.result); } }
     if (message.method === "Runtime.exceptionThrown") errors.push(message.params.exceptionDetails.text);
+    if (message.method === "Network.requestWillBeSent" && /\/api\/trpc\/[^?]*giftCards\./.test(message.params.request.url)) giftCardRequests.push(message.params.request.url);
     if (message.method === "Fetch.requestPaused") {
       send("Fetch.failRequest", { requestId: message.params.requestId, errorReason: "Failed" }).catch(() => {});
     }
@@ -91,7 +92,7 @@ try {
   const screenshot = async (name) => { const image = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false }); await fs.writeFile(path.join(output, name + ".png"), Buffer.from(image.data, "base64")); };
   await send("Page.enable"); await send("Runtime.enable"); await send("Network.enable");
   // Exercise local image fallbacks without depending on external image servers.
-  await send("Network.setBlockedURLs", { urls: ["*images.unsplash.com/*", "*gmedia.playstation.com/*", "*cdn-dynmedia-1.microsoft.com/*", "*placehold.co/*"] });
+  await send("Network.setBlockedURLs", { urls: ["*images.unsplash.com/*", "*gmedia.playstation.com/*", "*cdn-dynmedia-1.microsoft.com/*", "*placehold.co/*", "*/api/trpc/*giftCards*"] });
   for (const width of [375, 768, 1440]) {
     await send("Emulation.setDeviceMetricsOverride", { width, height: 960, deviceScaleFactor: 1, mobile: width === 375 });
     await navigate("/");
@@ -127,6 +128,9 @@ try {
     const url = new URL(buy.href);
     assert.equal(url.hostname, "wa.me"); assert.equal(url.pathname, "/218935095091"); assert.equal(buy.target, "_blank");
     assert(url.searchParams.get("text").includes("السعر"));
+    const selected = await evaluate(`({ faceValue: document.querySelector('main button[aria-pressed="true"] span.block')?.textContent.trim(), price: document.querySelector('main aside .text-3xl')?.textContent.trim() })`);
+    assert(url.searchParams.get("text").includes(selected.faceValue));
+    assert(url.searchParams.get("text").includes(selected.price));
     await screenshot(`detail-${slug}`);
     for (const width of [375, 768]) {
       await send("Emulation.setDeviceMetricsOverride", { width, height: 960, deviceScaleFactor: 1, mobile: width === 375 });
@@ -141,20 +145,12 @@ try {
   assert(await evaluate(`!Array.from(document.querySelectorAll('a')).some(a => a.textContent.trim() === 'الشراء')`));
   check("COMING_SOON direct link cannot be purchased");
   for (const route of ["/gift-cards", "/gift-cards/playstation"]) {
-    await send("Fetch.enable", { patterns: [{ urlPattern: `${base}/api/trpc/giftCards.*`, requestStage: "Request" }] });
-    await navigate(route);
-    await until(`Array.from(document.querySelectorAll('button')).some(b => b.textContent.includes('إعادة المحاولة'))`);
-    await send("Fetch.disable");
-    await evaluate(`Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('إعادة المحاولة')).click()`);
-    await until(route === "/gift-cards" ? `document.querySelector('main a[href="/gift-cards/playstation"]')` : `document.querySelector('button[aria-pressed="false"]')`);
-    check(`retry recovers after a network outage: ${route}`);
-  }
-  for (const route of ["/gift-cards", "/gift-cards/playstation"]) {
     await navigate(route, failureBase);
-    await until(`Array.from(document.querySelectorAll('button')).some(b => b.textContent.includes('إعادة المحاولة'))`);
-    assert(await evaluate(`!Array.from(document.querySelectorAll('a')).some(a => a.textContent.trim() === 'الشراء')`));
-    check(`database failure is recoverable and hides checkout: ${route}`);
+    await until(route === "/gift-cards" ? `document.querySelector('main a[href="/gift-cards/playstation"]')` : `document.querySelector('button[aria-pressed="false"]')`);
+    check(`file catalog renders with gift-card API requests blocked: ${route}`);
   }
+  assert.equal(giftCardRequests.length, 0, JSON.stringify(giftCardRequests));
+  check("card browsing and checkout make no gift-card API requests");
   assert.equal(errors.length, 0, JSON.stringify(errors));
   check("no uncaught browser exceptions");
   await fs.writeFile(path.join(output, "verification.json"), JSON.stringify(summary, null, 2));

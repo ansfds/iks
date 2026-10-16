@@ -3,7 +3,7 @@ import { ArrowLeft, Gift, Landmark } from "lucide-react";
 import { GIFT_CARD_IMAGES } from "@/config/gift-card-images";
 import { SITE_IMAGES } from "@/config/site-images";
 import { resolveImageUrl } from "@/lib/image-utils";
-import { trpc } from "@/providers/trpc";
+import { giftCardCatalog } from "@/lib/gift-card-catalog";
 import { SiteBackground } from "@/components/SiteBackground";
 
 function SectionTile({
@@ -41,19 +41,17 @@ function SectionTile({
 }
 
 export function HomeGiftCardSwitch() {
-  const settingsQuery = trpc.giftCards.settings.useQuery(undefined, {
-    staleTime: 60_000,
-  });
+  const settings = giftCardCatalog.settings();
 
   const giftCardBackground =
     resolveImageUrl(
-      settingsQuery.data?.homeGiftCardsBackgroundUrl,
+      settings.homeGiftCardsBackgroundUrl,
       GIFT_CARD_IMAGES.playstation.backgroundImage,
       GIFT_CARD_IMAGES.playstation.localFallback,
     );
   const servicesBackground =
     resolveImageUrl(
-      settingsQuery.data?.homeServicesBackgroundUrl,
+      settings.homeServicesBackgroundUrl,
       SITE_IMAGES.finance.transferHero,
       SITE_IMAGES.finance.fallbackTransferHero,
     );

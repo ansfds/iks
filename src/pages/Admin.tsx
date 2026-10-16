@@ -2,7 +2,6 @@ import { useEffect, useState, type ElementType } from "react";
 import { useNavigate } from "react-router";
 import { useAuth } from "@/hooks/useAuth";
 import { trpc } from "@/providers/trpc";
-import { AdminGiftCards } from "@/components/gift-cards/AdminGiftCards";
 import {
   Mail,
   MailOpen,
@@ -251,7 +250,10 @@ export default function Admin() {
             </div>
           </>
         ) : (
-          <AdminGiftCards />
+          <div className="rounded-lg border border-gray-200 bg-white p-6" dir="rtl">
+            <h2 className="mb-3 text-xl font-bold">إعدادات البطاقات</h2>
+            <p className="leading-8 text-gray-600">تُعرض البطاقات من ملفات الموقع. لتعديل الفئات والأسعار ورقم واتساب، عدّل ملف <code dir="ltr">src/config/gift-card-catalog.json</code> ثم أعد النشر. صور البطاقات وخلفياتها في <code dir="ltr">src/config/gift-card-images.ts</code>.</p>
+          </div>
         )}
       </div>
     </div>

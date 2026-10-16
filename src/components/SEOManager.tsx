@@ -2,21 +2,16 @@ import { useEffect } from "react";
 import { useLocation } from "react-router";
 import { giftCardSlug, resolvePageSeo } from "@/config/seo";
 import { buildSeoTags, serializeJsonLd } from "@/lib/seo";
-import { trpc } from "@/providers/trpc";
+import { giftCardCatalog } from "@/lib/gift-card-catalog";
 
 export default function SEOManager() {
   const location = useLocation();
   const slug = giftCardSlug(location.pathname);
-  const cardQuery = trpc.giftCards.bySlug.useQuery(
-    { slug: slug || "" },
-    { enabled: Boolean(slug), staleTime: 20_000, retry: 1 },
-  );
-  const card = cardQuery.data?.card;
-  const missing = Boolean(slug && cardQuery.isSuccess && !card);
-  const unavailable = Boolean(slug && cardQuery.isError);
+  const card = slug ? giftCardCatalog.bySlug(slug)?.card : undefined;
+  const missing = Boolean(slug && !card);
 
   useEffect(() => {
-    const seo = resolvePageSeo(location.pathname, { giftCard: card, notFound: missing, unavailable });
+    const seo = resolvePageSeo(location.pathname, { giftCard: card, notFound: missing });
     const tags = buildSeoTags(seo);
     document.title = tags.title;
     const expected = new Set<string>();
@@ -41,6 +36,6 @@ export default function SEOManager() {
     let schema = document.getElementById("alwaseet-schema-jsonld") as HTMLScriptElement | null;
     if (!schema) { schema = document.createElement("script"); schema.id = "alwaseet-schema-jsonld"; schema.type = "application/ld+json"; document.head.appendChild(schema); }
     schema.textContent = serializeJsonLd(tags.schema);
-  }, [location.pathname, card, missing, unavailable]);
+  }, [location.pathname, card, missing]);
   return null;
 }
