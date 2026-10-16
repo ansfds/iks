@@ -27,8 +27,8 @@ describe("file-based gift cards", () => {
     expect(denomination.sellingPriceLyd).toBe("173.500");
     const priceLyd = formatLyd(denomination.sellingPriceLyd)!;
     const url = new URL(createGiftCardWhatsAppUrl({ phone: detail.settings.whatsappNumber, cardName: detail.card.displayName, faceValue: denomination.faceValue, currency: denomination.currency, regionLabel: detail.card.regionLabel, priceLyd }));
-    expect(url.hostname).toBe("wa.me");
-    expect(url.pathname).toBe("/218935095091");
+    expect(url.hostname).toBe("web.whatsapp.com");
+    expect(url.searchParams.get("phone")).toBe("218935095091");
     expect(url.searchParams.get("text")).toContain("Xbox Custom");
     expect(url.searchParams.get("text")).toContain(priceLyd);
     expect(url.searchParams.get("text")).toContain("$5");

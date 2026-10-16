@@ -98,7 +98,7 @@ try {
   assert.equal(await evaluate("document.querySelectorAll('head meta[property=\"og:image\"]').length"), 1);
   assert.equal(await evaluate("document.querySelectorAll('main h1').length"), 1);
   await evaluate("document.querySelector('main button[aria-pressed]:not(:disabled)').click()");
-  await until("Array.from(document.querySelectorAll('main a')).some(a => a.href.startsWith('https://wa.me/218935095091?'))");
+  await until("Array.from(document.querySelectorAll('main a')).some(a => a.href.startsWith('https://web.whatsapp.com/send?phone=218935095091&'))");
   pass("client navigation metadata, one H1, Arabic, hero priority and unchanged gift-card checkout");
   for (const width of [375, 768]) {
     await send("Emulation.setDeviceMetricsOverride", { width, height: 960, deviceScaleFactor: 1, mobile: width === 375 });

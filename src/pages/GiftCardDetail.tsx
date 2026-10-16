@@ -60,7 +60,8 @@ export default function GiftCardDetail() {
           regionLabel: card.regionLabel,
           faceValue: selectedDenomination.faceValue,
           currency: selectedDenomination.currency,
-          priceLyd: selectedPrice,
+          // Message numbers use plain decimal digits; the UI formatter stays unchanged.
+          priceLyd: `${Number(selectedDenomination.sellingPriceLyd)} د.ل`,
         })
       : "";
 

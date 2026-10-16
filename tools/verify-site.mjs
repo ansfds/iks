@@ -126,11 +126,11 @@ try {
     await until(`Array.from(document.querySelectorAll('a')).some(a => a.textContent.trim() === 'الشراء')`);
     const buy = await evaluate(`(() => {const a = Array.from(document.querySelectorAll('a')).find(a => a.textContent.trim() === 'الشراء'); return { href: a.href, target: a.target };})()`);
     const url = new URL(buy.href);
-    assert.equal(url.hostname, "wa.me"); assert.equal(url.pathname, "/218935095091"); assert.equal(buy.target, "_blank");
+    assert.equal(url.hostname, "web.whatsapp.com"); assert.equal(url.searchParams.get("phone"), "218935095091"); assert.equal(buy.target, "_blank");
     assert(url.searchParams.get("text").includes("السعر"));
     const selected = await evaluate(`({ faceValue: document.querySelector('main button[aria-pressed="true"] span.block')?.textContent.trim(), price: document.querySelector('main aside .text-3xl')?.textContent.trim() })`);
     assert(url.searchParams.get("text").includes(selected.faceValue));
-    assert(url.searchParams.get("text").includes(selected.price));
+    assert(url.searchParams.get("text").includes(selected.price.replace(/[,٬]/g, "")));
     await screenshot(`detail-${slug}`);
     for (const width of [375, 768]) {
       await send("Emulation.setDeviceMetricsOverride", { width, height: 960, deviceScaleFactor: 1, mobile: width === 375 });

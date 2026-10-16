@@ -9,7 +9,7 @@
 - سعر محدد لفئة: ابحث عن البطاقة بواسطة `id`، ثم الفئة في `denominations` بواسطة `giftCardId` و`faceValue`. ضع السعر بالدينار في `manualSellingPriceLyd`، مثل `"250.000"`. القيمة `null` تعيد التسعير المحسوب بالقواعد الحالية. `specialPriceUsd` يحافظ على عروض SHEIN السابقة.
 - إيقاف فئة: `isAvailable: false`. حالة البطاقة `AVAILABLE` تسمح بالشراء، و`COMING_SOON` و`UNAVAILABLE` تعرضان حالتها، و`HIDDEN` تخفيها.
 - صور البطاقات وخلفياتها: `src/config/gift-card-images.ts`. اجعل رابط الصورة في ملف الكتالوج `null` لاستخدام هذا الملف. الروابط المخصصة غير الافتراضية في الكتالوج لها الأولوية.
-- نص رسالة الطلب: الدالة `createGiftCardWhatsAppUrl` في `src/lib/giftCards.ts`.
+- نص رسالة الطلب: الدالة `createGiftCardWhatsAppMessage` في `src/lib/giftCards.ts`؛ النص عادي دون نجوم أو علامات Bold. يبني `createGiftCardWhatsAppUrl` رابط فتح الرسالة ويحافظ على الإيموجيات والعربية.
 
 شغّل `npm.cmd run local` لمعاينة التعديلات مباشرة عند الحفظ. الموقع المنشور يحتاج إلى إعادة البناء والنشر لتطبيق تغييرات الملف. لا تضف أكواد بطاقات حقيقية أو مفاتيح سرية إلى ملف الكتالوج؛ محتواه مخصص للعرض العام.
 
