@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Facebook, Instagram, MapPin, MessageCircle, Phone } from "lucide-react";
 
 type SocialLink = {
   id: number;
@@ -28,7 +28,6 @@ export function ContactBand({
 }) {
   const phone = settings.phone ?? "";
   const whatsapp = settings.whatsapp ?? "";
-  const email = settings.email ?? "";
   const address = settings.address ?? "";
 
   return (
@@ -66,15 +65,6 @@ export function ContactBand({
                 >
                   <MessageCircle className="h-5 w-5 text-emerald-600" />
                   WhatsApp
-                </a>
-              )}
-              {email && (
-                <a
-                  href={`mailto:${email}`}
-                  className="flex items-center gap-3 rounded-md bg-white p-4 font-bold text-slate-900 shadow-sm transition hover:text-blue-700"
-                >
-                  <Mail className="h-5 w-5 text-blue-700" />
-                  {email}
                 </a>
               )}
               {address && (

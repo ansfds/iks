@@ -139,38 +139,6 @@ export default function GiftCardDetail() {
               />
             </div>
             <div className="space-y-4 p-5">
-              <div>
-                <p className="text-sm font-bold text-slate-500">
-                  السعر الحالي:
-                </p>
-                <div className="mt-2 min-h-12">
-                  {selectedPrice ? (
-                    <div className="space-y-2">
-                      <p className="text-3xl font-black text-slate-950">
-                        {selectedPrice}
-                      </p>
-                      {selectedDenomination?.specialPriceUsd && (
-                        <p className="text-sm font-black text-emerald-700">
-                          السعر المخفض:{" "}
-                          {formatFaceValue(
-                            selectedDenomination.specialPriceUsd,
-                            selectedDenomination.currency,
-                          )}
-                        </p>
-                      )}
-                    </div>
-                  ) : selectedDenomination ? (
-                    <p className="rounded-md bg-amber-50 p-3 text-sm font-bold leading-7 text-amber-800">
-                      السعر غير متوفر حاليًا
-                    </p>
-                  ) : (
-                    <p className="rounded-md bg-slate-100 p-3 text-sm font-bold text-slate-600">
-                      اختر الفئة لمعرفة السعر
-                    </p>
-                  )}
-                </div>
-              </div>
-
               <p className="rounded-md border border-blue-100 bg-blue-50 p-3 text-sm font-bold leading-7 text-blue-800">
                 السعر يتغير كل لحظة ويتم احتساب السعر النهائي وقت الشراء فقط.
               </p>
@@ -246,6 +214,11 @@ export default function GiftCardDetail() {
                       <span className="block pt-4 text-2xl font-black tracking-normal">
                         {formatFaceValue(denomination.faceValue, denomination.currency)}
                       </span>
+                      {card.slug === "shein" && denomination.specialPriceUsd && (
+                        <span className="mt-2 block text-sm font-black text-emerald-700">
+                          سعر البيع: <bdi dir="ltr">{Number(denomination.specialPriceUsd)}$</bdi>
+                        </span>
+                      )}
                       {savings && (
                         <span className="mt-2 block text-xs font-black text-emerald-700">
                           وفر {formatFaceValue(savings, denomination.currency)}
@@ -278,6 +251,9 @@ export default function GiftCardDetail() {
               )}
 
               <div className="mt-8 border-t border-slate-100 pt-6">
+                <p className="mb-4 rounded-md border border-blue-100 bg-blue-50 p-3 text-sm font-bold leading-7 text-blue-800">
+                  السعر يتغير كل لحظة ويتم احتساب السعر النهائي وقت الشراء فقط.
+                </p>
                 {canBuy && whatsappUrl ? (
                   <a
                     href={whatsappUrl}

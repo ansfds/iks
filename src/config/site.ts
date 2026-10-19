@@ -7,7 +7,6 @@ export const siteConfig = {
   alternateNames: [SITE_NAME_EN, "الوسيط المعتمد للدفع الإلكتروني والتحويلات"],
   siteUrl: SITE_URL,
   socialPreviewImage: DEFAULT_OG_IMAGE,
-  email: "hosambizniz12@gmail.com",
   phone: "093-5095091",
   displayPhones: ["0935095091", "0945095091"],
   address: { street: "زناتة مقابل كيان موبايل", city: "طرابلس", country: "ليبيا", countryCode: "LY" },

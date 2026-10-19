@@ -3,7 +3,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { SiteImage } from "@/components/SiteImage";
 import { SITE_IMAGES } from "@/config/site-images";
 import { siteConfig } from "@/config/site";
-import { MapPin, Phone, Mail, Facebook, MessageCircle } from "lucide-react";
+import { MapPin, Phone, Facebook, MessageCircle } from "lucide-react";
 
 const quickLinks = [
   { key: "nav.home", href: "/" },
@@ -26,7 +26,6 @@ const infoLinks = [
 
 export default function Footer() {
   const { t, dir } = useLanguage();
-  const email = "hosambizniz12@gmail.com";
   const facebookUrl = "https://www.facebook.com/profile.php?id=61560408535771";
   const mapsUrl = "https://maps.app.goo.gl/GE4p2GdUZd8o8v9DA";
   const whatsappUrl = "https://wa.me/218935095091";
@@ -104,12 +103,6 @@ export default function Footer() {
                     <a key={phone} href={`tel:${phone}`} className="text-sm text-gray-400 hover:text-white transition-colors">{phone}</a>
                   ))}
                 </span>
-              </li>
-              <li className="flex items-center gap-2.5">
-                <Mail size={16} className="text-[#38BDF8] shrink-0" />
-                <a href={`mailto:${email}`} className="text-sm text-gray-400 hover:text-white transition-colors">
-                  {t("footer.email")}
-                </a>
               </li>
               <li className="flex items-start gap-2.5">
                 <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[#38BDF8]" />

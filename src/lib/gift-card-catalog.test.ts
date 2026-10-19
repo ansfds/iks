@@ -5,19 +5,26 @@ import { createGiftCardCatalog, giftCardCatalog, type GiftCardCatalogFile } from
 import { createGiftCardWhatsAppUrl, formatLyd } from "./giftCards";
 
 describe("file-based gift cards", () => {
-  it("preserves every existing card, denomination, price and WhatsApp destination", () => {
+  it("preserves existing cards, denominations, unchanged prices and WhatsApp destination", () => {
     expect(giftCardCatalog.list().map(card => card.slug)).toEqual(expect.arrayContaining(previous.giftCards.map(card => card.slug)));
     for (const card of previous.giftCards) {
       const detail = giftCardCatalog.bySlug(card.slug)!;
       expect(detail.card.status).toBe(card.status);
       for (const item of previous.denominations.filter(item => item.giftCardId === card.id)) {
-        expect(detail.denominations.find(value => value.id === item.id)?.sellingPriceLyd).toBe(item.sellingPriceLyd);
+        const denomination = detail.denominations.find(value => value.id === item.id)!;
+        expect(denomination.faceValue).toBe(item.faceValue);
+        expect(denomination.isAvailable).toBe(item.isAvailable);
+        expect(denomination.isMostPopular).toBe(item.isMostPopular);
+        expect(denomination.highlightEffect).toBe(item.highlightEffect);
+        if (denomination.specialPriceUsd === item.specialPriceUsd) {
+          expect(denomination.sellingPriceLyd).toBe(item.sellingPriceLyd);
+        }
       }
     }
     expect(giftCardCatalog.settings().whatsappNumber).toBe("218935095091");
   });
 
-  it("uses an edited file price in the displayed price and prepared WhatsApp message", () => {
+  it("uses an edited file price internally and in the prepared WhatsApp message", () => {
     const edited = structuredClone(source) as GiftCardCatalogFile;
     edited.giftCards.find(card => card.slug === "xbox")!.displayName = "Xbox Custom";
     const value = edited.denominations.find(item => item.giftCardId === 2)!;

@@ -109,7 +109,6 @@ const dictionary: Record<string, Record<Language, string>> = {
   "footer.contactInfo": { en: "Contact Info", ar: "معلومات الاتصال" },
   "footer.address": { en: "Zanata, opposite Kayan Mobile - Tripoli, Libya", ar: "زناتة مقابل كيان موبايل - طرابلس، ليبيا" },
   "footer.phone": { en: "093-5095091", ar: "093-5095091" },
-  "footer.email": { en: "hosambizniz12@gmail.com", ar: "hosambizniz12@gmail.com" },
   "footer.hoursTitle": { en: "Working Hours", ar: "ساعات العمل" },
   "footer.hours.weekdays": {
     en: "Saturday - Wednesday: 11:00 AM - 7:00 PM",

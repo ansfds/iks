@@ -5,10 +5,14 @@ import { spawn } from "node:child_process";
 
 const bases = process.argv.slice(2);
 if (!bases.length) bases.push("http://127.0.0.1:4173");
+const catalog = JSON.parse(await fs.readFile(new URL("../src/config/gift-card-catalog.json", import.meta.url), "utf8"));
+const shein = catalog.giftCards.find(card => card.slug === "shein");
+const shein500 = catalog.denominations.find(item => item.giftCardId === shein.id && Number(item.faceValue) === 500);
+const shein500Price = Number(shein500.manualSellingPriceLyd || Number(shein500.specialPriceUsd) * catalog.settings.rateAbove100);
 const fixtures = [
   { slug: "xbox", face: "$50", expected: "🎮 طلب شراء كرت Xbox\n\n🌎 الريجن: أمريكي\n💳 الفئة: $50\n💵 السعر الحالي: 500 د.ل\n\n✅ نبي نكمل الطلب ونتفق معاكم على طريقة الدفع." },
   { slug: "playstation", face: "$100", expected: "🎮 طلب شراء كرت PlayStation Store\n\n🌎 الريجن: أمريكي\n💳 الفئة: $100\n💵 السعر الحالي: 1000 د.ل\n\n✅ نبي نكمل الطلب ونتفق معاكم على طريقة الدفع." },
-  { slug: "shein", face: "$500", expected: "🎮 طلب شراء كرت SHEIN\n\n💳 الفئة: $500\n💵 السعر الحالي: 4413.5 د.ل\n\n✅ نبي نكمل الطلب ونتفق معاكم على طريقة الدفع." },
+  { slug: "shein", face: "$500", expected: `🎮 طلب شراء كرت SHEIN\n\n💳 الفئة: $500\n💵 السعر الحالي: ${shein500Price} د.ل\n\n✅ نبي نكمل الطلب ونتفق معاكم على طريقة الدفع.` },
 ];
 const output = path.resolve(".preview");
 const profile = path.join(output, `chrome-whatsapp-${process.pid}`);

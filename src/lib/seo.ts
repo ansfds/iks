@@ -48,7 +48,6 @@ export function buildSeoTags(seo: SeoPage, origin = SITE_URL) {
       name: SITE_NAME, alternateName: SITE_NAME_EN, url: absoluteSiteUrl("/", origin),
       logo: absoluteSiteUrl(SITE_IMAGES.branding.logo, origin), image: imageUrl,
       telephone: siteConfig.displayPhones.map((phone) => `+218${phone.replace(/^0/, "")}`),
-      email: siteConfig.email,
       address: { "@type": "PostalAddress", streetAddress: siteConfig.address.street, addressLocality: siteConfig.address.city, addressCountry: siteConfig.address.countryCode },
       sameAs: siteConfig.socialLinks,
     },

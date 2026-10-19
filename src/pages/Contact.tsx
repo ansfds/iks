@@ -6,7 +6,6 @@ import { trpc } from "@/providers/trpc";
 import {
   MapPin,
   Phone,
-  Mail,
   Clock,
   Send,
   MessageCircle,
@@ -98,12 +97,6 @@ export default function Contact() {
       content: phone,
       href: `tel:${phone}`,
     })),
-    {
-      icon: Mail,
-      title: "البريد الإلكتروني",
-      content: t("footer.email"),
-      href: "mailto:hosambizniz12@gmail.com",
-    },
     {
       icon: Clock,
       title: t("footer.hoursTitle"),
