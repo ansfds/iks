@@ -1,0 +1,12 @@
+.env*
+!.env.example
+env
+.cache/
+.vite-cache/
+backups/
+deploy-data/
+admin-backup-*/
+data/
+*.log
+dist.zip
+.git/

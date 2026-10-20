@@ -32,6 +32,17 @@ export function siteMetadata(): Plugin {
             res.setHeader("Content-Type", "application/manifest+json; charset=utf-8");
             res.end(manifest()); return;
           }
+          if (pathname === "/admin" || pathname.startsWith("/admin/")) {
+            const { adminPageResponse } = await server.ssrLoadModule("/server/auth/page-guard.ts");
+            const headers = new Headers();
+            for (const [key, value] of Object.entries(req.headers)) if (value) headers.set(key, Array.isArray(value) ? value.join(", ") : value);
+            const guarded: Response | null = await adminPageResponse(new Request(`http://${req.headers.host}${req.url}`, { headers }));
+            if (guarded) {
+              res.statusCode = guarded.status;
+              guarded.headers.forEach((value, key) => res.setHeader(key, value));
+              res.end(await guarded.text()); return;
+            }
+          }
           if (req.method !== "GET" || /^\/(api|assets|src|node_modules|tools|\.preview)(\/|$)/.test(pathname) || pathname.startsWith("/@") || (/\.[^/]*$/.test(pathname) && !["/robots.txt", "/sitemap.xml"].includes(pathname))) return next();
           const seo = await server.ssrLoadModule("/server/seo.ts");
           const response: Response = await seo.seoResponse(pathname, async () => {
@@ -40,6 +51,10 @@ export function siteMetadata(): Plugin {
           });
           res.statusCode = response.status;
           response.headers.forEach((value, key) => res.setHeader(key, value));
+          if (/^\/(admin|login)(\/|$)/.test(pathname)) {
+            res.setHeader("Cache-Control", "no-store");
+            res.setHeader("Content-Security-Policy", "frame-ancestors 'none'");
+          }
           res.end(await response.text());
         } catch (error) { next(error); }
       });

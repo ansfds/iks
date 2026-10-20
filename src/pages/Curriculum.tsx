@@ -3,7 +3,9 @@ import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { SiteImage } from "@/components/SiteImage";
 import { SITE_IMAGES } from "@/config/site-images";
-import { Baby, BookOpen, Compass, GraduationCap } from "lucide-react";
+import { BookOpen } from "lucide-react";
+import { ManagedServices } from "@/components/ManagedServices";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -13,6 +15,7 @@ const GSAP: any = gsap;
 
 export default function Curriculum() {
   const { t, dir } = useLanguage();
+  const cms = useSiteContent();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,54 +39,6 @@ export default function Curriculum() {
     });
     return () => ctx.revert();
   }, []);
-
-  const stages = [
-    {
-      icon: Baby,
-      title: t("curriculum.early.title"),
-      ages: t("curriculum.early.ages"),
-      desc: t("curriculum.early.desc"),
-      color: "#1D7FEA",
-      borderColor: "border-[#1D7FEA]",
-    },
-    {
-      icon: BookOpen,
-      title: t("curriculum.primary.title"),
-      ages: t("curriculum.primary.ages"),
-      desc: t("curriculum.primary.desc"),
-      color: "#213B6F",
-      borderColor: "border-[#213B6F]",
-    },
-    {
-      icon: Compass,
-      title: t("curriculum.lower.title"),
-      ages: t("curriculum.lower.ages"),
-      desc: t("curriculum.lower.desc"),
-      color: "#2C4F8E",
-      borderColor: "border-[#2C4F8E]",
-    },
-    {
-      icon: GraduationCap,
-      title: t("curriculum.upper.title"),
-      ages: t("curriculum.upper.ages"),
-      desc: t("curriculum.upper.desc"),
-      color: "#0B1E35",
-      borderColor: "border-[#0B1E35]",
-    },
-  ];
-
-  const subjects = [
-    "دفع الفواتير العالمية",
-    "الحوالات الخارجية",
-    "بطاقات SHEIN",
-    "تحويل اليوان الصيني",
-    "بيع وشراء الدولار",
-    "شحن المحافظ الإلكترونية",
-    "البطاقات الافتراضية",
-    "إعلانات Facebook",
-    "مدفوعات المتاجر العالمية",
-    "متابعة تنفيذ الخدمة",
-  ];
 
   return (
     <div dir={dir}>
@@ -127,7 +82,7 @@ export default function Curriculum() {
               </div>
               <div className={dir === "rtl" ? "lg:order-1" : ""}>
                 <SiteImage
-                  src={SITE_IMAGES.finance.globalFinance}
+                  src={cms.value("services_image", SITE_IMAGES.finance.globalFinance)}
                   fallbackSrc={SITE_IMAGES.finance.fallbackGlobalFinance}
                   alt="خدمات دفع إلكتروني وتحويلات عالمية"
                   className="curriculum-animate h-auto w-full"
@@ -137,65 +92,7 @@ export default function Curriculum() {
           </div>
         </section>
 
-        {/* Stages */}
-        <section className="bg-[#F8F9FA] section-padding">
-          <div className="container-main">
-            <h2 className="curriculum-animate text-3xl md:text-[42px] font-bold text-[#1A1A1A] text-center mb-12">
-              {t("curriculum.stages.title")}
-            </h2>
-
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {stages.map((stage, i) => (
-                <div
-                  key={i}
-                  className={`curriculum-animate bg-white rounded-lg border-t-4 ${stage.borderColor} p-6 shadow-sm hover:shadow-md transition-shadow`}
-                >
-                  <div
-                    className="w-12 h-12 rounded-full flex items-center justify-center mb-4"
-                    style={{ backgroundColor: `${stage.color}15` }}
-                  >
-                    <stage.icon
-                      size={24}
-                      style={{ color: stage.color }}
-                      strokeWidth={1.5}
-                    />
-                  </div>
-                  <div
-                    className="text-xs font-semibold uppercase tracking-wider mb-2"
-                    style={{ color: stage.color }}
-                  >
-                    {stage.ages}
-                  </div>
-                  <h3 className="text-lg font-semibold text-[#1A1A1A] mb-2">
-                    {stage.title}
-                  </h3>
-                  <p className="text-sm text-[#7C7C7C] leading-relaxed">
-                    {stage.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Subjects */}
-        <section className="bg-white section-padding">
-          <div className="container-main">
-            <h2 className="curriculum-animate text-3xl font-bold text-[#1A1A1A] text-center mb-10">
-              نطاق الخدمات
-            </h2>
-            <div className="curriculum-animate flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-              {subjects.map((subject, i) => (
-                <span
-                  key={i}
-                  className="px-5 py-2.5 bg-[#F8F9FA] text-[#1A1A1A] text-sm font-medium rounded-full border border-[#D8E0F0] hover:bg-[#213B6F] hover:text-white hover:border-[#213B6F] transition-colors cursor-default"
-                >
-                  {subject}
-                </span>
-              ))}
-            </div>
-          </div>
-        </section>
+        {cms.isVisible("section_services") && <section className="bg-[#F8F9FA] section-padding"><div className="container-main"><h2 className="mb-10 text-center text-3xl font-bold">خدماتنا</h2><ManagedServices /></div></section>}
       </div>
     </div>
   );

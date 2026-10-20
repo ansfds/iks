@@ -111,16 +111,12 @@ function AuthLayoutContent({
   const navigate = useNavigate();
   const { state, toggleSidebar } = useSidebar();
   const isCollapsed = state === "collapsed";
-  const [isResizing, setIsResizing] = useState(false);
+  const [resizing, setIsResizing] = useState(false);
+  const isResizing = resizing && !isCollapsed;
   const sidebarRef = useRef<HTMLDivElement>(null);
   const activeMenuItem = menuItems.find(item => item.path === location.pathname);
   const isMobile = useIsMobile();
 
-  useEffect(() => {
-    if (isCollapsed) {
-      setIsResizing(false);
-    }
-  }, [isCollapsed]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -216,7 +212,7 @@ function AuthLayoutContent({
                       {user?.name || "-"}
                     </p>
                     <p className="text-xs text-muted-foreground truncate mt-1.5">
-                      {user?.email || "-"}
+                      مدير الموقع
                     </p>
                   </div>
                 </button>

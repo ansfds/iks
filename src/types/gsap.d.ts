@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any -- Legacy GSAP compatibility declarations. */
 declare module "gsap" {
   const gsap: any;
   export default gsap;

@@ -1,7 +1,9 @@
 import source from "../config/gift-card-catalog.json";
 import { homeImageOverride, inheritGiftCardImages } from "../../server/gift-card-image-defaults";
 import { resolveGiftCardDenomination } from "../../server/gift-card-pricing";
-import type { LocalGiftCard, LocalGiftCardDenomination } from "../../server/gift-card-local-store";
+import type { Collections } from '../../server/cms/models';
+type LocalGiftCard = Collections['giftCards'][number];
+type LocalGiftCardDenomination = Collections['giftCardDenominations'][number];
 
 type FileDates = { createdAt: string; updatedAt: string };
 export type GiftCardCatalogFile = {

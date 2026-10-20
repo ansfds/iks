@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { CheckCircle, Copy, Landmark, ShieldCheck, UserRound } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { trpc } from "@/providers/trpc";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,35 +11,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const GSAP: any = gsap;
-
-type TransferAccount = {
-  iban: string;
-  bank: string;
-  name: string;
-};
-
-const transferAccounts: TransferAccount[] = [
-  {
-    iban: "LY89007014014011178252019",
-    bank: "مصرف شمال أفريقيا",
-    name: "حسام علي الصغير قدارة",
-  },
-  {
-    iban: "LY28024005010247214020501",
-    bank: "مصرف النوران",
-    name: "حسام علي الصغير قدارة",
-  },
-  {
-    iban: "LY61007014014011433243019",
-    bank: "مصرف شمال أفريقيا",
-    name: "محمد علي الصادق أبوخريص",
-  },
-  {
-    iban: "LY11024005010058237020501",
-    bank: "مصرف النوران",
-    name: "محمد علي الصادق أبوخريص",
-  },
-];
 
 async function copyText(value: string) {
   if (navigator.clipboard?.writeText) {
@@ -58,6 +31,11 @@ async function copyText(value: string) {
 
 export default function Transfers() {
   const { t, dir } = useLanguage();
+  const cms = useSiteContent();
+  const accountsQuery = trpc.finance.accounts.list.useQuery(undefined, { staleTime: 0, refetchInterval: 30_000 });
+  const transferAccounts = (accountsQuery.data ?? []).map(item => ({
+    iban: item.iban || item.accountNumber, bank: item.bankNameAr, name: item.accountName,
+  }));
   const sectionRef = useRef<HTMLDivElement>(null);
   const [copiedIban, setCopiedIban] = useState<string | null>(null);
 
@@ -108,7 +86,7 @@ export default function Transfers() {
         </div>
       </section>
 
-      <section ref={sectionRef} className="bg-[#F8F9FA] section-padding">
+      <section ref={sectionRef} className="bg-[#F8F9FA] section-padding" style={{ display: cms.isVisible("section_banks") ? undefined : "none" }}>
         <div className="container-main">
           <div className="transfers-animate mx-auto mb-10 max-w-3xl text-center">
             <span className="mb-3 inline-flex rounded-full bg-[#213B6F]/10 px-4 py-2 text-sm font-semibold text-[#213B6F]">
@@ -139,6 +117,9 @@ export default function Transfers() {
             </div>
 
             <div className="grid gap-4 md:grid-cols-2">
+              {accountsQuery.isLoading && <p className="col-span-full text-center text-white">جاري تحميل الحسابات...</p>}
+              {accountsQuery.isError && <p className="col-span-full text-center text-white">تعذر تحميل الحسابات، يرجى إعادة المحاولة.</p>}
+              {!accountsQuery.isLoading && !accountsQuery.isError && transferAccounts.length === 0 && <p className="col-span-full text-center text-white">لا توجد حسابات مصرفية متاحة حاليًا.</p>}
               {transferAccounts.map((account, index) => {
                 const isCopied = copiedIban === account.iban;
 

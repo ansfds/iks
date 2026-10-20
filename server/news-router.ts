@@ -1,129 +1,81 @@
+import { partialInput } from "./partial-input";
 import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware";
-import { getDb } from "./queries/connection";
-import { newsEvents } from "../db/schema";
-import { eq, desc, sql, isNull, isNotNull, and } from "drizzle-orm";
-
+import { readContent, insertRow, updateRow, deleteRow } from "./cms/store";
+import { optionalImageUrlInput } from "./media-url";
+const fields = z
+  .object({
+    title: z.string().min(1).max(255),
+    titleAr: z.string().max(255).optional(),
+    excerpt: z.string().max(24000).optional(),
+    excerptAr: z.string().max(24000).optional(),
+    content: z.string().min(1).max(24000),
+    contentAr: z.string().max(24000).optional(),
+    imageUrl: optionalImageUrlInput,
+    eventDate: z.coerce.date().optional(),
+  })
+  .strict();
+const id = z.object({ id: z.number().int().positive() });
 export const newsRouter = createRouter({
   list: publicQuery
     .input(
       z
         .object({
-          page: z.number().default(1),
-          limit: z.number().default(10),
+          page: z.number().int().positive().default(1),
+          limit: z.number().int().min(1).max(100).default(10),
           type: z.enum(["news", "events", "all"]).default("all"),
         })
         .optional()
     )
-    .query(async ({ input }) => {
-      const db = getDb();
-      const page = input?.page ?? 1;
-      const limit = input?.limit ?? 10;
-      const offset = (page - 1) * limit;
-
-      const conditions = [eq(newsEvents.isPublished, true)];
-
-      if (input?.type === "news") {
-        conditions.push(isNull(newsEvents.eventDate));
-      } else if (input?.type === "events") {
-        conditions.push(isNotNull(newsEvents.eventDate));
-      }
-
-      const where = conditions.length > 1 ? and(...conditions) : conditions[0];
-
-      const items = await db
-        .select()
-        .from(newsEvents)
-        .where(where)
-        .orderBy(desc(newsEvents.createdAt))
-        .limit(limit)
-        .offset(offset);
-
-      const countResult = await db
-        .select({ count: sql<number>`count(*)` })
-        .from(newsEvents)
-        .where(where);
-
-      const total = countResult[0]?.count ?? 0;
-
+    .query(({ input }) => {
+      const rows = readContent()
+        .collections.newsEvents.filter(
+          row =>
+            row.isPublished &&
+            (!input ||
+              input.type === "all" ||
+              (input.type === "events"
+                ? row.eventDate !== null
+                : row.eventDate === null))
+        )
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+      const page = input?.page || 1,
+        limit = input?.limit || 10;
       return {
-        items,
-        total,
+        items: rows.slice((page - 1) * limit, page * limit),
+        total: rows.length,
         page,
-        totalPages: Math.ceil(total / limit),
+        totalPages: Math.ceil(rows.length / limit),
       };
     }),
-
   getById: publicQuery
-    .input(z.object({ id: z.number() }))
-    .query(async ({ input }) => {
-      const db = getDb();
-      const result = await db
-        .select()
-        .from(newsEvents)
-        .where(eq(newsEvents.id, input.id));
-      return result[0] ?? null;
-    }),
-
+    .input(id)
+    .query(
+      ({ input }) =>
+        readContent().collections.newsEvents.find(
+          row => row.id === input.id && row.isPublished
+        ) ?? null
+    ),
   create: adminQuery
-    .input(
-      z.object({
-        title: z.string().min(1),
-        titleAr: z.string().optional(),
-        excerpt: z.string().optional(),
-        excerptAr: z.string().optional(),
-        content: z.string().min(1),
-        contentAr: z.string().optional(),
-        imageUrl: z.string().optional(),
-        eventDate: z.string().optional(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      const db = getDb();
-      const result = await db.insert(newsEvents).values({
-        title: input.title,
-        titleAr: input.titleAr,
-        excerpt: input.excerpt,
-        excerptAr: input.excerptAr,
-        content: input.content,
-        contentAr: input.contentAr,
-        imageUrl: input.imageUrl,
-        eventDate: input.eventDate ? new Date(input.eventDate) : undefined,
-      });
-      return { id: Number(result[0].insertId), ...input };
-    }),
-
+    .input(fields)
+    .mutation(({ input }) => ({
+      id: insertRow("newsEvents", input).id,
+      ...input,
+    })),
   update: adminQuery
     .input(
-      z.object({
-        id: z.number(),
-        title: z.string().optional(),
-        titleAr: z.string().optional(),
-        excerpt: z.string().optional(),
-        excerptAr: z.string().optional(),
-        content: z.string().optional(),
-        contentAr: z.string().optional(),
-        imageUrl: z.string().optional(),
-        eventDate: z.string().optional().nullable(),
+      partialInput(fields).extend({
+        id: z.number().int().positive(),
         isPublished: z.boolean().optional(),
       })
     )
-    .mutation(async ({ input }) => {
-      const db = getDb();
-      const { id, eventDate, ...data } = input;
-      const updateData: Record<string, unknown> = { ...data };
-      if (eventDate !== undefined) {
-        updateData.eventDate = eventDate ? new Date(eventDate) : null;
-      }
-      await db.update(newsEvents).set(updateData).where(eq(newsEvents.id, id));
+    .mutation(({ input }) => {
+      const { id, ...v } = input;
+      updateRow("newsEvents", id, v);
       return { success: true };
     }),
-
-  delete: adminQuery
-    .input(z.object({ id: z.number() }))
-    .mutation(async ({ input }) => {
-      const db = getDb();
-      await db.delete(newsEvents).where(eq(newsEvents.id, input.id));
-      return { success: true };
-    }),
+  delete: adminQuery.input(id).mutation(({ input }) => {
+    deleteRow("newsEvents", input.id);
+    return { success: true };
+  }),
 });

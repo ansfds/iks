@@ -1,5 +1,6 @@
 import app from "./boot";
 import { isSeoRequest, seoResponse } from "./seo";
+import { adminPageResponse } from "./auth/page-guard";
 
 export async function handleVercelRequest(request: Request): Promise<Response> {
   const url = new URL(request.url);
@@ -12,12 +13,19 @@ export async function handleVercelRequest(request: Request): Promise<Response> {
   url.pathname = pathname;
   url.searchParams.delete("__path");
   const forwarded = new Request(url, request);
+  const guarded = await adminPageResponse(forwarded);
+  if (guarded) return guarded;
 
   if (url.pathname === "/api" || url.pathname.startsWith("/api/")) {
     return app.fetch(forwarded);
   }
   if ((request.method === "GET" || request.method === "HEAD") && isSeoRequest(url.pathname)) {
     const response = await seoResponse(url.pathname);
+    if (/^\/(admin|login)(\/|$)/.test(url.pathname)) {
+      response.headers.set("Cache-Control", "no-store");
+      response.headers.set("Content-Security-Policy", "frame-ancestors 'none'");
+      response.headers.set("Referrer-Policy", "same-origin");
+    }
     return request.method === "HEAD" ? new Response(null, response) : response;
   }
   return new Response("Not Found", { status: 404 });

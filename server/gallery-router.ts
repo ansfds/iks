@@ -1,81 +1,54 @@
+import { partialInput } from "./partial-input";
 import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware";
-import { getDb } from "./queries/connection";
-import { galleryItems } from "../db/schema";
-import { eq, asc } from "drizzle-orm";
-
+import { readContent, insertRow, updateRow, deleteRow } from "./cms/store";
+import { imageUrlInput } from "./media-url";
+const fields = z
+  .object({
+    title: z.string().min(1).max(255),
+    titleAr: z.string().max(255).optional(),
+    description: z.string().max(24000).optional(),
+    descriptionAr: z.string().max(24000).optional(),
+    imageUrl: imageUrlInput,
+    category: z.string().max(80).default("all"),
+    sortOrder: z.number().int().default(0),
+  })
+  .strict();
+const id = z.object({ id: z.number().int().positive() });
 export const galleryRouter = createRouter({
   list: publicQuery
-    .input(
-      z.object({ category: z.string().optional() }).optional()
-    )
-    .query(async ({ input }) => {
-      const db = getDb();
-      const items = await db
-        .select()
-        .from(galleryItems)
-        .where(eq(galleryItems.isActive, true))
-        .orderBy(asc(galleryItems.sortOrder));
-
-      if (input?.category && input.category !== "all") {
-        return items.filter((item) => item.category === input.category);
-      }
-
-      return items;
-    }),
-
+    .input(z.object({ category: z.string().optional() }).optional())
+    .query(({ input }) =>
+      readContent()
+        .collections.galleryItems.filter(
+          row =>
+            row.isActive &&
+            (!input?.category ||
+              input.category === "all" ||
+              row.category === input.category)
+        )
+        .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
+    ),
   create: adminQuery
-    .input(
-      z.object({
-        title: z.string().min(1),
-        titleAr: z.string().optional(),
-        description: z.string().optional(),
-        descriptionAr: z.string().optional(),
-        imageUrl: z.string().min(1),
-        category: z.string().default("all"),
-        sortOrder: z.number().default(0),
-      })
-    )
-    .mutation(async ({ input }) => {
-      const db = getDb();
-      const result = await db.insert(galleryItems).values({
-        title: input.title,
-        titleAr: input.titleAr,
-        description: input.description,
-        descriptionAr: input.descriptionAr,
-        imageUrl: input.imageUrl,
-        category: input.category,
-        sortOrder: input.sortOrder,
-      });
-      return { id: Number(result[0].insertId), ...input };
-    }),
-
+    .input(fields)
+    .mutation(({ input }) => ({
+      id: insertRow("galleryItems", input).id,
+      ...input,
+    })),
   update: adminQuery
     .input(
-      z.object({
-        id: z.number(),
-        title: z.string().optional(),
-        titleAr: z.string().optional(),
-        description: z.string().optional(),
-        descriptionAr: z.string().optional(),
-        imageUrl: z.string().optional(),
-        category: z.string().optional(),
-        sortOrder: z.number().optional(),
+      partialInput(fields).extend({
+        id: z.number().int().positive(),
         isActive: z.boolean().optional(),
       })
     )
-    .mutation(async ({ input }) => {
-      const db = getDb();
-      const { id, ...data } = input;
-      await db.update(galleryItems).set(data).where(eq(galleryItems.id, id));
+    .mutation(({ input }) => {
+      const { id, ...v } = input;
+      updateRow("galleryItems", id, v);
       return { success: true };
     }),
-
-  delete: adminQuery
-    .input(z.object({ id: z.number() }))
-    .mutation(async ({ input }) => {
-      const db = getDb();
-      await db.delete(galleryItems).where(eq(galleryItems.id, input.id));
-      return { success: true };
-    }),
+  delete: adminQuery.input(id).mutation(({ input }) => {
+    deleteRow("galleryItems", input.id);
+    return { success: true };
+  }),
 });

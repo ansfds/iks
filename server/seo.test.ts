@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 const store = vi.hoisted(() => ({ list: vi.fn(), bySlug: vi.fn() }));
-vi.mock("../src/lib/gift-card-catalog", () => ({ giftCardCatalog: store }));
+vi.mock("./gift-card-router", () => ({ giftCardRouter: { createCaller: () => store } }));
 import { dynamicSitemap, seoResponse } from "./seo";
 
 afterEach(() => { vi.resetAllMocks(); vi.restoreAllMocks(); });

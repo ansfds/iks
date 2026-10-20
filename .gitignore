@@ -30,7 +30,6 @@ dist-ssr
 *.db
 *.sqlite
 *.sqlite3
-db/migrations/*.sql
 # TypeScript cache
 *.tsbuildinfo
 # Build outputs
@@ -40,3 +39,14 @@ build/
 coverage/
 .preview/
 .nyc_output/
+.cache/
+.vite-cache/
+admin-backup-*/
+.env.*
+!.env.example
+backups/
+deploy-data/
+.vercel/
+env
+dist.zip
+data/gift-cards-local.json

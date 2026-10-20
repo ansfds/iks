@@ -5,14 +5,24 @@ import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { appRouter } from "./router";
 import { createContext } from "./context";
 import { env } from "./lib/env";
-import { createOAuthCallbackHandler } from "./kimi/auth";
-import { Paths } from "../contracts/constants";
+import { adminPageResponse } from "./auth/page-guard";
 import { registerSeoRoutes } from "./seo";
 
 const app = new Hono<{ Bindings: HttpBindings }>();
 
-app.use(bodyLimit({ maxSize: 50 * 1024 * 1024 }));
-app.get(Paths.oauthCallback, createOAuthCallbackHandler());
+app.use(bodyLimit({ maxSize: 4 * 1024 * 1024 }));
+app.use("*", async (c, next) => {
+  const response = await adminPageResponse(c.req.raw);
+  if (response) return response;
+  await next();
+  c.header("X-Content-Type-Options", "nosniff");
+  if (/^\/(admin|login|api)(\/|$)/.test(c.req.path)) {
+    c.header("Cache-Control", "no-store");
+    c.header("X-Robots-Tag", "noindex, nofollow");
+    c.header("Referrer-Policy", "same-origin");
+    c.header("Content-Security-Policy", "frame-ancestors 'none'");
+  }
+});
 app.use("/api/trpc/*", async (c) => {
   return fetchRequestHandler({
     endpoint: "/api/trpc",

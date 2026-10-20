@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { SiteImage } from "@/components/SiteImage";
 import { SITE_IMAGES } from "@/config/site-images";
 import { Menu, X } from "lucide-react";
@@ -18,6 +19,9 @@ const navLinks = [
 
 export default function Navbar() {
   const { t, dir } = useLanguage();
+  const cms = useSiteContent();
+  const navKey: Record<string,string> = { "/":"nav_home", "/about":"nav_about", "/curriculum":"nav_services", "/gift-cards":"nav_gift_cards", "/transfers":"nav_transfers", "/contact":"nav_contact" };
+  const visibleNavLinks = navLinks.filter(link => !navKey[link.href] || cms.isVisible(navKey[link.href]));
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
@@ -51,7 +55,7 @@ export default function Navbar() {
           aria-label="الوسيط المعتمد"
         >
           <SiteImage
-            src={SITE_IMAGES.branding.navbarLogo}
+            src={cms.value("site_logo", SITE_IMAGES.branding.navbarLogo)}
             fallbackSrc={SITE_IMAGES.branding.navbarLogoFallback}
             alt="شعار الوسيط المعتمد"
             loading="eager"
@@ -65,7 +69,7 @@ export default function Navbar() {
             dir === "rtl" ? "flex-row-reverse" : ""
           }`}
         >
-          {navLinks.map((link) => (
+          {visibleNavLinks.map((link) => (
             <Link
               key={link.href}
               to={link.href}
@@ -117,7 +121,7 @@ export default function Navbar() {
       {isMobileMenuOpen && (
         <div className="lg:hidden bg-white border-t shadow-lg">
           <div className="px-4 py-3 space-y-1">
-            {navLinks.map((link) => (
+            {visibleNavLinks.map((link) => (
               <Link
                 key={link.href}
                 to={link.href}

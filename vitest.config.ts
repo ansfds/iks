@@ -4,6 +4,7 @@ import path from "path";
 const templateRoot = path.resolve(import.meta.dirname);
 
 export default defineConfig({
+  cacheDir: path.resolve(templateRoot, ".vite-cache/tests"),
   root: templateRoot,
   resolve: {
     alias: {
@@ -21,6 +22,7 @@ export default defineConfig({
       "server/**/*.spec.ts",
       "src/**/*.test.ts",
       "src/**/*.spec.ts",
+      "tools/**/*.test.mjs",
     ],
     passWithNoTests: true,
   },

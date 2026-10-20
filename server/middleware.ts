@@ -2,16 +2,31 @@ import { ErrorMessages } from "../contracts/constants";
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import type { TrpcContext } from "./context";
+import { assertSameOrigin } from "./auth/security";
+import { withContent } from './cms/store';
 
 const t = initTRPC.context<TrpcContext>().create({
   transformer: superjson,
+  errorFormatter({ shape, error }) {
+    return { ...shape, message: error.code === "INTERNAL_SERVER_ERROR" ? "تعذر تنفيذ الطلب. حاول مرة أخرى." : shape.message,
+      data: { ...shape.data, stack: undefined } };
+  },
 });
 
 export const createRouter = t.router;
-export const publicQuery = t.procedure;
+const browserRequest = t.middleware(({ ctx, type, next }) => {
+  if (type === "mutation") assertSameOrigin(ctx.req);
+  return next();
+});
+export const publicQuery = t.procedure.use(browserRequest).use(async ({ ctx, type, path, next }) => {
+  if (type !== 'query' || /^(auth\.|cms\.|ping$)/.test(path)) return next();
+  const editor = Boolean(ctx.user && (ctx.req.headers.get('x-cms-editor') === '1' || path.includes('.admin.') || path.startsWith('admin.')));
+  return withContent(editor, false, ctx.req, path, ctx.resHeaders, () => next());
+});
 
 const requireAuth = t.middleware(async (opts) => {
   const { ctx, next } = opts;
+  if (ctx.authError) throw ctx.authError;
 
   if (!ctx.user) {
     throw new TRPCError({
@@ -38,5 +53,8 @@ function requireRole(role: string) {
   });
 }
 
-export const authedQuery = t.procedure.use(requireAuth);
-export const adminQuery = authedQuery.use(requireRole("admin"));
+export const authedQuery = publicQuery.use(requireAuth);
+export const adminQuery = authedQuery.use(requireRole("admin")).use(async ({ ctx, type, path, next }) => {
+  if (type !== 'mutation') return next();
+  return withContent(true, true, ctx.req, path, ctx.resHeaders, () => next());
+});

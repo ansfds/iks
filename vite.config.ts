@@ -3,17 +3,22 @@ import path from "path"
 const __dirname = import.meta.dirname
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
-import { inspectAttr } from 'kimi-plugin-inspect-react'
 import { siteMetadata } from './tools/site-metadata'
+import { config as loadServerEnvironment } from 'dotenv'
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => {
+  // Reload server-only credentials when Vite restarts after auth:setup changes .env.
+  if (command === 'serve') loadServerEnvironment({ override: true, quiet: true });
+  return {
+  cacheDir: '.vite-cache',
   plugins: [
     siteMetadata(),
     devServer({ entry: "server/boot.ts", exclude: [/^\/(?!api\/).*$/] }),
-    inspectAttr(), react()],
+    react()],
   server: {
     port: 3000,
+    fs: { deny: ['**/.env*', '**/*.{crt,pem}', '**/.git/**', '**/.cache/**', '**/admin-backup-*/**'] },
   },
   resolve: {
     alias: {
@@ -28,4 +33,5 @@ export default defineConfig({
     outDir: path.resolve(__dirname, "dist/public"),
     emptyOutDir: true,
   },
+  };
 });

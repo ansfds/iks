@@ -150,7 +150,7 @@ export default function App() {
           }
         />
         {/* Admin (no layout - separate) */}
-        <Route path="/admin" element={<Suspense fallback={<AuthLayoutSkeleton />}><Admin /></Suspense>} />
+        <Route path="/admin/*" element={<Suspense fallback={<AuthLayoutSkeleton />}><Admin /></Suspense>} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

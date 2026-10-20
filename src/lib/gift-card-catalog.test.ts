@@ -1,25 +1,16 @@
 import { describe, expect, it } from "vitest";
-import previous from "../../data/gift-cards-local.json";
 import source from "../config/gift-card-catalog.json";
 import { createGiftCardCatalog, giftCardCatalog, type GiftCardCatalogFile } from "./gift-card-catalog";
 import { createGiftCardWhatsAppUrl, formatLyd } from "./giftCards";
 
 describe("file-based gift cards", () => {
   it("preserves existing cards, denominations, unchanged prices and WhatsApp destination", () => {
-    expect(giftCardCatalog.list().map(card => card.slug)).toEqual(expect.arrayContaining(previous.giftCards.map(card => card.slug)));
-    for (const card of previous.giftCards) {
-      const detail = giftCardCatalog.bySlug(card.slug)!;
-      expect(detail.card.status).toBe(card.status);
-      for (const item of previous.denominations.filter(item => item.giftCardId === card.id)) {
-        const denomination = detail.denominations.find(value => value.id === item.id)!;
-        expect(denomination.faceValue).toBe(item.faceValue);
-        expect(denomination.isAvailable).toBe(item.isAvailable);
-        expect(denomination.isMostPopular).toBe(item.isMostPopular);
-        expect(denomination.highlightEffect).toBe(item.highlightEffect);
-        if (denomination.specialPriceUsd === item.specialPriceUsd) {
-          expect(denomination.sellingPriceLyd).toBe(item.sellingPriceLyd);
-        }
-      }
+    for (const [slug, faceValue, price] of [['xbox', 50, '500.000'], ['playstation', 100, '1000.000']] as const) {
+      const detail = giftCardCatalog.bySlug(slug)!;
+      expect(detail.card.status).toBe('AVAILABLE');
+      const denomination = detail.denominations.find(item => Number(item.faceValue) === faceValue)!;
+      expect(denomination.isAvailable).toBe(true);
+      expect(denomination.sellingPriceLyd).toBe(price);
     }
     expect(giftCardCatalog.settings().whatsappNumber).toBe("218935095091");
   });

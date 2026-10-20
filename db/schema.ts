@@ -1,7 +1,6 @@
 import {
   mysqlTable,
   mysqlEnum,
-  serial,
   bigint,
   decimal,
   varchar,
@@ -15,7 +14,7 @@ import {
 } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
-  id: serial("id").primaryKey(),
+  id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
   unionId: varchar("unionId", { length: 255 }).notNull().unique(),
   name: varchar("name", { length: 255 }),
   email: varchar("email", { length: 320 }),
@@ -29,8 +28,21 @@ export const users = mysqlTable("users", {
   lastSignInAt: timestamp("lastSignInAt").defaultNow().notNull(),
 });
 
+export const adminAuthSessions = mysqlTable("admin_auth_sessions", {
+  tokenHash: varchar("tokenHash", { length: 64 }).primaryKey(),
+  userId: bigint("userId", { mode: "number", unsigned: true }).notNull(),
+  fingerprint: varchar("fingerprint", { length: 64 }).notNull(),
+  expiresAt: bigint("expiresAt", { mode: "number", unsigned: true }).notNull(),
+}, table => [index("admin_auth_sessions_expiry").on(table.expiresAt)]);
+
+export const adminAuthAttempts = mysqlTable("admin_auth_attempts", {
+  bucket: varchar("bucket", { length: 32 }).primaryKey(),
+  attempts: int("attempts", { unsigned: true }).default(0).notNull(),
+  resetAt: bigint("resetAt", { mode: "number", unsigned: true }).notNull(),
+});
+
 export const contacts = mysqlTable("contacts", {
-  id: serial("id").primaryKey(),
+  id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
   studentName: varchar("studentName", { length: 255 }).notNull(),
   parentName: varchar("parentName", { length: 255 }).notNull(),
   email: varchar("email", { length: 255 }).notNull(),
@@ -43,7 +55,7 @@ export const contacts = mysqlTable("contacts", {
 });
 
 export const galleryItems = mysqlTable("gallery_items", {
-  id: serial("id").primaryKey(),
+  id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
   titleAr: varchar("titleAr", { length: 255 }),
   description: text("description"),
@@ -56,7 +68,7 @@ export const galleryItems = mysqlTable("gallery_items", {
 });
 
 export const newsEvents = mysqlTable("news_events", {
-  id: serial("id").primaryKey(),
+  id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
   title: varchar("title", { length: 255 }).notNull(),
   titleAr: varchar("titleAr", { length: 255 }),
   excerpt: text("excerpt"),
@@ -70,7 +82,7 @@ export const newsEvents = mysqlTable("news_events", {
 });
 
 export const testimonials = mysqlTable("testimonials", {
-  id: serial("id").primaryKey(),
+  id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
   authorName: varchar("authorName", { length: 255 }).notNull(),
   authorNameAr: varchar("authorNameAr", { length: 255 }),
   role: varchar("role", { length: 255 }),
@@ -86,7 +98,7 @@ export const testimonials = mysqlTable("testimonials", {
 export const countries = mysqlTable(
   "countries",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     nameAr: varchar("name_ar", { length: 255 }).notNull(),
     nameEn: varchar("name_en", { length: 255 }),
     slug: varchar("slug", { length: 180 }).notNull(),
@@ -112,7 +124,7 @@ export const countries = mysqlTable(
 export const currencies = mysqlTable(
   "currencies",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     symbol: varchar("symbol", { length: 24 }).notNull(),
     nameAr: varchar("name_ar", { length: 255 }).notNull(),
     nameEn: varchar("name_en", { length: 255 }),
@@ -136,7 +148,7 @@ export const currencies = mysqlTable(
 export const exchangeRates = mysqlTable(
   "exchange_rates",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     currencyId: bigint("currency_id", { mode: "number", unsigned: true }).notNull(),
     buyPrice: decimal("buy_price", { precision: 18, scale: 6 }),
     sellPrice: decimal("sell_price", { precision: 18, scale: 6 }),
@@ -158,7 +170,7 @@ export const exchangeRates = mysqlTable(
 export const exchangeRateHistory = mysqlTable(
   "exchange_rate_history",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     currencyId: bigint("currency_id", { mode: "number", unsigned: true }).notNull(),
     field: mysqlEnum("field", ["buy", "sell", "calculator"]).notNull(),
     oldValue: decimal("old_value", { precision: 18, scale: 6 }),
@@ -175,7 +187,7 @@ export const exchangeRateHistory = mysqlTable(
 export const services = mysqlTable(
   "services",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     nameAr: varchar("name_ar", { length: 255 }).notNull(),
     nameEn: varchar("name_en", { length: 255 }),
     descriptionAr: text("description_ar"),
@@ -220,7 +232,7 @@ export const services = mysqlTable(
 export const commissionRules = mysqlTable(
   "commission_rules",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     serviceId: bigint("service_id", { mode: "number", unsigned: true }).notNull(),
     minimumAmount: decimal("minimum_amount", {
       precision: 18,
@@ -261,7 +273,7 @@ export const commissionRules = mysqlTable(
 export const bankAccounts = mysqlTable(
   "bank_accounts",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     countryId: bigint("country_id", { mode: "number", unsigned: true }).notNull(),
     currencyId: bigint("currency_id", { mode: "number", unsigned: true }).notNull(),
     bankNameAr: varchar("bank_name_ar", { length: 255 }).notNull(),
@@ -300,7 +312,7 @@ export const bankAccounts = mysqlTable(
 export const siteSettings = mysqlTable(
   "site_settings",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     key: varchar("setting_key", { length: 180 }).notNull(),
     value: text("setting_value"),
     type: mysqlEnum("setting_type", ["text", "url", "image", "json"])
@@ -328,7 +340,7 @@ export const siteSettings = mysqlTable(
 export const socialLinks = mysqlTable(
   "social_links",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     platform: varchar("platform", { length: 80 }).notNull(),
     label: varchar("label", { length: 120 }),
     url: varchar("url", { length: 500 }).notNull(),
@@ -352,7 +364,7 @@ export const socialLinks = mysqlTable(
 export const trustIndicators = mysqlTable(
   "trust_indicators",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     labelAr: varchar("label_ar", { length: 255 }).notNull(),
     labelEn: varchar("label_en", { length: 255 }),
     value: varchar("value", { length: 80 }),
@@ -381,7 +393,7 @@ export const trustIndicators = mysqlTable(
 export const announcements = mysqlTable(
   "announcements",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     titleAr: varchar("title_ar", { length: 255 }).notNull(),
     titleEn: varchar("title_en", { length: 255 }),
     bodyAr: text("body_ar"),
@@ -413,7 +425,7 @@ export const announcements = mysqlTable(
 export const activityLogs = mysqlTable(
   "activity_logs",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     userId: bigint("user_id", { mode: "number", unsigned: true }),
     action: varchar("action", { length: 120 }).notNull(),
     entityType: varchar("entity_type", { length: 120 }).notNull(),
@@ -447,7 +459,7 @@ export const giftCardHighlightEffectEnum = mysqlEnum("highlight_effect", [
 export const giftCards = mysqlTable(
   "gift_cards",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     name: varchar("name", { length: 255 }).notNull(),
     displayName: varchar("display_name", { length: 255 }).notNull(),
     slug: varchar("slug", { length: 180 }).notNull(),
@@ -478,7 +490,7 @@ export const giftCards = mysqlTable(
 export const giftCardDenominations = mysqlTable(
   "gift_card_denominations",
   {
-    id: serial("id").primaryKey(),
+    id: bigint("id", { mode: "number", unsigned: true }).autoincrement().primaryKey(),
     giftCardId: bigint("gift_card_id", {
       mode: "number",
       unsigned: true,

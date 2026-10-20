@@ -5,8 +5,8 @@
 export const SITE_NAME = "الوسيط المعتمد";
 export const SITE_NAME_EN = "ELWASEET EL-MOATAMAD";
 
-// النطاق الموجود سابقًا في إعدادات sitemap. غيّره عبر VITE_SITE_URL عند الحاجة.
-export const PROJECT_SITE_URL = "https://alwaseet-global.com";
+// عنوان الموقع الحالي؛ يمكن تخصيصه بمتغير عام عند البناء.
+export const PROJECT_SITE_URL = "https://iks-pearl.vercel.app";
 export function validateSiteUrl(value: string) {
   const url = new URL(value);
   const host = url.hostname.replace(/^\[|\]$/g, "").toLowerCase();

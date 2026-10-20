@@ -3,22 +3,25 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import type { Hono } from "hono";
 import type { HttpBindings } from "@hono/node-server";
-import { giftCardCatalog } from "../src/lib/gift-card-catalog";
+import { giftCardRouter } from "./gift-card-router";
 import { giftCardSlug, normalizeSeoPath, pageSeo, resolvePageSeo } from "../src/config/seo";
 import { createRobotsTxt, createSitemap, renderSeoDocument } from "../src/lib/seo";
+import { applyContentSeo } from '../src/lib/content-seo';
+import { readContent } from './cms/store';
 
 function catalog() {
-  return giftCardCatalog;
+  return giftCardRouter.createCaller({ req: new Request('https://internal.invalid/'), resHeaders: new Headers() });
 }
 export async function resolveServerPageSeo(value: string) {
   const pathname = normalizeSeoPath(value);
   const slug = giftCardSlug(pathname);
-  if (!slug) return resolvePageSeo(pathname);
+  const contentSeo = (seo: ReturnType<typeof resolvePageSeo>) => applyContentSeo(seo, Object.fromEntries(readContent().collections.siteSettings.filter(row => row.isPublic).map(row => [row.key, row.value || ''])));
+  if (!slug) return contentSeo(resolvePageSeo(pathname));
   try {
-    const data = await catalog().bySlug(slug);
-    return resolvePageSeo(pathname, data ? { giftCard: data.card } : { notFound: true });
-  } catch (error) {
-    console.error(`[seo] Gift-card metadata unavailable for ${pathname}`, error);
+    const data = await catalog().bySlug({ slug });
+    return contentSeo(resolvePageSeo(pathname, data ? { giftCard: data.card } : { notFound: true }));
+  } catch {
+    console.error(`[seo] Gift-card metadata unavailable for ${pathname}`);
     return resolvePageSeo(pathname, { unavailable: true });
   }
 }
@@ -47,8 +50,8 @@ export async function seoResponse(value: string, template: () => Promise<string>
   if (pathname === "/sitemap.xml") {
     try {
       return new Response(await dynamicSitemap(), { headers: { "Content-Type": "application/xml; charset=utf-8", "Cache-Control": "no-cache" } });
-    } catch (error) {
-      console.error("[seo] Sitemap catalog query failed", error);
+  } catch {
+      console.error("[seo] Sitemap catalog query failed");
       return new Response("Sitemap temporarily unavailable", { status: 503, headers: { "Retry-After": "60", "X-Robots-Tag": "noindex", "Cache-Control": "no-store" } });
     }
   }

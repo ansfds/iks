@@ -4,12 +4,11 @@ import { GiftCardImage } from "@/components/gift-cards/GiftCardImage";
 import { getGiftCardImages } from "@/config/gift-card-images";
 import { resolveImageUrl } from "@/lib/image-utils";
 import { formatFaceValue, giftCardStatusLabels } from "@/lib/giftCards";
-import { giftCardCatalog } from "@/lib/gift-card-catalog";
+import { trpc } from "@/providers/trpc";
 
 export default function GiftCards() {
-  const cards = giftCardCatalog.list().filter(
-    (card) => card?.id && card.displayName && card.slug,
-  );
+  const live = trpc.giftCards.list.useQuery(undefined, { staleTime: 0, refetchInterval: 30_000 });
+  const cards = (live.data ?? []).filter((card) => card?.id && card.displayName && card.slug);
   const statusOrder = {
     AVAILABLE: 0,
     COMING_SOON: 1,
@@ -134,6 +133,8 @@ export default function GiftCards() {
     </div>
   );
 
+  if (live.isLoading) return <div className="min-h-screen bg-slate-50 px-6 pt-32 text-center" dir="rtl">جاري تحميل البطاقات...</div>;
+  if (live.isError) return <div className="min-h-screen bg-slate-50 px-6 pt-32 text-center text-red-700" dir="rtl">تعذر تحميل البطاقات. <button onClick={() => live.refetch()}>إعادة المحاولة</button></div>;
   return (
     <div className="min-h-screen bg-slate-50 pb-20 pt-16" dir="rtl">
       <section className="relative overflow-hidden bg-[#07111f]">

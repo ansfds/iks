@@ -33,7 +33,7 @@ describe("Vercel rewritten requests", () => {
 
   it("retains POST bodies and authentication for admin mutations", async () => {
     const response = await handleVercelRequest(new Request("https://example.com/api/index?__path=/api/trpc/giftCards.admin.update&batch=1", {
-      method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ 0: { json: { id: 1, name: "test" } } }),
+      method: "POST", headers: { "Content-Type": "application/json", Origin: "https://example.com", "x-admin-request": "1" }, body: JSON.stringify({ 0: { json: { id: 1, name: "test" } } }),
     }));
     expect(response.status).toBe(401);
     const data = await response.json() as Array<{ error: { json: { data: { code: string } } } }>;

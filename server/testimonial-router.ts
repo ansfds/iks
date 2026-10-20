@@ -1,75 +1,47 @@
+import { partialInput } from "./partial-input";
 import { z } from "zod";
 import { createRouter, publicQuery, adminQuery } from "./middleware";
-import { getDb } from "./queries/connection";
-import { testimonials } from "../db/schema";
-import { eq, asc } from "drizzle-orm";
+import { readContent, insertRow, updateRow, deleteRow } from "./cms/store";
 
+const fields = z
+  .object({
+    authorName: z.string().min(1).max(255),
+    authorNameAr: z.string().max(255).optional(),
+    role: z.string().max(100).optional(),
+    roleAr: z.string().max(100).optional(),
+    quote: z.string().min(1).max(12000),
+    quoteAr: z.string().max(12000).optional(),
+    rating: z.number().int().min(1).max(5).default(5),
+    sortOrder: z.number().int().default(0),
+  })
+  .strict();
+const id = z.object({ id: z.number().int().positive() });
 export const testimonialRouter = createRouter({
-  list: publicQuery.query(async () => {
-    const db = getDb();
-    const items = await db
-      .select()
-      .from(testimonials)
-      .where(eq(testimonials.isActive, true))
-      .orderBy(asc(testimonials.sortOrder));
-    return items;
-  }),
-
+  list: publicQuery.query(() =>
+    readContent()
+      .collections.testimonials.filter(row => row.isActive)
+      .sort((a, b) => (a.sortOrder || 0) - (b.sortOrder || 0))
+  ),
   create: adminQuery
-    .input(
-      z.object({
-        authorName: z.string().min(1),
-        authorNameAr: z.string().optional(),
-        role: z.string().optional(),
-        roleAr: z.string().optional(),
-        quote: z.string().min(1),
-        quoteAr: z.string().optional(),
-        rating: z.number().min(1).max(5).default(5),
-        sortOrder: z.number().default(0),
-      })
-    )
-    .mutation(async ({ input }) => {
-      const db = getDb();
-      const result = await db.insert(testimonials).values({
-        authorName: input.authorName,
-        authorNameAr: input.authorNameAr,
-        role: input.role,
-        roleAr: input.roleAr,
-        quote: input.quote,
-        quoteAr: input.quoteAr,
-        rating: input.rating,
-        sortOrder: input.sortOrder,
-      });
-      return { id: Number(result[0].insertId), ...input };
-    }),
-
+    .input(fields)
+    .mutation(({ input }) => ({
+      id: insertRow("testimonials", input).id,
+      ...input,
+    })),
   update: adminQuery
     .input(
-      z.object({
-        id: z.number(),
-        authorName: z.string().optional(),
-        authorNameAr: z.string().optional(),
-        role: z.string().optional(),
-        roleAr: z.string().optional(),
-        quote: z.string().optional(),
-        quoteAr: z.string().optional(),
-        rating: z.number().min(1).max(5).optional(),
+      partialInput(fields).extend({
+        id: z.number().int().positive(),
         isActive: z.boolean().optional(),
-        sortOrder: z.number().optional(),
       })
     )
-    .mutation(async ({ input }) => {
-      const db = getDb();
-      const { id, ...data } = input;
-      await db.update(testimonials).set(data).where(eq(testimonials.id, id));
+    .mutation(({ input }) => {
+      const { id, ...v } = input;
+      updateRow("testimonials", id, v);
       return { success: true };
     }),
-
-  delete: adminQuery
-    .input(z.object({ id: z.number() }))
-    .mutation(async ({ input }) => {
-      const db = getDb();
-      await db.delete(testimonials).where(eq(testimonials.id, input.id));
-      return { success: true };
-    }),
+  delete: adminQuery.input(id).mutation(({ input }) => {
+    deleteRow("testimonials", input.id);
+    return { success: true };
+  }),
 });

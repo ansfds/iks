@@ -1,10 +1,12 @@
-﻿import { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { trpc } from "@/providers/trpc";
 import { SiteImage } from "@/components/SiteImage";
 import { SiteBackground } from "@/components/SiteBackground";
 import { HomeGiftCardSwitch } from "@/components/gift-cards/HomeGiftCardSwitch";
+import { ManagedServices } from "@/components/ManagedServices";
 import { SITE_IMAGES } from "@/config/site-images";
 import { withCurrentCompanyName } from "@/lib/company-brand";
 import {
@@ -80,6 +82,7 @@ function hasLegacyContent(...values: Array<string | null | undefined>) {
 
 export default function Home() {
   const { t, dir } = useLanguage();
+  const cms = useSiteContent();
 
   const heroRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
@@ -168,11 +171,9 @@ export default function Home() {
 
   return (
     <div dir={dir}>
-      <section
-        ref={heroRef}
-        className="relative min-h-[100vh] max-h-[900px] flex items-center justify-center bg-gradient-hero overflow-hidden"
+      <section ref={heroRef} style={{ display: cms.isVisible("section_hero") ? undefined : "none" }} className="relative min-h-[100vh] max-h-[900px] flex items-center justify-center bg-gradient-hero overflow-hidden"
       >
-        <SiteBackground src={SITE_IMAGES.homepage.heroBackground} fallbackSources={[SITE_IMAGES.finance.fallbackTransferHero]} priority />
+        <SiteBackground src={cms.value("hero_image", SITE_IMAGES.homepage.heroBackground)} fallbackSources={[SITE_IMAGES.finance.fallbackTransferHero]} priority />
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(11,30,53,.86),rgba(33,59,111,.74))]" />
         <StarDecoration className="absolute top-[15%] left-[10%] w-6 h-6 opacity-60" />
         <StarDecoration className="absolute top-[20%] left-[18%] w-8 h-8 opacity-40" />
@@ -188,16 +189,16 @@ export default function Home() {
             {t("hero.welcome")}
           </div>
           <div className="hero-animate mb-4">
-            <PerspectiveText text="الوسيط المعتمد" isArabic />
+            <PerspectiveText text={cms.value("hero_title", "الوسيط المعتمد")} isArabic />
           </div>
           <p className="hero-animate text-xl sm:text-2xl md:text-[28px] font-medium text-white/[0.85] mb-6">
-            {t("hero.subtitle")}
+            {cms.value("hero_subtitle", t("hero.subtitle"))}
           </p>
           <p className="hero-animate text-base md:text-lg text-white/70 max-w-xl mx-auto mb-10 leading-relaxed">
             {t("hero.description")}
           </p>
           <div className={`hero-animate flex flex-col sm:flex-row items-center justify-center gap-4 ${dir === "rtl" ? "sm:flex-row-reverse" : ""}`}>
-            <Link to="/admissions" className="btn-primary glow-pulse">{t("hero.cta.primary")}</Link>
+            <Link to="/admissions" className="btn-primary glow-pulse">{cms.value("hero_cta", t("hero.cta.primary"))}</Link>
             <Link to="/about" className="btn-secondary">{t("hero.cta.secondary")}</Link>
           </div>
         </div>
@@ -219,13 +220,13 @@ export default function Home() {
 
       <HomeGiftCardSwitch />
 
-      <section ref={aboutRef} className="bg-[#F8F9FA] section-padding">
+      <section ref={aboutRef} style={{ display: cms.isVisible("section_about") ? undefined : "none" }} className="bg-[#F8F9FA] section-padding">
         <div className="container-main">
           <div className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${dir === "rtl" ? "lg:direction-rtl" : ""}`}>
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
               <span className="about-animate inline-block text-sm font-semibold text-[#7A1E2A] uppercase tracking-wider mb-3">{t("about.label")}</span>
-              <h2 className="about-animate text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1A1A1A] leading-tight mb-6">{t("about.title")}</h2>
-              <p className="about-animate text-base text-[#7C7C7C] leading-relaxed mb-6">{t("about.body")}</p>
+              <h2 className="about-animate text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1A1A1A] leading-tight mb-6">{cms.value("about_title", t("about.title"))}</h2>
+              <p className="about-animate text-base text-[#7C7C7C] leading-relaxed mb-6">{cms.value("about_description", t("about.body"))}</p>
               <Link to="/about" className="about-animate inline-flex items-center gap-2 text-[#7A1E2A] font-medium hover:gap-3 transition-all">
                 {t("about.learnMore")}
                 <ArrowRight size={18} className={dir === "rtl" ? "rotate-180" : ""} />
@@ -233,7 +234,7 @@ export default function Home() {
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <SiteImage
-                src={SITE_IMAGES.homepage.aboutImage}
+                src={cms.value("about_image", SITE_IMAGES.homepage.aboutImage)}
                 fallbackSrc={SITE_IMAGES.finance.fallbackLibyaCairo}
                 alt="خدمات تحويل من ليبيا إلى مصر"
                 className="about-animate w-full max-h-[560px]"
@@ -261,12 +262,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={curriculumRef} className="bg-gradient-curriculum section-padding">
+      <section ref={curriculumRef} style={{ display: cms.isVisible("section_services") ? undefined : "none" }} className="bg-gradient-curriculum section-padding">
         <div className="container-main">
           <div className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${dir === "rtl" ? "lg:direction-rtl" : ""}`}>
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
               <SiteImage
-                src={SITE_IMAGES.homepage.servicesImage}
+                src={cms.value("services_image", SITE_IMAGES.homepage.servicesImage)}
                 fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
                 alt="حوالات ومدفوعات عالمية من الوسيط المعتمد"
                 className="curriculum-animate w-full max-h-[560px]"
@@ -283,7 +284,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Leadership section removed */}
+      {cms.isVisible("section_services") && <section className="section-padding bg-[#F8F9FA]" dir="rtl"><div className="container-main"><h2 className="mb-8 text-center text-3xl font-bold">خدماتنا</h2><ManagedServices /></div></section>}
 
       <section ref={testimonialsRef} className="bg-[#F8F9FA] section-padding">
         <div className="container-main">

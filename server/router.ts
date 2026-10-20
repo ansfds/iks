@@ -6,6 +6,8 @@ import { testimonialRouter } from "./testimonial-router";
 import { adminRouter } from "./admin-router";
 import { financeRouter } from "./finance-router";
 import { giftCardRouter } from "./gift-card-router";
+import { siteContentRouter } from "./site-content-router";
+import { cmsRouter } from './cms-router';
 import { createRouter, publicQuery } from "./middleware";
 
 export const appRouter = createRouter({
@@ -18,6 +20,8 @@ export const appRouter = createRouter({
   admin: adminRouter,
   finance: financeRouter,
   giftCards: giftCardRouter,
+  siteContent: siteContentRouter,
+  cms: cmsRouter,
 });
 
 export type AppRouter = typeof appRouter;

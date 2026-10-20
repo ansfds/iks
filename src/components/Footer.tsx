@@ -1,8 +1,8 @@
-﻿import { Link } from "react-router";
+import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { SiteImage } from "@/components/SiteImage";
 import { SITE_IMAGES } from "@/config/site-images";
-import { siteConfig } from "@/config/site";
 import { MapPin, Phone, Facebook, MessageCircle } from "lucide-react";
 
 const quickLinks = [
@@ -26,9 +26,10 @@ const infoLinks = [
 
 export default function Footer() {
   const { t, dir } = useLanguage();
-  const facebookUrl = "https://www.facebook.com/profile.php?id=61560408535771";
-  const mapsUrl = "https://maps.app.goo.gl/GE4p2GdUZd8o8v9DA";
-  const whatsappUrl = "https://wa.me/218935095091";
+  const cms = useSiteContent();
+  const facebookUrl = cms.value("site_facebook", "https://www.facebook.com/profile.php?id=61560408535771");
+  const mapsUrl = cms.value("site_map_url", "https://maps.app.goo.gl/GE4p2GdUZd8o8v9DA");
+  const whatsappUrl = `https://wa.me/${cms.value("site_whatsapp").replace(/\D/g, "")}`;
 
   return (
     <footer className="bg-[#171923] text-white" dir={dir}>
@@ -37,13 +38,13 @@ export default function Footer() {
           {/* Column 1: About */}
           <div>
             <SiteImage
-              src={SITE_IMAGES.branding.logo}
+              src={cms.value("site_logo", SITE_IMAGES.branding.logo)}
               fallbackSrc={SITE_IMAGES.branding.logoFallback}
               alt="الوسيط المعتمد"
               className="mb-4 h-auto max-h-14 w-auto max-w-[230px]"
             />
             <p className="text-sm text-gray-400 leading-relaxed">
-              {t("footer.description")}
+              {cms.value("footer_description", t("footer.description"))}
             </p>
           </div>
 
@@ -93,13 +94,13 @@ export default function Footer() {
                   rel="noreferrer"
                   className="text-sm text-gray-400 hover:text-white transition-colors"
                 >
-                  {t("footer.address")}
+                  {cms.value("site_address", t("footer.address"))}
                 </a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone size={16} className="text-[#38BDF8] shrink-0" />
                 <span className="flex flex-col gap-1" dir="ltr">
-                  {siteConfig.displayPhones.map((phone) => (
+                  {cms.phones().map((p) => p.number).map((phone) => (
                     <a key={phone} href={`tel:${phone}`} className="text-sm text-gray-400 hover:text-white transition-colors">{phone}</a>
                   ))}
                 </span>
@@ -108,9 +109,7 @@ export default function Footer() {
                 <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[#38BDF8]" />
                 <div className="space-y-1 text-sm text-gray-400">
                   <p className="font-semibold text-white">{t("footer.hoursTitle")}</p>
-                  <p>{t("footer.hours.weekdays")}</p>
-                  <p>{t("footer.hours.thursday")}</p>
-                  <p>{t("footer.hours.friday")}</p>
+                  {cms.hours().map((h,i) => <p key={i}>{h.label}: {h.hours}</p>)}
                 </div>
               </li>
             </ul>

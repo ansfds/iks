@@ -1,22 +1,17 @@
-import * as cookie from "cookie";
-import { Session } from "../contracts/constants";
-import { getSessionCookieOptions } from "./lib/cookies";
-import { createRouter, authedQuery } from "./middleware";
+import { z } from "zod";
+import { createRouter, publicQuery } from "./middleware";
+import { login, logout } from "./auth/service";
 
 export const authRouter = createRouter({
-  me: authedQuery.query((opts) => opts.ctx.user),
-  logout: authedQuery.mutation(async ({ ctx }) => {
-    const opts = getSessionCookieOptions(ctx.req.headers);
-    ctx.resHeaders.append(
-      "set-cookie",
-      cookie.serialize(Session.cookieName, "", {
-        httpOnly: opts.httpOnly,
-        path: opts.path,
-        sameSite: opts.sameSite?.toLowerCase() as "lax" | "none",
-        secure: opts.secure,
-        maxAge: 0,
-      }),
-    );
-    return { success: true };
+  challenge: publicQuery.query(() => ({ required: process.env.VERCEL === '1', siteKey: process.env.TURNSTILE_SITE_KEY || null })),
+  me: publicQuery.query(({ ctx }) => {
+    if (ctx.authError) throw ctx.authError;
+    return ctx.user ? { id: ctx.user.id, name: ctx.user.name, role: "admin" as const, expiresAt: ctx.sessionExpiresAt! } : null;
   }),
+  login: publicQuery.input(z.object({
+    username: z.string().trim().min(1, "أدخل اسم المستخدم.").max(100),
+    password: z.string().min(1, "أدخل كلمة المرور.").max(1024),
+    challengeToken: z.string().max(2048).optional(),
+  })).mutation(({ ctx, input }) => login(ctx.req, ctx.resHeaders, input.username, input.password, input.challengeToken)),
+  logout: publicQuery.mutation(({ ctx }) => logout(ctx.req, ctx.resHeaders)),
 });

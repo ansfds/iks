@@ -19,7 +19,7 @@ import {
 } from "@/lib/giftCards";
 import { resolveImageUrl } from "@/lib/image-utils";
 import { cn } from "@/lib/utils";
-import { giftCardCatalog } from "@/lib/gift-card-catalog";
+import { trpc } from "@/providers/trpc";
 
 function getSpecialSavings(denomination: {
   faceValue: string | number;
@@ -41,7 +41,8 @@ export default function GiftCardDetail() {
   const { slug } = useParams<{ slug: string }>();
   const [selectedId, setSelectedId] = useState<number | null>(null);
 
-  const data = giftCardCatalog.bySlug(slug ?? "");
+  const live = trpc.giftCards.bySlug.useQuery({ slug: slug || "not-found" }, { staleTime: 0, refetchInterval: 30_000 });
+  const data = live.data;
   const card = data?.card;
   const denominations = data?.denominations ?? [];
   const selectedDenomination =
@@ -65,6 +66,8 @@ export default function GiftCardDetail() {
         })
       : "";
 
+  if (live.isLoading) return <div className="min-h-screen px-4 pt-32 text-center" dir="rtl">جاري تحميل البطاقة...</div>;
+  if (live.isError) return <div className="min-h-screen px-4 pt-32 text-center" dir="rtl">تعذر تحميل البطاقة. <button onClick={() => live.refetch()}>إعادة المحاولة</button></div>;
   if (!data || !card) {
     return (
       <div className="min-h-screen bg-slate-50 px-4 pb-20 pt-28 text-center" dir="rtl">

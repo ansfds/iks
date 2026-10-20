@@ -3,7 +3,8 @@ import { ArrowLeft, Gift, Landmark } from "lucide-react";
 import { GIFT_CARD_IMAGES } from "@/config/gift-card-images";
 import { SITE_IMAGES } from "@/config/site-images";
 import { resolveImageUrl } from "@/lib/image-utils";
-import { giftCardCatalog } from "@/lib/gift-card-catalog";
+import { trpc } from "@/providers/trpc";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { SiteBackground } from "@/components/SiteBackground";
 
 function SectionTile({
@@ -41,17 +42,19 @@ function SectionTile({
 }
 
 export function HomeGiftCardSwitch() {
-  const settings = giftCardCatalog.settings();
+  const settingsQuery = trpc.giftCards.settings.useQuery(undefined, { staleTime: 0, refetchInterval: 30_000 });
+  const settings = settingsQuery.data;
+  const cms = useSiteContent();
 
   const giftCardBackground =
     resolveImageUrl(
-      settings.homeGiftCardsBackgroundUrl,
+      settings?.homeGiftCardsBackgroundUrl,
       GIFT_CARD_IMAGES.playstation.backgroundImage,
       GIFT_CARD_IMAGES.playstation.localFallback,
     );
   const servicesBackground =
     resolveImageUrl(
-      settings.homeServicesBackgroundUrl,
+      settings?.homeServicesBackgroundUrl,
       SITE_IMAGES.finance.transferHero,
       SITE_IMAGES.finance.fallbackTransferHero,
     );
@@ -60,20 +63,20 @@ export function HomeGiftCardSwitch() {
     <section className="bg-white py-10 md:py-12" dir="rtl">
       <div className="container-main px-4 sm:px-6 lg:px-8">
         <div className="grid gap-4 md:grid-cols-2">
-          <SectionTile
+          {cms.isVisible("section_gift_cards") && <SectionTile
             href="/gift-cards"
             label="Gift Card"
             icon={Gift}
             imageUrl={giftCardBackground}
             fallbacks={[GIFT_CARD_IMAGES.playstation.backgroundImage, GIFT_CARD_IMAGES.playstation.localFallback]}
-          />
-          <SectionTile
+          />}
+          {cms.isVisible("section_services") && <SectionTile
             href="/curriculum"
             label="الخدمات المالية"
             icon={Landmark}
             imageUrl={servicesBackground}
             fallbacks={[SITE_IMAGES.finance.transferHero, SITE_IMAGES.finance.fallbackTransferHero]}
-          />
+          />}
         </div>
       </div>
     </section>
