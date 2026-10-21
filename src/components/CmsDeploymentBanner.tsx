@@ -36,7 +36,7 @@ export function CmsDeploymentBanner() {
   const label = status.isError
     ? "تم الحفظ؛ تعذر التحقق من النشر"
     : !saved
-      ? "جاهز للتحرير"
+      ? snapshot.error ? "تعذر تحميل حالة التحرير" : snapshot.data?.writesEnabled ? "جاهز للتحرير" : "معاينة مقفلة: الحفظ غير مفعّل"
       : status.data?.state === "deployed"
         ? "تم النشر"
         : status.data?.state === "failed"

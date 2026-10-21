@@ -280,4 +280,34 @@ describe("single admin signed sessions without database storage", () => {
       200
     );
   });
+  it("never returns or logs GitHub credentials when the upstream body or network error contains them", async () => {
+    const secret = randomBytes(36).toString("base64url");
+    vi.stubEnv("CMS_GITHUB_TOKEN", secret);
+    vi.stubEnv("CMS_GITHUB_REPOSITORY", "ansfds/iks");
+    vi.stubEnv("CMS_BRANCH", "experiment/git-backed-cms");
+    vi.stubEnv("CMS_PRODUCTION_BRANCH", "main");
+    vi.stubEnv("VERCEL_ENV", "preview");
+    const cookie = await signedIn();
+    const spies = ["log", "warn", "error"].map(method =>
+      vi.spyOn(console, method as "error").mockImplementation(() => {})
+    );
+    try {
+      for (const networkFailure of [false, true]) {
+        vi.stubGlobal("fetch", vi.fn(async () => {
+          if (networkFailure) throw new Error(`Authorization: Bearer ${secret}`);
+          return Response.json({ message: `Upstream private error ${secret}` }, { status: 403 });
+        }));
+        const response = await rpc("cms.snapshot", undefined, cookie, "GET");
+        expect(response.status).toBeGreaterThanOrEqual(400);
+        const body = await response.text();
+        expect(body).not.toContain(secret);
+        expect(body).not.toContain("Authorization");
+        expect(JSON.parse(body).error.json.data.stack).toBeNull();
+        expect(body).not.toContain("Bearer");
+      }
+      expect(JSON.stringify(spies.flatMap(spy => spy.mock.calls))).not.toContain(secret);
+    } finally {
+      for (const spy of spies) spy.mockRestore();
+    }
+  });
 });

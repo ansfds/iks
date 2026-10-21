@@ -5,7 +5,7 @@ const privateStorageRequired = () => {
   throw new TRPCError({
     code: "SERVICE_UNAVAILABLE",
     message:
-      "Private contact messages require a private inbox service. They are never written to public Git content. Use the displayed phone or WhatsApp contact.",
+      "صندوق الرسائل الخاص غير متصل حاليًا؛ لم تُحفظ هذه الرسالة. تواصل عبر الهاتف أو واتساب الظاهرين في الموقع. الرسائل السابقة محفوظة في مصدرها الأصلي ولا تُنقل إلى المستودع العام.",
   });
 };
 export const contactRouter = createRouter({

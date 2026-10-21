@@ -4,9 +4,10 @@ export const adminRouter = createRouter({
   stats: adminQuery.query(() => {
     const c = readContent().collections;
     return {
-      totalContacts: 0,
-      unreadContacts: 0,
-      contactsThisMonth: 0,
+      // Unavailable is not an empty inbox. Existing messages remain in the legacy database.
+      totalContacts: null,
+      unreadContacts: null,
+      contactsThisMonth: null,
       contactsStorageAvailable: false,
       totalGallery: c.galleryItems.length,
       totalNews: c.newsEvents.length,

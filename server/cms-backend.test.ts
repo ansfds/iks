@@ -133,6 +133,12 @@ describe("GitHub compare-and-swap transport and environment isolation", () => {
     vi.stubEnv("CMS_BRANCH", "main");
     expect(() => cmsConfiguration()).toThrow();
   });
+  it("makes no GitHub write request in locked Preview even when a token is present", async () => {
+    vi.stubEnv("CMS_WRITES_ENABLED", "NO");
+    const fetcher = vi.fn();
+    await expect(new GitHubContentRepository(fetcher).write(bundledSnapshot().document, old, "cms: locked")).rejects.toMatchObject({ code: "FORBIDDEN" });
+    expect(fetcher).not.toHaveBeenCalled();
+  });
   it("requires the exact Vercel source repository and source branch", () => {
     vi.stubEnv("VERCEL", "1");
     vi.stubEnv("VERCEL_GIT_COMMIT_REF", "untrusted-preview");
