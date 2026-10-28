@@ -5,7 +5,7 @@ const source = JSON.parse(sourceBytes);
 const manifest = JSON.parse(await readFile('server/supabase/content-manifest.json','utf8'));
 const quote = v => "'"+JSON.stringify(v).replaceAll("'","''")+"'::jsonb";
 const tables = {};
-for(const [name,spec] of Object.entries(manifest)) tables[spec.table] = source.collections[name].map(row=>Object.fromEntries(Object.entries(spec.fields).map(([col,f])=>[col,row[f.key]])));
+for(const [name,spec] of Object.entries(manifest)) tables[spec.table] = source.collections[name].map(row=>Object.fromEntries(Object.entries(spec.fields).map(([col,f])=>[col,row[f.key]===undefined&&f.key==='isActive'?true:row[f.key]])));
 tables.gift_card_pricing = source.collections.giftCardDenominations.map(r=>({id:r.id,selling_price_lyd:r.sellingPriceLyd,manual_selling_price_lyd:r.manualSellingPriceLyd,special_price_usd:r.specialPriceUsd}));
 const legacy = JSON.parse(await readFile('../local-app/backups/db-1792527334584.json','utf8'));
 // The live content export excludes old auth/session data. Preserve the historical

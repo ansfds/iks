@@ -59,6 +59,26 @@ afterEach(() => {
 });
 
 describe("Git CMS content workflows and atomic request boundaries", () => {
+  it('keeps inactive denominations in Admin while excluding them from every public card response',async()=>{
+    const row=document.collections.giftCardDenominations[0];
+    const card=document.collections.giftCards.find(c=>c.id===row.giftCardId)!;
+    await caller().giftCards.admin.denominations.update({id:row.id,isActive:false});
+    expect((await caller().giftCards.admin.getById({id:card.id}))?.denominations.some(d=>d.id===row.id&&d.isActive===false)).toBe(true);
+    expect((await caller(false).giftCards.bySlug({slug:card.slug}))?.denominations.some(d=>d.id===row.id)).toBe(false);
+    expect((await caller(false).giftCards.list()).flatMap(c=>c.denominations).some(d=>d.id===row.id)).toBe(false);
+    await caller().giftCards.admin.denominations.update({id:row.id,isMostPopular:true});
+    expect(document.collections.giftCardDenominations.find(d=>d.id===row.id)?.isActive).toBe(false);
+    await caller().giftCards.admin.denominations.update({id:row.id,isActive:true});
+    expect((await caller(false).giftCards.bySlug({slug:card.slug}))?.denominations.some(d=>d.id===row.id)).toBe(true);
+  });
+  it('saves visual text and image in one atomic change, and rejects an invalid batch without partial writes',async()=>{
+    await caller().siteContent.admin.saveBatch({changes:[{key:'mission_description',value:'رسالة محدثة'},{key:'mission_image',value:'/images/alwaseet-libya-cairo.jpg'}]});
+    expect(commits).toBe(1);
+    expect((await caller(false).siteContent.public()).mission_description).toBe('رسالة محدثة');
+    const before=JSON.stringify(document);
+    await expect(caller().siteContent.admin.saveBatch({changes:[{key:'mission_description',value:'Unsaved'},{key:'mission_image',value:'javascript:alert(1)'}]})).rejects.toMatchObject({code:'BAD_REQUEST'});
+    expect(JSON.stringify(document)).toBe(before);expect(commits).toBe(1);
+  });
   it("preserves the public catalog and seeded image inheritance without any database", async () => {
     const api = caller(false);
     const cards = await api.giftCards.list();

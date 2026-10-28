@@ -93,6 +93,7 @@ const denominationCreateInput = z.object({
   sellingPriceLyd: optionalLydPrice,
   manualSellingPriceLyd: optionalLydPrice,
   specialPriceUsd: optionalUsdPrice,
+  isActive: z.boolean().default(true),
   isAvailable: z.boolean().default(true),
   isMostPopular: z.boolean().default(false),
   highlightEffect: z.enum(highlightEffectValues).default("NONE"),
@@ -262,7 +263,7 @@ async function getContentCardsWithDenominations(includeHidden = false) {
     .sort(compareGiftCardStatus);
 
   const denominations = resolveDenominations(
-    [...store.denominations],
+    store.denominations.filter(row=>includeHidden||row.isActive),
     settings
   ).sort(
     (a, b) =>
@@ -413,6 +414,7 @@ async function createContentDenomination(
           sellingPriceLyd: resolved.sellingPriceLyd,
           manualSellingPriceLyd: resolved.manualSellingPriceLyd,
           specialPriceUsd: resolved.specialPriceUsd,
+          isActive: input.isActive,
           isAvailable: input.isAvailable,
           isMostPopular: input.isMostPopular,
           highlightEffect: input.highlightEffect,

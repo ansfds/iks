@@ -32,7 +32,7 @@ export default function Footer() {
   const whatsappUrl = `https://wa.me/${cms.value("site_whatsapp").replace(/\D/g, "")}`;
 
   return (
-    <footer className="bg-[#171923] text-white" dir={dir}>
+    <footer data-editor-section="footer" data-editor-label="التذييل" className="bg-[#171923] text-white" dir={dir}>
       <div className="container-main px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Column 1: About */}
@@ -43,7 +43,7 @@ export default function Footer() {
               alt="الوسيط المعتمد"
               className="mb-4 h-auto max-h-14 w-auto max-w-[230px]"
             />
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p data-cms-key="footer_description" className="text-sm text-gray-400 leading-relaxed">
               {cms.value("footer_description", t("footer.description"))}
             </p>
           </div>

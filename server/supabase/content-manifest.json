@@ -547,6 +547,11 @@
         "type": "text",
         "nullable": false
       },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
       "is_available": {
         "key": "isAvailable",
         "type": "boolean",

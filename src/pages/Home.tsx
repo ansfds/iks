@@ -26,7 +26,7 @@ function PerspectiveText({ text, isArabic = false }: { text: string; isArabic?: 
   if (isArabic) {
     return (
       <h1
-        dir="rtl"
+        data-cms-key="hero_title" dir="rtl"
         lang="ar"
         className="text-4xl sm:text-5xl md:text-6xl lg:text-[68px] font-extrabold text-white tracking-normal leading-tight"
         style={{
@@ -144,17 +144,17 @@ export default function Home() {
   }, []);
 
   const stats = [
-    { number: "+1.3K", label: t("stats.students") },
-    { number: "6", label: t("stats.classrooms") },
-    { number: "24/7", label: t("stats.nationalities") },
-    { number: "100%", label: t("stats.satisfaction") },
+    { number: cms.value("stat_1_value", "+1.3K"), label: cms.value("stat_1_label", t("stats.students")) },
+    { number: cms.value("stat_2_value", "6"), label: cms.value("stat_2_label", t("stats.classrooms")) },
+    { number: cms.value("stat_3_value", "24/7"), label: cms.value("stat_3_label", t("stats.nationalities")) },
+    { number: cms.value("stat_4_value", "100%"), label: cms.value("stat_4_label", t("stats.satisfaction")) },
   ];
 
   const features = [
-    { icon: Star, title: t("why.character.title"), description: t("why.character.desc") },
-    { icon: Building2, title: t("why.facilities.title"), description: t("why.facilities.desc") },
-    { icon: Globe, title: t("why.global.title"), description: t("why.global.desc") },
-    { icon: Heart, title: t("why.wellbeing.title"), description: t("why.wellbeing.desc") },
+    { icon: Star, title: cms.value("feature_1_title", t("why.character.title")), description: cms.value("feature_1_body", t("why.character.desc")) },
+    { icon: Building2, title: cms.value("feature_2_title", t("why.facilities.title")), description: cms.value("feature_2_body", t("why.facilities.desc")) },
+    { icon: Globe, title: cms.value("feature_3_title", t("why.global.title")), description: cms.value("feature_3_body", t("why.global.desc")) },
+    { icon: Heart, title: cms.value("feature_4_title", t("why.wellbeing.title")), description: cms.value("feature_4_body", t("why.wellbeing.desc")) },
   ];
 
   const galleryImages = publicGalleryData.length ? publicGalleryData.slice(0, 9) : [
@@ -171,9 +171,9 @@ export default function Home() {
 
   return (
     <div dir={dir}>
-      <section ref={heroRef} style={{ display: cms.isVisible("section_hero") ? undefined : "none" }} className="relative min-h-[100vh] max-h-[900px] flex items-center justify-center bg-gradient-hero overflow-hidden"
+      <section ref={heroRef} data-editor-section="hero" data-editor-label="Hero" data-editor-visibility="section_hero" style={{ display: cms.isVisible("section_hero") ? undefined : "none" }} className="relative min-h-[100vh] max-h-[900px] flex items-center justify-center bg-gradient-hero overflow-hidden"
       >
-        <SiteBackground src={cms.value("hero_image", SITE_IMAGES.homepage.heroBackground)} fallbackSources={[SITE_IMAGES.finance.fallbackTransferHero]} priority />
+        <SiteBackground editorKey="hero_image" src={cms.value("hero_image", SITE_IMAGES.homepage.heroBackground)} fallbackSources={[SITE_IMAGES.finance.fallbackTransferHero]} priority />
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(11,30,53,.86),rgba(33,59,111,.74))]" />
         <StarDecoration className="absolute top-[15%] left-[10%] w-6 h-6 opacity-60" />
         <StarDecoration className="absolute top-[20%] left-[18%] w-8 h-8 opacity-40" />
@@ -185,33 +185,33 @@ export default function Home() {
         <StarDecoration className="absolute bottom-[35%] right-[5%] w-6 h-6 opacity-50" />
 
         <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <div className="hero-animate inline-flex items-center px-5 py-2 rounded-full text-sm font-semibold text-white bg-white/[0.15] border border-white/20 mb-8">
-            {t("hero.welcome")}
+          <div data-cms-key="home_hero_welcome" className="hero-animate inline-flex items-center px-5 py-2 rounded-full text-sm font-semibold text-white bg-white/[0.15] border border-white/20 mb-8">
+            {cms.value("home_hero_welcome", t("hero.welcome"))}
           </div>
           <div className="hero-animate mb-4">
             <PerspectiveText text={cms.value("hero_title", "الوسيط المعتمد")} isArabic />
           </div>
-          <p className="hero-animate text-xl sm:text-2xl md:text-[28px] font-medium text-white/[0.85] mb-6">
+          <p data-cms-key="hero_subtitle" className="hero-animate text-xl sm:text-2xl md:text-[28px] font-medium text-white/[0.85] mb-6">
             {cms.value("hero_subtitle", t("hero.subtitle"))}
           </p>
-          <p className="hero-animate text-base md:text-lg text-white/70 max-w-xl mx-auto mb-10 leading-relaxed">
-            {t("hero.description")}
+          <p data-cms-key="hero_description" className="hero-animate text-base md:text-lg text-white/70 max-w-xl mx-auto mb-10 leading-relaxed">
+            {cms.value("hero_description", t("hero.description"))}
           </p>
           <div className={`hero-animate flex flex-col sm:flex-row items-center justify-center gap-4 ${dir === "rtl" ? "sm:flex-row-reverse" : ""}`}>
-            <Link to="/admissions" className="btn-primary glow-pulse">{cms.value("hero_cta", t("hero.cta.primary"))}</Link>
-            <Link to="/about" className="btn-secondary">{t("hero.cta.secondary")}</Link>
+            <Link data-cms-key="hero_cta" to="/admissions" className="btn-primary glow-pulse">{cms.value("hero_cta", t("hero.cta.primary"))}</Link>
+            <Link data-cms-key="home_hero_secondary" to="/about" className="btn-secondary">{cms.value("home_hero_secondary", t("hero.cta.secondary"))}</Link>
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent" />
       </section>
 
-      <section ref={statsRef} className="bg-white py-10 md:py-12">
+      <section ref={statsRef} data-editor-section="stats" data-editor-label="الأرقام" data-editor-visibility="section_stats" style={{ display: cms.isVisible("section_stats") ? undefined : "none" }} className="bg-white py-10 md:py-12">
         <div className="container-main px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-0">
             {stats.map((stat, i) => (
               <div key={i} className={`stat-item text-center ${i < stats.length - 1 ? "md:border-r md:border-gray-100" : ""}`}>
-                <div className="text-3xl md:text-[42px] font-bold text-[#7A1E2A] mb-1">{stat.number}</div>
-                <div className="text-sm text-[#7C7C7C]">{stat.label}</div>
+                <div className="text-3xl md:text-[42px] font-bold text-[#7A1E2A] mb-1" data-cms-key={`stat_${i+1}_value`}>{stat.number}</div>
+                <div className="text-sm text-[#7C7C7C]" data-cms-key={`stat_${i+1}_label`}>{stat.label}</div>
               </div>
             ))}
           </div>
@@ -220,21 +220,21 @@ export default function Home() {
 
       <HomeGiftCardSwitch />
 
-      <section ref={aboutRef} style={{ display: cms.isVisible("section_about") ? undefined : "none" }} className="bg-[#F8F9FA] section-padding">
+      <section ref={aboutRef} data-editor-section="about" data-editor-label="عن الوسيط" data-editor-visibility="section_about" style={{ display: cms.isVisible("section_about") ? undefined : "none" }} className="bg-[#F8F9FA] section-padding">
         <div className="container-main">
           <div className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${dir === "rtl" ? "lg:direction-rtl" : ""}`}>
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
-              <span className="about-animate inline-block text-sm font-semibold text-[#7A1E2A] uppercase tracking-wider mb-3">{t("about.label")}</span>
-              <h2 className="about-animate text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1A1A1A] leading-tight mb-6">{cms.value("about_title", t("about.title"))}</h2>
-              <p className="about-animate text-base text-[#7C7C7C] leading-relaxed mb-6">{cms.value("about_description", t("about.body"))}</p>
+              <span data-cms-key="home_about_label" className="about-animate inline-block text-sm font-semibold text-[#7A1E2A] uppercase tracking-wider mb-3">{cms.value("home_about_label", t("about.label"))}</span>
+              <h2 data-cms-key="about_title" className="about-animate text-2xl sm:text-3xl md:text-4xl font-semibold text-[#1A1A1A] leading-tight mb-6">{cms.value("about_title", t("about.title"))}</h2>
+              <p data-cms-key="about_description" className="about-animate text-base text-[#7C7C7C] leading-relaxed mb-6">{cms.value("about_description", t("about.body"))}</p>
               <Link to="/about" className="about-animate inline-flex items-center gap-2 text-[#7A1E2A] font-medium hover:gap-3 transition-all">
-                {t("about.learnMore")}
+                <span data-cms-key="home_about_cta">{cms.value("home_about_cta", t("about.learnMore"))}</span>
                 <ArrowRight size={18} className={dir === "rtl" ? "rotate-180" : ""} />
               </Link>
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <SiteImage
-                src={cms.value("about_image", SITE_IMAGES.homepage.aboutImage)}
+                editorKey="about_image" src={cms.value("about_image", SITE_IMAGES.homepage.aboutImage)}
                 fallbackSrc={SITE_IMAGES.finance.fallbackLibyaCairo}
                 alt="خدمات تحويل من ليبيا إلى مصر"
                 className="about-animate w-full max-h-[560px]"
@@ -244,53 +244,53 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={whyRef} className="bg-white section-padding">
+      <section ref={whyRef} data-editor-section="why" data-editor-label="لماذا نحن" data-editor-visibility="section_why" style={{ display: cms.isVisible("section_why") ? undefined : "none" }} className="bg-white section-padding">
         <div className="container-main">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-4">{t("why.title")}</h2>
-            <p className="text-base md:text-lg text-[#7C7C7C] max-w-2xl mx-auto">{t("why.subtitle")}</p>
+            <h2 data-cms-key="why_title" className="text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-4">{cms.value("why_title", t("why.title"))}</h2>
+            <p data-cms-key="why_description" className="text-base md:text-lg text-[#7C7C7C] max-w-2xl mx-auto">{cms.value("why_description", t("why.subtitle"))}</p>
           </div>
           <div className="grid sm:grid-cols-2 gap-6">
             {features.map((feature, i) => (
               <div key={i} className="why-card card-shadow bg-white border border-[rgba(11,30,53,0.08)] p-8">
                 <feature.icon size={48} className="text-[#7A1E2A] mb-4" strokeWidth={1.5} />
-                <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3">{feature.title}</h3>
-                <p className="text-base text-[#7C7C7C] leading-relaxed">{feature.description}</p>
+                <h3 className="text-xl font-semibold text-[#1A1A1A] mb-3" data-cms-key={`feature_${i+1}_title`}>{feature.title}</h3>
+                <p className="text-base text-[#7C7C7C] leading-relaxed" data-cms-key={`feature_${i+1}_body`}>{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section ref={curriculumRef} style={{ display: cms.isVisible("section_services") ? undefined : "none" }} className="bg-gradient-curriculum section-padding">
+      <section ref={curriculumRef} data-editor-section="services" data-editor-label="الخدمات" data-editor-visibility="section_services" style={{ display: cms.isVisible("section_services") ? undefined : "none" }} className="bg-gradient-curriculum section-padding">
         <div className="container-main">
           <div className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${dir === "rtl" ? "lg:direction-rtl" : ""}`}>
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
               <SiteImage
-                src={cms.value("services_image", SITE_IMAGES.homepage.servicesImage)}
+                editorKey="services_image" src={cms.value("services_image", SITE_IMAGES.homepage.servicesImage)}
                 fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
                 alt="حوالات ومدفوعات عالمية من الوسيط المعتمد"
                 className="curriculum-animate w-full max-h-[560px]"
               />
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
-              <h2 className="curriculum-animate text-3xl md:text-[42px] font-bold text-white mb-6">{t("curriculum.title")}</h2>
-              <p className="curriculum-animate text-base md:text-lg text-white/80 leading-relaxed mb-8">{t("curriculum.description")}</p>
-              <Link to="/curriculum" className="curriculum-animate inline-flex items-center px-8 py-3.5 bg-white text-[#7A1E2A] font-medium rounded-md hover:bg-white/90 transition-colors">
-                {t("curriculum.cta")}
+              <h2 data-cms-key="services_title" className="curriculum-animate text-3xl md:text-[42px] font-bold text-white mb-6">{cms.value("services_title", t("curriculum.title"))}</h2>
+              <p data-cms-key="services_description" className="curriculum-animate text-base md:text-lg text-white/80 leading-relaxed mb-8">{cms.value("services_description", t("curriculum.description"))}</p>
+              <Link data-cms-key="services_cta" to="/curriculum" className="curriculum-animate inline-flex items-center px-8 py-3.5 bg-white text-[#7A1E2A] font-medium rounded-md hover:bg-white/90 transition-colors">
+                {cms.value("services_cta", t("curriculum.cta"))}
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {cms.isVisible("section_services") && <section className="section-padding bg-[#F8F9FA]" dir="rtl"><div className="container-main"><h2 className="mb-8 text-center text-3xl font-bold">خدماتنا</h2><ManagedServices /></div></section>}
+      {cms.isVisible("section_services") && <section data-editor-section="managed-services" data-editor-label="قائمة الخدمات" data-editor-link="/admin/services" className="section-padding bg-[#F8F9FA]" dir="rtl"><div className="container-main"><h2 className="mb-8 text-center text-3xl font-bold">خدماتنا</h2><ManagedServices /></div></section>}
 
-      <section ref={testimonialsRef} className="bg-[#F8F9FA] section-padding">
+      <section ref={testimonialsRef} data-editor-section="testimonials" data-editor-label="آراء العملاء" data-editor-visibility="section_testimonials" style={{ display: cms.isVisible("section_testimonials") ? undefined : "none" }} className="bg-[#F8F9FA] section-padding">
         <div className="container-main">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-4">
-              ماذا يقول عملاؤنا
+            <h2 data-cms-key="testimonials_title" className="text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-4">
+              {cms.value("testimonials_title", "ماذا يقول عملاؤنا")}
             </h2>
           </div>
           <div className="grid md:grid-cols-3 gap-6">
@@ -334,11 +334,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={galleryRef} className="bg-white section-padding">
+      <section ref={galleryRef} data-editor-section="gallery" data-editor-label="معرض الخدمات" data-editor-visibility="section_gallery" style={{ display: cms.isVisible("section_gallery") ? undefined : "none" }} className="bg-white section-padding">
         <div className="container-main">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-4">{t("gallery.title")}</h2>
-            <p className="text-base md:text-lg text-[#7C7C7C] max-w-2xl mx-auto">{t("gallery.subtitle")}</p>
+            <h2 data-cms-key="gallery_title" className="text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-4">{cms.value("gallery_title", t("gallery.title"))}</h2>
+            <p data-cms-key="gallery_description" className="text-base md:text-lg text-[#7C7C7C] max-w-2xl mx-auto">{cms.value("gallery_description", t("gallery.subtitle"))}</p>
           </div>
           <div className="hidden md:flex justify-center mb-10">
             <div className="grid grid-cols-3 gap-2 preserve-3d" style={{ perspective: "1200px", transform: "perspective(1200px) rotateX(20deg) rotateZ(-10deg)", maxWidth: "600px" }}>
@@ -371,18 +371,18 @@ export default function Home() {
             ))}
           </div>
           <div className="text-center">
-            <Link to="/gallery" className="btn-outline">{t("gallery.cta")}</Link>
+            <Link data-cms-key="gallery_cta" to="/gallery" className="btn-outline">{cms.value("gallery_cta", t("gallery.cta"))}</Link>
           </div>
         </div>
       </section>
 
-      <section ref={contactRef} className="bg-[#171923] section-padding">
+      <section ref={contactRef} data-editor-section="contact" data-editor-label="التواصل" data-editor-visibility="section_contact" style={{ display: cms.isVisible("section_contact") ? undefined : "none" }} className="bg-[#171923] section-padding">
         <div className="container-main text-center">
-          <h2 className="contact-animate text-3xl md:text-[42px] font-bold text-white mb-4">{t("contactcta.title")}</h2>
-          <p className="contact-animate text-base md:text-lg text-white/70 max-w-2xl mx-auto mb-10">{t("contactcta.description")}</p>
+          <h2 data-cms-key="contact_cta_title" className="contact-animate text-3xl md:text-[42px] font-bold text-white mb-4">{cms.value("contact_cta_title", t("contactcta.title"))}</h2>
+          <p data-cms-key="contact_cta_description" className="contact-animate text-base md:text-lg text-white/70 max-w-2xl mx-auto mb-10">{cms.value("contact_cta_description", t("contactcta.description"))}</p>
           <div className={`contact-animate flex flex-col sm:flex-row items-center justify-center gap-4 ${dir === "rtl" ? "sm:flex-row-reverse" : ""}`}>
-            <Link to="/contact" className="btn-primary">{t("contactcta.contact")}</Link>
-            <a href={mapsUrl} target="_blank" rel="noreferrer" className="btn-secondary">{t("contactcta.visit")}</a>
+            <Link data-cms-key="contact_cta_button" to="/contact" className="btn-primary">{cms.value("contact_cta_button", t("contactcta.contact"))}</Link>
+            <a data-cms-key="contact_cta_visit" href={mapsUrl} target="_blank" rel="noreferrer" className="btn-secondary">{cms.value("contact_cta_visit", t("contactcta.visit"))}</a>
           </div>
         </div>
       </section>

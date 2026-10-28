@@ -86,7 +86,7 @@ const publicConditions = {
  countries: 'is_active', currencies: 'is_active', exchange_rates: 'is_active and exists(select 1 from public.currencies c where c.id=currency_id and c.is_active)',
  services: 'is_active', commission_rules: 'is_active and exists(select 1 from public.services s where s.id=service_id and s.is_active)',
  bank_accounts: 'is_active and exists(select 1 from public.countries c where c.id=country_id and c.is_active) and exists(select 1 from public.currencies c where c.id=currency_id and c.is_active)',
- gift_cards: "status <> 'HIDDEN'", gift_card_denominations: "exists(select 1 from public.gift_cards g where g.id=gift_card_id and g.status <> 'HIDDEN')",
+ gift_cards: "status <> 'HIDDEN'", gift_card_denominations: "is_active and exists(select 1 from public.gift_cards g where g.id=gift_card_id and g.status <> 'HIDDEN')",
  site_settings: "is_public and setting_key not in ('gift_card_rate_10_to_100','gift_card_rate_above_100')",
  social_links: 'is_active', trust_indicators: 'is_active', announcements: 'is_active and (starts_at is null or starts_at <= now()) and (ends_at is null or ends_at >= now())',
  gallery_items: 'is_active', news_events: 'is_published', testimonials: 'is_active',

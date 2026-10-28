@@ -86,17 +86,17 @@ export default function Transfers() {
         </div>
       </section>
 
-      <section ref={sectionRef} className="bg-[#F8F9FA] section-padding" style={{ display: cms.isVisible("section_banks") ? undefined : "none" }}>
+      <section ref={sectionRef} data-editor-section="banks" data-editor-label="الحسابات المصرفية" data-editor-visibility="section_banks" data-editor-link="/admin/banks" className="bg-[#F8F9FA] section-padding" style={{ display: cms.isVisible("section_banks") ? undefined : "none" }}>
         <div className="container-main">
           <div className="transfers-animate mx-auto mb-10 max-w-3xl text-center">
             <span className="mb-3 inline-flex rounded-full bg-[#213B6F]/10 px-4 py-2 text-sm font-semibold text-[#213B6F]">
               التحويلات
             </span>
-            <h2 className="mb-4 text-3xl font-bold leading-tight text-[#1A1A1A] md:text-[42px]">
-              حسابات التحويل
+            <h2 data-cms-key="banks_title" className="mb-4 text-3xl font-bold leading-tight text-[#1A1A1A] md:text-[42px]">
+              {cms.value('banks_title','حسابات التحويل')}
             </h2>
-            <p className="mx-auto max-w-2xl text-base leading-8 text-[#7C7C7C] md:text-lg">
-              اختر الحساب المناسب واضغط على رقم الحساب لنسخه مباشرة.
+            <p data-cms-key="banks_description" className="mx-auto max-w-2xl text-base leading-8 text-[#7C7C7C] md:text-lg">
+              {cms.value('banks_description','اختر الحساب المناسب واضغط على رقم الحساب لنسخه مباشرة.')}
             </p>
           </div>
 

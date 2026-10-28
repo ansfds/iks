@@ -127,6 +127,7 @@ export const giftCardDenominations = pgTable('gift_card_denominations', {
   giftCardId: bigint('gift_card_id', { mode: 'number' }).notNull(),
   faceValue: numeric('face_value').notNull(),
   currency: text('currency').notNull().default("USD"),
+  isActive: boolean('is_active').notNull().default(true),
   isAvailable: boolean('is_available').notNull().default(true),
   isMostPopular: boolean('is_most_popular').notNull().default(false),
   highlightEffect: text('highlight_effect').notNull().default("NONE"),

@@ -263,6 +263,7 @@ export const giftCardDenominationsSchema = z
       )
       .nullable()
       .default(null),
+    isActive: z.boolean().default(true),
     isAvailable: z.boolean().default(true),
     isMostPopular: z.boolean().default(false),
     highlightEffect: z.enum(["NONE", "FLAME"]).default("NONE"),

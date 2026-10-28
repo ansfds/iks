@@ -1,6 +1,7 @@
 ﻿import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { SiteImage } from "@/components/SiteImage";
 import { SITE_IMAGES } from "@/config/site-images";
 import { Target, Eye, Lightbulb, Heart } from "lucide-react";
@@ -13,6 +14,7 @@ const GSAP: any = gsap;
 
 export default function VisionMission() {
   const { t, dir } = useLanguage();
+  const cms=useSiteContent();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -57,7 +59,7 @@ export default function VisionMission() {
       <div ref={sectionRef} className="bg-white section-padding">
         <div className="container-main">
           {/* Vision Block */}
-          <div
+          <div data-editor-section="vision" data-editor-label="رؤيتنا" data-editor-visibility="section_vision" style={{display:cms.isVisible("section_vision")?undefined:"none"}}
             className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center mb-20 ${
               dir === "rtl" ? "lg:direction-rtl" : ""
             }`}
@@ -65,20 +67,20 @@ export default function VisionMission() {
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
               <div className="vm-animate flex items-center gap-3 mb-4">
                 <Eye size={28} className="text-[#1D7FEA]" />
-                <span className="text-sm font-semibold text-[#213B6F] uppercase tracking-wider">
-                  رؤيتنا
+                <span data-cms-key="vision_title" className="text-sm font-semibold text-[#213B6F] uppercase tracking-wider">
+                  {cms.value("vision_title","رؤيتنا")}
                 </span>
               </div>
-              <h2 className="vm-animate text-2xl sm:text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-6 leading-tight">
-                أن نكون شريكًا ماليًا موثوقًا في الدفع الإلكتروني والحوالات والشراء العالمي
+              <h2 data-cms-key="vision_heading" className="vm-animate text-2xl sm:text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-6 leading-tight">
+                {cms.value("vision_heading","أن نكون شريكًا ماليًا موثوقًا في الدفع الإلكتروني والحوالات والشراء العالمي")}
               </h2>
-              <p className="vm-animate text-base text-[#7C7C7C] leading-relaxed">
-                {t("about.vision.text")}
+              <p data-cms-key="vision_description" className="vm-animate text-base text-[#7C7C7C] leading-relaxed">
+                {cms.value("vision_description",t("about.vision.text"))}
               </p>
             </div>
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <SiteImage
-                src={SITE_IMAGES.finance.globalFinance}
+                editorKey="vision_image" src={cms.value("vision_image",SITE_IMAGES.finance.globalFinance)}
                 fallbackSrc={SITE_IMAGES.finance.fallbackGlobalFinance}
                 alt="شبكة حوالات ومدفوعات عالمية"
                 className="vm-animate h-auto w-full"
@@ -87,14 +89,14 @@ export default function VisionMission() {
           </div>
 
           {/* Mission Block */}
-          <div
+          <div data-editor-section="mission" data-editor-label="رسالتنا" data-editor-visibility="section_mission" style={{display:cms.isVisible("section_mission")?undefined:"none"}}
             className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${
               dir === "rtl" ? "lg:direction-rtl" : ""
             }`}
           >
             <div className={dir === "rtl" ? "lg:order-2" : ""}>
               <SiteImage
-                src={SITE_IMAGES.finance.libyaCairo}
+                editorKey="mission_image" src={cms.value("mission_image",SITE_IMAGES.finance.libyaCairo)}
                 fallbackSrc={SITE_IMAGES.finance.fallbackLibyaCairo}
                 alt="خدمات الوسيط المعتمد للتحويلات"
                 className="vm-animate w-full max-h-[560px]"
@@ -103,25 +105,25 @@ export default function VisionMission() {
             <div className={dir === "rtl" ? "lg:order-1" : ""}>
               <div className="vm-animate flex items-center gap-3 mb-4">
                 <Target size={28} className="text-[#213B6F]" />
-                <span className="text-sm font-semibold text-[#213B6F] uppercase tracking-wider">
-                  رسالتنا
+                <span data-cms-key="mission_title" className="text-sm font-semibold text-[#213B6F] uppercase tracking-wider">
+                  {cms.value("mission_title","رسالتنا")}
                 </span>
               </div>
-              <h2 className="vm-animate text-2xl sm:text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-6 leading-tight">
-                {t("about.mission.text")}
+              <h2 data-cms-key="mission_description" className="vm-animate text-2xl sm:text-3xl md:text-4xl font-bold text-[#1A1A1A] mb-6 leading-tight">
+                {cms.value("mission_description",t("about.mission.text"))}
               </h2>
 
               <div className="space-y-4">
                 {[
                   {
                     icon: Lightbulb,
-                    title: "دقة التنفيذ",
-                    desc: "تأكيد التفاصيل والعملة والوجهة قبل تنفيذ أي دفعة أو حوالة",
+                    title: cms.value("mission_accuracy_title","دقة التنفيذ"),
+                    desc: cms.value("mission_accuracy_body","تأكيد التفاصيل والعملة والوجهة قبل تنفيذ أي دفعة أو حوالة"),
                   },
                   {
                     icon: Heart,
-                    title: "عناية العملاء",
-                    desc: "تواصل مباشر ومتابعة واضحة حتى اكتمال الخدمة",
+                    title: cms.value("mission_care_title","عناية العملاء"),
+                    desc: cms.value("mission_care_body","تواصل مباشر ومتابعة واضحة حتى اكتمال الخدمة"),
                   },
                 ].map((item, i) => (
                   <div
@@ -133,10 +135,10 @@ export default function VisionMission() {
                       className="text-[#213B6F] mt-0.5 shrink-0"
                     />
                     <div>
-                      <h3 className="font-semibold text-[#1A1A1A] mb-1">
+                      <h3 data-cms-key={i===0?"mission_accuracy_title":"mission_care_title"} className="font-semibold text-[#1A1A1A] mb-1">
                         {item.title}
                       </h3>
-                      <p className="text-sm text-[#7C7C7C]">{item.desc}</p>
+                      <p data-cms-key={i===0?"mission_accuracy_body":"mission_care_body"} className="text-sm text-[#7C7C7C]">{item.desc}</p>
                     </div>
                   </div>
                 ))}

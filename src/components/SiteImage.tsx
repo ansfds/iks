@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { isSupportedImageUrl, reportImageLoadError } from "@/lib/image-utils";
 
 type SiteImageProps = {
+  editorKey?: string;
   src: string;
   fallbackSrc?: string;
   fallbackSources?: readonly (string | null | undefined)[];
@@ -22,6 +23,7 @@ export function SiteImage(props: SiteImageProps) {
 }
 
 function SiteImageLoader({
+  editorKey,
   src,
   fallbackSrc,
   fallbackSources = [],
@@ -40,6 +42,7 @@ function SiteImageLoader({
   if (!activeSrc) {
     return (
       <div
+        data-cms-image={editorKey}
         role="img"
         aria-label={alt}
         className={cn(
@@ -54,6 +57,7 @@ function SiteImageLoader({
 
   return (
     <img
+      data-cms-image={editorKey}
       key={activeSrc}
       src={activeSrc}
       alt={alt}

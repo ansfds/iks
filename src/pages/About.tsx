@@ -1,6 +1,7 @@
 ﻿import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSiteContent } from "@/hooks/useSiteContent";
 import { SiteImage } from "@/components/SiteImage";
 import { SITE_IMAGES } from "@/config/site-images";
 import { CheckCircle, ArrowRight } from "lucide-react";
@@ -14,6 +15,7 @@ const GSAP: any = gsap;
 
 export default function About() {
   const { t, dir } = useLanguage();
+  const cms=useSiteContent();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -64,7 +66,7 @@ export default function About() {
 
       <div ref={sectionRef}>
         {/* Mission Section */}
-        <section className="bg-white section-padding">
+        <section data-editor-section="mission" data-editor-label="رسالتنا" data-editor-visibility="section_mission" style={{display:cms.isVisible("section_mission")?undefined:"none"}} className="bg-white section-padding">
           <div className="container-main">
             <div
               className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${
@@ -72,11 +74,11 @@ export default function About() {
               }`}
             >
               <div className={dir === "rtl" ? "lg:order-2" : ""}>
-                <h2 className="about-section-animate text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-6">
-                  {t("about.mission.title")}
+                <h2 data-cms-key="mission_title" className="about-section-animate text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-6">
+                  {cms.value("mission_title",t("about.mission.title"))}
                 </h2>
-                <p className="about-section-animate text-base md:text-lg text-[#7C7C7C] leading-relaxed mb-8">
-                  {t("about.mission.text")}
+                <p data-cms-key="mission_description" className="about-section-animate text-base md:text-lg text-[#7C7C7C] leading-relaxed mb-8">
+                  {cms.value("mission_description",t("about.mission.text"))}
                 </p>
                 <ul className="space-y-3">
                   {missionPillars.map((pillar, i) => (
@@ -95,7 +97,7 @@ export default function About() {
               </div>
               <div className={dir === "rtl" ? "lg:order-1" : ""}>
                 <SiteImage
-                  src={SITE_IMAGES.finance.transferHero}
+                  editorKey="about_mission_image" src={cms.value("about_mission_image",SITE_IMAGES.finance.transferHero)}
                   fallbackSrc={SITE_IMAGES.finance.fallbackTransferHero}
                   alt="خدمات دفع وتحويل من الوسيط المعتمد"
                   className="about-section-animate w-full max-h-[560px]"
@@ -106,7 +108,7 @@ export default function About() {
         </section>
 
         {/* Vision Section */}
-        <section className="bg-[#F8F9FA] section-padding">
+        <section data-editor-section="vision" data-editor-label="رؤيتنا" data-editor-visibility="section_vision" style={{display:cms.isVisible("section_vision")?undefined:"none"}} className="bg-[#F8F9FA] section-padding">
           <div className="container-main">
             <div
               className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center ${
@@ -115,18 +117,18 @@ export default function About() {
             >
               <div className={dir === "rtl" ? "lg:order-2" : ""}>
                 <SiteImage
-                  src={SITE_IMAGES.finance.libyaCairo}
+                  editorKey="about_vision_image" src={cms.value("about_vision_image",SITE_IMAGES.finance.libyaCairo)}
                   fallbackSrc={SITE_IMAGES.finance.fallbackLibyaCairo}
                   alt="تحويلات من ليبيا إلى مصر"
                   className="about-section-animate w-full max-h-[560px]"
                 />
               </div>
               <div className={dir === "rtl" ? "lg:order-1" : ""}>
-                <h2 className="about-section-animate text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-6">
-                  {t("about.vision.title")}
+                <h2 data-cms-key="vision_title" className="about-section-animate text-3xl md:text-[42px] font-bold text-[#1A1A1A] mb-6">
+                  {cms.value("vision_title",t("about.vision.title"))}
                 </h2>
-                <p className="about-section-animate text-base md:text-lg text-[#7C7C7C] leading-relaxed">
-                  {t("about.vision.text")}
+                <p data-cms-key="vision_description" className="about-section-animate text-base md:text-lg text-[#7C7C7C] leading-relaxed">
+                  {cms.value("vision_description",t("about.vision.text"))}
                 </p>
               </div>
             </div>

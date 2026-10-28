@@ -166,6 +166,7 @@ export default function GiftCardDetail() {
 
                   return (
                     <button
+                      data-denomination-id={denomination.id}
                       key={denomination.id}
                       type="button"
                       disabled={disabled}

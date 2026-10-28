@@ -1,5 +1,11 @@
 import { TRPCError } from "@trpc/server";
 import { safeMediaUrl } from "./media-url";
+import {
+  VISUAL_KEYS,
+  EXTRA_VISIBILITY_KEYS,
+  VISUAL_FIELDS,
+  type VisualKey,
+} from "../contracts/visual-content";
 /** Only these keys can be read publicly or edited by this dedicated CMS endpoint. */
 export const CONTENT_KEYS = [
   "site_name",
@@ -45,6 +51,8 @@ export const CONTENT_KEYS = [
   "nav_gift_cards",
   "nav_transfers",
   "nav_contact",
+  ...VISUAL_KEYS,
+  ...EXTRA_VISIBILITY_KEYS,
 ] as const;
 
 export type ContentKey = (typeof CONTENT_KEYS)[number];
@@ -72,7 +80,10 @@ function safeImage(value: string) {
 export function validateValue(key: ContentKey, value: string) {
   if (value.length > 12000)
     throw new TRPCError({ code: "BAD_REQUEST", message: "النص طويل جدًا." });
-  if (imageKeys.has(key) && value && !safeImage(value))
+  const isImage =
+    imageKeys.has(key) ||
+    (key in VISUAL_FIELDS && VISUAL_FIELDS[key as VisualKey].kind === "image");
+  if (isImage && value && !safeImage(value))
     throw new TRPCError({
       code: "BAD_REQUEST",
       message: "الصورة يجب أن تستخدم HTTPS أو مسارًا محليًا صحيحًا.",
@@ -144,7 +155,7 @@ export function validateValue(key: ContentKey, value: string) {
   }
   // React renders plain strings, never HTML. Reject basic markup entirely.
   if (
-    !imageKeys.has(key) &&
+    !isImage &&
     !urlKeys.has(key) &&
     !jsonKeys.has(key) &&
     /<[^>]*>/.test(value)
