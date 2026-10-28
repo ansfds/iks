@@ -9,7 +9,7 @@ import { config as loadServerEnvironment } from 'dotenv'
 // https://vite.dev/config/
 export default defineConfig(({ command }) => {
   // Reload server-only credentials when Vite restarts after auth:setup changes .env.
-  if (command === 'serve') loadServerEnvironment({ override: true, quiet: true });
+  if (command === 'serve') loadServerEnvironment({ path: ['.env.local', '.env'], override: true, quiet: true });
   return {
   cacheDir: '.vite-cache',
   plugins: [

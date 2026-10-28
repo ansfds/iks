@@ -1,0 +1,40 @@
+import { chromium } from 'playwright-core';
+import { mkdir, writeFile } from 'node:fs/promises';
+import assert from 'node:assert/strict';
+
+const origin = 'http://127.0.0.1:4174';
+const results = [];
+await mkdir('.cache/supabase-browser', { recursive: true });
+const browser = await chromium.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', headless: true });
+try {
+  const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
+  const errors = [];
+  page.on('pageerror', error => errors.push(error.message));
+  const home = await page.goto(origin, { waitUntil: 'networkidle' });
+  assert.equal(home.status(), 200); assert.equal(new URL(page.url()).pathname, '/');
+  await page.screenshot({ path: '.cache/supabase-browser/home.png', fullPage: true, animations: 'disabled' });
+  results.push('Public website remains open without signing in');
+  const cards = await page.goto(origin + '/gift-cards', { waitUntil: 'networkidle' });
+  assert.equal(cards.status(), 200); assert.equal(await page.locator('article h3').count(), 9);
+  results.push('Existing 9-card public catalog remains visible');
+  await page.goto(origin + '/admin', { waitUntil: 'networkidle' });
+  assert.equal(new URL(page.url()).pathname, '/login');
+  assert.equal(await page.locator('input[type=email]').count(), 1);
+  assert.equal(await page.locator('input[type=password]').count(), 1);
+  assert.equal(await page.getByRole('button', { name: 'تسجيل الدخول', exact: true }).isEnabled(), true);
+  await page.screenshot({ path: '.cache/supabase-browser/login-desktop.png', fullPage: true, animations: 'disabled' });
+  results.push('Guest Admin access redirects to a configured email/password login form');
+  const me = await page.request.get(origin + '/api/trpc/auth.me');
+  assert.equal(me.status(), 200); assert.equal((await me.json()).result.data.json, null);
+  const privateApi = await page.request.get(origin + '/api/trpc/giftCards.admin.list');
+  assert.equal(privateApi.status(), 401);
+  results.push('Private Admin API rejects guests');
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: '.cache/supabase-browser/login-mobile.png', fullPage: true, animations: 'disabled' });
+  assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
+  results.push('Mobile login has no horizontal overflow');
+  assert.equal(errors.length, 0);
+  results.push('No JavaScript runtime exceptions in inspected pages');
+  await writeFile('.cache/supabase-browser/results.json', JSON.stringify({ checkedAt: new Date().toISOString(), origin, results, runtimeErrors: errors, adminPasswordLoginTested: false, contentMigrated: false }, null, 2));
+  console.log(JSON.stringify({ results, adminPasswordLoginTested: false }, null, 2));
+} finally { await browser.close(); }

@@ -296,7 +296,7 @@ function Summary({ go }:{go:(s:Section)=>void}){const banks=trpc.finance.admin.d
   ["banks",banks.data?.totalAccounts],["gifts",gifts.data?.length],["services",banks.data?.totalServices],["audit",banks.data?.recentActivity?.length]];
   return <div className="space-y-5"><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{sections.map(([s,v])=>{const Icon=icons[s];return <button key={s} onClick={()=>go(s)} className="rounded-2xl border border-slate-200 bg-white p-5 text-right shadow-sm hover:border-blue-300"><Icon size={23} className="mb-4 text-blue-800"/><p className="text-sm text-slate-500">{labels[s]}</p><p className="mt-2 text-3xl font-black text-slate-900">{v??"—"}</p></button>})}</div>
     <SectionCard title="وصول سريع"><div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">{navigation.filter(x=>x!=="dashboard"&&x!=="audit").map(s=><button key={s} onClick={()=>go(s)} className="rounded-xl border border-slate-200 p-4 text-right text-sm font-bold hover:bg-slate-50">{labels[s]} ←</button>)}</div></SectionCard>
-    <Notice>يُحفظ المحتوى بعد تأكيد GitHub، ثم يظهر للعامة بعد اكتمال نشر الموقع. بيانات المحتوى وتاريخها قابلة للقراءة في المستودع؛ لا تضع فيها معلومات سرية.</Notice>
+    <Notice>تسجيل الدخول عبر Supabase. المحتوى الحالي متاح للمعاينة، والحفظ غير مفعّل حتى يكتمل نقل البيانات والتحقق من الصلاحيات.</Notice>
     <Notice>صندوق رسائل العملاء القديم غير متصل بهذه النسخة. بياناته السابقة محفوظة في قاعدة البيانات الأصلية ونسخها الاحتياطية، ولم تُنقل إلى المستودع العام. إرسال الرسائل من الواجهات القديمة غير متاح حاليًا؛ استخدم الهاتف أو واتساب الظاهرين في الموقع إلى أن يُربط صندوق رسائل خاص.</Notice>
   </div>;
 }

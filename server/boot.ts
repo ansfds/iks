@@ -7,14 +7,17 @@ import { createContext } from "./context";
 import { env } from "./lib/env";
 import { adminPageResponse } from "./auth/page-guard";
 import { registerSeoRoutes } from "./seo";
+import { appendAuthHeaders } from './supabase/client';
 
 const app = new Hono<{ Bindings: HttpBindings }>();
 
 app.use(bodyLimit({ maxSize: 4 * 1024 * 1024 }));
 app.use("*", async (c, next) => {
-  const response = await adminPageResponse(c.req.raw);
+  const authHeaders = new Headers();
+  const response = await adminPageResponse(c.req.raw, authHeaders);
   if (response) return response;
   await next();
+  appendAuthHeaders(c.res.headers, authHeaders);
   c.header("X-Content-Type-Options", "nosniff");
   if (/^\/(admin|login|api)(\/|$)/.test(c.req.path)) {
     c.header("Cache-Control", "no-store");

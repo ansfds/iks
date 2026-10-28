@@ -11,9 +11,8 @@ export const cmsRouter = createRouter({
     return {
       revision: snapshot.revision,
       branch: process.env.CMS_BRANCH || null,
-      writesEnabled:
-        process.env.CMS_WRITES_ENABLED === "YES" &&
-        Boolean(process.env.CMS_GITHUB_TOKEN),
+      writesEnabled: false,
+      contentSource: 'local-catalog' as const,
     };
   }),
   deployment: adminQuery

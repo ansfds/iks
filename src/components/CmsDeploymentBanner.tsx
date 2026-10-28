@@ -51,7 +51,7 @@ export function CmsDeploymentBanner() {
     >
       <p className="font-bold">{label}</p>
       <p>
-        يظهر التعديل للعامة بعد اكتمال النشر.{" "}
+        تسجيل الدخول متصل بـSupabase. نقل المحتوى لم يكتمل بعد.{" "}
         {snapshot.data?.branch && (
           <>
             فرع التحرير: <b dir="ltr">{snapshot.data.branch}</b>.

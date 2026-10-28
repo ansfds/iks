@@ -1,6 +1,7 @@
 import app from "./boot";
 import { isSeoRequest, seoResponse } from "./seo";
 import { adminPageResponse } from "./auth/page-guard";
+import { appendAuthHeaders } from './supabase/client';
 
 export async function handleVercelRequest(request: Request): Promise<Response> {
   const url = new URL(request.url);
@@ -13,7 +14,8 @@ export async function handleVercelRequest(request: Request): Promise<Response> {
   url.pathname = pathname;
   url.searchParams.delete("__path");
   const forwarded = new Request(url, request);
-  const guarded = await adminPageResponse(forwarded);
+  const authHeaders = new Headers();
+  const guarded = await adminPageResponse(forwarded, authHeaders);
   if (guarded) return guarded;
 
   if (url.pathname === "/api" || url.pathname.startsWith("/api/")) {
@@ -21,6 +23,7 @@ export async function handleVercelRequest(request: Request): Promise<Response> {
   }
   if ((request.method === "GET" || request.method === "HEAD") && isSeoRequest(url.pathname)) {
     const response = await seoResponse(url.pathname);
+    appendAuthHeaders(response.headers, authHeaders);
     if (/^\/(admin|login)(\/|$)/.test(url.pathname)) {
       response.headers.set("Cache-Control", "no-store");
       response.headers.set("Content-Security-Policy", "frame-ancestors 'none'");

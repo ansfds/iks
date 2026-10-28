@@ -36,7 +36,10 @@ export function siteMetadata(): Plugin {
             const { adminPageResponse } = await server.ssrLoadModule("/server/auth/page-guard.ts");
             const headers = new Headers();
             for (const [key, value] of Object.entries(req.headers)) if (value) headers.set(key, Array.isArray(value) ? value.join(", ") : value);
-            const guarded: Response | null = await adminPageResponse(new Request(`http://${req.headers.host}${req.url}`, { headers }));
+            const authHeaders = new Headers();
+            const guarded: Response | null = await adminPageResponse(new Request(`http://${req.headers.host}${req.url}`, { headers }), authHeaders);
+            if (authHeaders.getSetCookie().length) res.setHeader('Set-Cookie', authHeaders.getSetCookie());
+            authHeaders.forEach((value, key) => { if (key !== 'set-cookie') res.setHeader(key, value); });
             if (guarded) {
               res.statusCode = guarded.status;
               guarded.headers.forEach((value, key) => res.setHeader(key, value));

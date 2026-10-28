@@ -9,7 +9,6 @@ import {
   type Snapshot,
   type ContentAsset,
 } from "./github";
-import { verifyExistingProject } from "./deployment";
 import { type CollectionName, type Collections } from "./models";
 
 type ContentScope = {
@@ -38,13 +37,9 @@ export function bundledSnapshot(): Snapshot {
   };
 }
 export async function latestSnapshot() {
-  if (
-    !process.env.CMS_GITHUB_TOKEN &&
-    !testRepository &&
-    process.env.VERCEL !== "1"
-  )
-    return bundledSnapshot();
-  return repository().read();
+  // Auth migration does not migrate content. Keep the reviewed catalog readable
+  // in every environment until the real Supabase tables are inspected/imported.
+  return testRepository ? testRepository.read() : bundledSnapshot();
 }
 export async function withContent<T>(
   editor: boolean,
@@ -54,6 +49,10 @@ export async function withContent<T>(
   headers: Headers,
   run: () => Promise<T>
 ) {
+  if (mutation && !testRepository) throw new TRPCError({
+    code: 'PRECONDITION_FAILED',
+    message: 'نقل المحتوى إلى Supabase لم يكتمل بعد. الحفظ غير مفعّل لهذه النسخة.',
+  });
   const snapshot = editor ? await latestSnapshot() : bundledSnapshot();
   if (mutation) {
     if (request.headers.get("x-cms-revision") !== snapshot.revision)
@@ -62,7 +61,6 @@ export async function withContent<T>(
         message:
           "تغيّر المحتوى منذ فتح المحرر. حدّث الصفحة وراجع التعديل قبل حفظه.",
       });
-    if (!testRepository) await verifyExistingProject();
   }
   return scope.run(
     { document: snapshot.document, writable: mutation, assets: [] },

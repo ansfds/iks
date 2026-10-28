@@ -1,5 +1,5 @@
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
-import type { AdminIdentity } from './auth/stateless';
+import type { AdminIdentity } from './auth/service';
 import { authenticateRequest } from "./auth/service";
 import type { TRPCError } from "@trpc/server";
 
@@ -16,7 +16,7 @@ export async function createContext(
 ): Promise<TrpcContext> {
   const ctx: TrpcContext = { req: opts.req, resHeaders: opts.resHeaders };
   try {
-    const session = await authenticateRequest(opts.req);
+    const session = await authenticateRequest(opts.req, opts.resHeaders);
     ctx.user = session?.user;
     ctx.sessionExpiresAt = session?.expiresAt;
   } catch (error) {

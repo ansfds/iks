@@ -1,5 +1,7 @@
 # Elwaseet Git-backed CMS experiment
 
+Current local branch: Supabase Auth integration. See [Supabase setup and current limits (Arabic)](SUPABASE_SETUP_AR.md) and [.env.example](.env.example). The historical Git CMS notes below describe the parent branch; its local password login and GitHub saving are not the active flow in this integration branch. Content migration to Supabase is pending.
+
 This branch keeps the existing React admin and public website while storing editable public content in GitHub instead of a runtime database. Target: the EXISTING project serving https://iks-pearl.vercel.app; repository: ansfds/iks.
 
 - [Engineering evaluation and limits (Arabic)](GIT_CMS_EVALUATION_AR.md)
