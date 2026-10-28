@@ -5,6 +5,8 @@ import { authenticateRequest } from './auth/service';
 import { adminPageResponse } from './auth/page-guard';
 import { handleVercelRequest } from './vercel';
 import { supabaseConfig } from './supabase/config';
+import { bundledSnapshot } from './cms/store';
+import { encodeTables } from './supabase/content';
 
 const adminId = '11111111-1111-4111-8111-111111111111';
 const otherId = '22222222-2222-4222-8222-222222222222';
@@ -71,6 +73,11 @@ beforeEach(() => {
       return Response.json(user());
     }
     if (url.pathname === '/auth/v1/logout') return new Response(null, { status: 204 });
+    if (url.pathname === '/rest/v1/rpc/read_content_tables') {
+      const requested = JSON.parse(String(init?.body)).p_tables as string[];
+      const tables = {...encodeTables(bundledSnapshot().document),cms_state:[{id:1,revision:1,next_ids:bundledSnapshot().document.nextIds,migration_verified:true,last_operation:''}],activity_logs:[]};
+      return Response.json(Object.fromEntries(requested.map(t=>[t,tables[t as keyof typeof tables]])));
+    }
     throw new Error('Unexpected provider operation');
   }));
 });
@@ -157,13 +164,13 @@ describe('Supabase Auth at the HTTP boundary (provider responses simulated)', ()
     expect(me.headers.getSetCookie().length).toBeGreaterThan(0);
     expect(me.headers.get('cache-control')).toContain('no-store');
   });
-  it('keeps read-only Admin catalog available on Vercel without GitHub credentials', async () => {
+  it('reads the Admin catalog from Supabase on Vercel without GitHub credentials', async () => {
     const response = await signIn();
     vi.stubEnv('VERCEL', '1');
     const headers = { cookie: cookieFrom(response), 'x-cms-editor': '1' };
     const result = await app.request(new Request(origin + '/api/trpc/giftCards.admin.list', { headers }));
     expect(result.status).toBe(200);
-    expect(calls.every(call => call.path.startsWith('/auth/v1/'))).toBe(true);
+    expect(calls.some(call => call.path === '/rest/v1/rpc/read_content_tables')).toBe(true);
   });
   it('rejects secret/service_role and absent allowlists without exposing configuration', async () => {
     for (const value of ['sb_secret_DO_NOT_EXPOSE', 'eyJ-service-role-token', '']) {
@@ -197,9 +204,9 @@ describe('Supabase Auth at the HTTP boundary (provider responses simulated)', ()
     }
     expect(count).toBeGreaterThan(50); expect(calls).toHaveLength(0);
   });
-  it('keeps public content open when Supabase configuration is absent', async () => {
+  it('reports unavailable data when Supabase configuration is absent without a stale fallback', async () => {
     vi.stubEnv('SUPABASE_PUBLISHABLE_KEY', '');
-    for (const route of ['giftCards.list', 'finance.overview', 'siteContent.public']) expect((await rpc(route, undefined, '', 'GET')).status).toBe(200);
+    for (const route of ['giftCards.list', 'finance.overview', 'siteContent.public']) expect((await rpc(route, undefined, '', 'GET')).status).toBe(503);
     const status = await rpc('auth.configuration', undefined, '', 'GET');
     expect(await status.json()).toMatchObject({ result: { data: { json: { provider: 'supabase', configured: false } } } });
     expect(calls).toHaveLength(0);

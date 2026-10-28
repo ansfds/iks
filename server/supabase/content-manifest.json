@@ -1,0 +1,1017 @@
+{
+  "countries": {
+    "table": "countries",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "name_ar": {
+        "key": "nameAr",
+        "type": "text",
+        "nullable": false
+      },
+      "name_en": {
+        "key": "nameEn",
+        "type": "text",
+        "nullable": true
+      },
+      "slug": {
+        "key": "slug",
+        "type": "text",
+        "nullable": false
+      },
+      "iso_code": {
+        "key": "isoCode",
+        "type": "text",
+        "nullable": true
+      },
+      "flag_emoji": {
+        "key": "flagEmoji",
+        "type": "text",
+        "nullable": true
+      },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": false
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "currencies": {
+    "table": "currencies",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "symbol": {
+        "key": "symbol",
+        "type": "text",
+        "nullable": false
+      },
+      "name_ar": {
+        "key": "nameAr",
+        "type": "text",
+        "nullable": false
+      },
+      "name_en": {
+        "key": "nameEn",
+        "type": "text",
+        "nullable": true
+      },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": false
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "exchangeRates": {
+    "table": "exchange_rates",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "currency_id": {
+        "key": "currencyId",
+        "type": "bigint",
+        "nullable": false
+      },
+      "buy_price": {
+        "key": "buyPrice",
+        "type": "numeric",
+        "nullable": true
+      },
+      "sell_price": {
+        "key": "sellPrice",
+        "type": "numeric",
+        "nullable": true
+      },
+      "calculator_rate": {
+        "key": "calculatorRate",
+        "type": "numeric",
+        "nullable": true
+      },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
+      "updated_by": {
+        "key": "updatedBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "exchangeRateHistory": {
+    "table": "exchange_rate_history",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "currency_id": {
+        "key": "currencyId",
+        "type": "bigint",
+        "nullable": false
+      },
+      "field": {
+        "key": "field",
+        "type": "text",
+        "nullable": false
+      },
+      "old_value": {
+        "key": "oldValue",
+        "type": "numeric",
+        "nullable": true
+      },
+      "new_value": {
+        "key": "newValue",
+        "type": "numeric",
+        "nullable": true
+      },
+      "changed_by": {
+        "key": "changedBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "services": {
+    "table": "services",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "name_ar": {
+        "key": "nameAr",
+        "type": "text",
+        "nullable": false
+      },
+      "name_en": {
+        "key": "nameEn",
+        "type": "text",
+        "nullable": true
+      },
+      "description_ar": {
+        "key": "descriptionAr",
+        "type": "text",
+        "nullable": true
+      },
+      "description_en": {
+        "key": "descriptionEn",
+        "type": "text",
+        "nullable": true
+      },
+      "image_url": {
+        "key": "imageUrl",
+        "type": "text",
+        "nullable": true
+      },
+      "icon": {
+        "key": "icon",
+        "type": "text",
+        "nullable": true
+      },
+      "href": {
+        "key": "href",
+        "type": "text",
+        "nullable": true
+      },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": false
+      },
+      "is_calculator_enabled": {
+        "key": "isCalculatorEnabled",
+        "type": "boolean",
+        "nullable": false
+      },
+      "calculator_currency_id": {
+        "key": "calculatorCurrencyId",
+        "type": "bigint",
+        "nullable": true
+      },
+      "calculator_rate_type": {
+        "key": "calculatorRateType",
+        "type": "text",
+        "nullable": false
+      },
+      "created_by": {
+        "key": "createdBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "updated_by": {
+        "key": "updatedBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "commissionRules": {
+    "table": "commission_rules",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "service_id": {
+        "key": "serviceId",
+        "type": "bigint",
+        "nullable": false
+      },
+      "minimum_amount": {
+        "key": "minimumAmount",
+        "type": "numeric",
+        "nullable": false
+      },
+      "maximum_amount": {
+        "key": "maximumAmount",
+        "type": "numeric",
+        "nullable": false
+      },
+      "commission_type": {
+        "key": "commissionType",
+        "type": "text",
+        "nullable": false
+      },
+      "commission_value": {
+        "key": "commissionValue",
+        "type": "numeric",
+        "nullable": false
+      },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": false
+      },
+      "created_by": {
+        "key": "createdBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "updated_by": {
+        "key": "updatedBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "bankAccounts": {
+    "table": "bank_accounts",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "country_id": {
+        "key": "countryId",
+        "type": "bigint",
+        "nullable": false
+      },
+      "currency_id": {
+        "key": "currencyId",
+        "type": "bigint",
+        "nullable": false
+      },
+      "bank_name_ar": {
+        "key": "bankNameAr",
+        "type": "text",
+        "nullable": false
+      },
+      "bank_name_en": {
+        "key": "bankNameEn",
+        "type": "text",
+        "nullable": true
+      },
+      "account_name": {
+        "key": "accountName",
+        "type": "text",
+        "nullable": false
+      },
+      "account_number": {
+        "key": "accountNumber",
+        "type": "text",
+        "nullable": false
+      },
+      "iban": {
+        "key": "iban",
+        "type": "text",
+        "nullable": true
+      },
+      "bank_logo_url": {
+        "key": "bankLogoUrl",
+        "type": "text",
+        "nullable": true
+      },
+      "notes_ar": {
+        "key": "notesAr",
+        "type": "text",
+        "nullable": true
+      },
+      "notes_en": {
+        "key": "notesEn",
+        "type": "text",
+        "nullable": true
+      },
+      "slug": {
+        "key": "slug",
+        "type": "text",
+        "nullable": false
+      },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": false
+      },
+      "created_by": {
+        "key": "createdBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "updated_by": {
+        "key": "updatedBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "giftCards": {
+    "table": "gift_cards",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "name": {
+        "key": "name",
+        "type": "text",
+        "nullable": false
+      },
+      "display_name": {
+        "key": "displayName",
+        "type": "text",
+        "nullable": false
+      },
+      "slug": {
+        "key": "slug",
+        "type": "text",
+        "nullable": false
+      },
+      "description": {
+        "key": "description",
+        "type": "text",
+        "nullable": true
+      },
+      "region_code": {
+        "key": "regionCode",
+        "type": "text",
+        "nullable": false
+      },
+      "region_label": {
+        "key": "regionLabel",
+        "type": "text",
+        "nullable": false
+      },
+      "currency": {
+        "key": "currency",
+        "type": "text",
+        "nullable": false
+      },
+      "image_url": {
+        "key": "imageUrl",
+        "type": "text",
+        "nullable": true
+      },
+      "background_url": {
+        "key": "backgroundUrl",
+        "type": "text",
+        "nullable": true
+      },
+      "status": {
+        "key": "status",
+        "type": "text",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": false
+      },
+      "created_by": {
+        "key": "createdBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "updated_by": {
+        "key": "updatedBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "giftCardDenominations": {
+    "table": "gift_card_denominations",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "gift_card_id": {
+        "key": "giftCardId",
+        "type": "bigint",
+        "nullable": false
+      },
+      "face_value": {
+        "key": "faceValue",
+        "type": "numeric",
+        "nullable": false
+      },
+      "currency": {
+        "key": "currency",
+        "type": "text",
+        "nullable": false
+      },
+      "is_available": {
+        "key": "isAvailable",
+        "type": "boolean",
+        "nullable": false
+      },
+      "is_most_popular": {
+        "key": "isMostPopular",
+        "type": "boolean",
+        "nullable": false
+      },
+      "highlight_effect": {
+        "key": "highlightEffect",
+        "type": "text",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": false
+      },
+      "created_by": {
+        "key": "createdBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "updated_by": {
+        "key": "updatedBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "siteSettings": {
+    "table": "site_settings",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "is_public": {
+        "key": "isPublic",
+        "type": "boolean",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": false
+      },
+      "updated_by": {
+        "key": "updatedBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "setting_key": {
+        "key": "key",
+        "type": "text",
+        "nullable": false
+      },
+      "setting_value": {
+        "key": "value",
+        "type": "text",
+        "nullable": true
+      },
+      "setting_type": {
+        "key": "type",
+        "type": "text",
+        "nullable": false
+      },
+      "setting_group": {
+        "key": "group",
+        "type": "text",
+        "nullable": true
+      }
+    }
+  },
+  "socialLinks": {
+    "table": "social_links",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "platform": {
+        "key": "platform",
+        "type": "text",
+        "nullable": false
+      },
+      "label": {
+        "key": "label",
+        "type": "text",
+        "nullable": true
+      },
+      "url": {
+        "key": "url",
+        "type": "text",
+        "nullable": false
+      },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": false
+      },
+      "updated_by": {
+        "key": "updatedBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "trustIndicators": {
+    "table": "trust_indicators",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "label_ar": {
+        "key": "labelAr",
+        "type": "text",
+        "nullable": false
+      },
+      "label_en": {
+        "key": "labelEn",
+        "type": "text",
+        "nullable": true
+      },
+      "value": {
+        "key": "value",
+        "type": "text",
+        "nullable": true
+      },
+      "unit_ar": {
+        "key": "unitAr",
+        "type": "text",
+        "nullable": true
+      },
+      "unit_en": {
+        "key": "unitEn",
+        "type": "text",
+        "nullable": true
+      },
+      "description_ar": {
+        "key": "descriptionAr",
+        "type": "text",
+        "nullable": true
+      },
+      "description_en": {
+        "key": "descriptionEn",
+        "type": "text",
+        "nullable": true
+      },
+      "icon": {
+        "key": "icon",
+        "type": "text",
+        "nullable": true
+      },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": false
+      },
+      "updated_by": {
+        "key": "updatedBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "announcements": {
+    "table": "announcements",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "title_ar": {
+        "key": "titleAr",
+        "type": "text",
+        "nullable": false
+      },
+      "title_en": {
+        "key": "titleEn",
+        "type": "text",
+        "nullable": true
+      },
+      "body_ar": {
+        "key": "bodyAr",
+        "type": "text",
+        "nullable": true
+      },
+      "body_en": {
+        "key": "bodyEn",
+        "type": "text",
+        "nullable": true
+      },
+      "level": {
+        "key": "level",
+        "type": "text",
+        "nullable": false
+      },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
+      "starts_at": {
+        "key": "startsAt",
+        "type": "timestamptz",
+        "nullable": true
+      },
+      "ends_at": {
+        "key": "endsAt",
+        "type": "timestamptz",
+        "nullable": true
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": false
+      },
+      "updated_by": {
+        "key": "updatedBy",
+        "type": "bigint",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      },
+      "updated_at": {
+        "key": "updatedAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "galleryItems": {
+    "table": "gallery_items",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "title": {
+        "key": "title",
+        "type": "text",
+        "nullable": false
+      },
+      "title_ar": {
+        "key": "titleAr",
+        "type": "text",
+        "nullable": true
+      },
+      "description": {
+        "key": "description",
+        "type": "text",
+        "nullable": true
+      },
+      "description_ar": {
+        "key": "descriptionAr",
+        "type": "text",
+        "nullable": true
+      },
+      "image_url": {
+        "key": "imageUrl",
+        "type": "text",
+        "nullable": false
+      },
+      "category": {
+        "key": "category",
+        "type": "text",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": true
+      },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "newsEvents": {
+    "table": "news_events",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "title": {
+        "key": "title",
+        "type": "text",
+        "nullable": false
+      },
+      "title_ar": {
+        "key": "titleAr",
+        "type": "text",
+        "nullable": true
+      },
+      "excerpt": {
+        "key": "excerpt",
+        "type": "text",
+        "nullable": true
+      },
+      "excerpt_ar": {
+        "key": "excerptAr",
+        "type": "text",
+        "nullable": true
+      },
+      "content": {
+        "key": "content",
+        "type": "text",
+        "nullable": false
+      },
+      "content_ar": {
+        "key": "contentAr",
+        "type": "text",
+        "nullable": true
+      },
+      "image_url": {
+        "key": "imageUrl",
+        "type": "text",
+        "nullable": true
+      },
+      "event_date": {
+        "key": "eventDate",
+        "type": "timestamptz",
+        "nullable": true
+      },
+      "is_published": {
+        "key": "isPublished",
+        "type": "boolean",
+        "nullable": false
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  },
+  "testimonials": {
+    "table": "testimonials",
+    "fields": {
+      "id": {
+        "key": "id",
+        "type": "bigint",
+        "nullable": false
+      },
+      "author_name": {
+        "key": "authorName",
+        "type": "text",
+        "nullable": false
+      },
+      "author_name_ar": {
+        "key": "authorNameAr",
+        "type": "text",
+        "nullable": true
+      },
+      "role": {
+        "key": "role",
+        "type": "text",
+        "nullable": true
+      },
+      "role_ar": {
+        "key": "roleAr",
+        "type": "text",
+        "nullable": true
+      },
+      "quote": {
+        "key": "quote",
+        "type": "text",
+        "nullable": false
+      },
+      "quote_ar": {
+        "key": "quoteAr",
+        "type": "text",
+        "nullable": true
+      },
+      "rating": {
+        "key": "rating",
+        "type": "integer",
+        "nullable": false
+      },
+      "is_active": {
+        "key": "isActive",
+        "type": "boolean",
+        "nullable": false
+      },
+      "sort_order": {
+        "key": "sortOrder",
+        "type": "integer",
+        "nullable": true
+      },
+      "created_at": {
+        "key": "createdAt",
+        "type": "timestamptz",
+        "nullable": false
+      }
+    }
+  }
+}

@@ -17,10 +17,10 @@ export const contentDocumentSchema = z
         z
           .object({
             id: z.number().int().safe(),
-            userId: z.literal(1),
+            userId: z.union([z.number().int().safe(),z.uuid()]).nullable(),
             action: z.string().max(80),
             entityType: z.string().max(120),
-            metadata: z.string().max(300),
+            metadata: z.string().max(24000),
             createdAt: z.coerce.date(),
           })
           .strict()

@@ -1,6 +1,5 @@
 import "dotenv/config";
 import { defineConfig } from "drizzle-kit";
-import { databaseOptions } from "./server/database-config.mjs";
 
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
@@ -9,9 +8,9 @@ if (!connectionString) {
 
 export default defineConfig({
   schema: "./db/schema.ts",
-  out: "./db/migrations",
-  dialect: "mysql",
+  out: "./db/pg-generated",
+  dialect: "postgresql",
   dbCredentials: {
-    ...databaseOptions(connectionString),
+    url: connectionString,
   },
 });

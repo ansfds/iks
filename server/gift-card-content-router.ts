@@ -484,19 +484,19 @@ async function updateContentSettings(input: SettingsUpdateInput) {
   return { success: true };
 }
 export const giftCardRouter = createRouter({
-  list: publicQuery.query(() => getContentCardsWithDenominations()),
-  settings: publicQuery.query(readContentGiftCardSettings),
+  list: publicQuery.query(async () => (await getContentCardsWithDenominations()).map(publicCard)),
+  settings: publicQuery.query(publicSettings),
   bySlug: publicQuery
     .input(z.object({ slug: slugInput }))
     .query(async ({ input }) => {
-      const card = (await getContentCardsWithDenominations()).find(
+      const card = (await getContentCardsWithDenominations()).map(publicCard).find(
         row => row.slug === input.slug
       );
       return card
         ? {
             card,
             denominations: card.denominations,
-            settings: await readContentGiftCardSettings(),
+            settings: await publicSettings(),
           }
         : null;
     }),
@@ -554,3 +554,15 @@ export const giftCardRouter = createRouter({
     }),
   }),
 });
+
+// Selling prices remain in a private RLS-protected table. The public catalog
+// contains face values and availability; a price is agreed at purchase time.
+function publicCard(card: Awaited<ReturnType<typeof getContentCardsWithDenominations>>[number]) {
+  return {...card,denominations:card.denominations.map(row=>({
+    ...row,sellingPriceLyd:null,manualSellingPriceLyd:null,specialPriceUsd:null,
+  }))};
+}
+async function publicSettings() {
+  const {whatsappNumber,homeGiftCardsBackgroundUrl,homeServicesBackgroundUrl} = await readContentGiftCardSettings();
+  return {whatsappNumber,homeGiftCardsBackgroundUrl,homeServicesBackgroundUrl};
+}

@@ -71,7 +71,7 @@ export function nextContentId(name: "giftCards" | "giftCardDenominations") {
 export function updateContentGiftCardStore(
   update: (store: ContentGiftStore) => ContentGiftStore
 ) {
-  const previous = readContentGiftCardStore();
+  const previous = {...readContentGiftCardStore(),giftCards:structuredClone(readContent().collections.giftCards)};
   const next = update(previous);
   const c = readContent().collections;
   c.giftCards = next.giftCards;

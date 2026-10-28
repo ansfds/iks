@@ -1,17 +1,16 @@
-# Elwaseet Git-backed CMS experiment
+# ELWASEET — Supabase content and administration
 
-Current local branch: Supabase Auth integration. See [Supabase setup and current limits (Arabic)](SUPABASE_SETUP_AR.md) and [.env.example](.env.example). The historical Git CMS notes below describe the parent branch; its local password login and GitHub saving are not the active flow in this integration branch. Content migration to Supabase is pending.
+React/Vite + Hono/tRPC. Production: https://iks-pearl.vercel.app, repository `ansfds/iks`, branch `main`.
 
-This branch keeps the existing React admin and public website while storing editable public content in GitHub instead of a runtime database. Target: the EXISTING project serving https://iks-pearl.vercel.app; repository: ansfds/iks.
+Supabase Auth, PostgreSQL content and Storage use the existing project `cqunbjasbbmmtaiawxhe`. Public browsing requires no login; `/admin` and all private procedures require the verified Admin UUID. There is no runtime MySQL connection or GitHub content writer.
 
-- [Engineering evaluation and limits (Arabic)](GIT_CMS_EVALUATION_AR.md)
-- [Environment, Preview, backup and rollback guide (Arabic)](GIT_CMS_DEPLOYMENT_AR.md)
-- [Work completed and access blockers (Arabic)](GIT_CMS_REPORT_AR.md)
+- [Configuration and security](SUPABASE_SETUP_AR.md)
+- [Migration inventory and verification](SUPABASE_MIGRATION_AR.md)
+- PostgreSQL definitions: `db/schema.ts`; applied DDL/RLS/RPC history: `supabase/migrations/`.
+- Historical MySQL schema: `db/legacy/mysql-schema.ts`. The source database, backups and `content/site.json` remain intact.
 
-No production deployment is authorized yet. The production branch must be verified through Vercel; do not assume it is main. Writes are disabled in .env.example.
+Copy `.env.example` to ignored `.env.local` and set the three Supabase variables. Run `npm ci`, `npm run dev`. The admin password is entered in the login page only. No secret/service role key, GitHub token, Vercel token or DATABASE_URL is required by the runtime.
 
-Local development: npm ci, npm run auth:setup, npm run local. The setup writes credentials only to ignored .env. Public browsing needs no database or GitHub token; online saves require the CMS environment and target verification.
+Checks: `npm run check`, `npm run lint`, `npm test`, `npm run build`, `npm run verify:vercel-artifact`, `node tools/verify-browser-secrets.mjs`. `tools/verify-supabase-content.mjs` tests the actual browser against `VERIFY_ORIGIN` (default port 4175); authenticated editing requires the owner's login.
 
-Checks: npm run check, npm run lint, npm test, npm run build, npm run verify:vercel-artifact, npm run test:browser. The browser test uses an isolated LOCAL Git repository and simulated provider APIs. It is not an online Vercel Preview test.
-
-content/site.json contains only public CMS collections. Private contact messages and transactional financial data must never be placed in this public repository. db/schema.ts and db/migrations are preserved historical MySQL references, not the active persistence layer.
+The `GIT_CMS_*` reports and old preview tools describe archived experiments. They are not the active deployment or persistence workflow. Saving content now commits a PostgreSQL transaction and is visible after Refresh without rebuilding Vercel.

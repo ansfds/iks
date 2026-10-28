@@ -68,7 +68,7 @@ describe("Git CMS content workflows and atomic request boundaries", () => {
       const detail = await api.giftCards.bySlug({ slug });
       expect(detail?.card.status).toBe("AVAILABLE");
       expect(
-        detail?.denominations.every(row => Number(row.sellingPriceLyd) > 0)
+        detail?.denominations.every(row => row.sellingPriceLyd === null && row.manualSellingPriceLyd === null && row.specialPriceUsd === null)
       ).toBe(true);
     }
     expect((await api.finance.accounts.list()).length).toBe(4);
@@ -153,7 +153,7 @@ describe("Git CMS content workflows and atomic request boundaries", () => {
     expect(row.sortOrder).toBe(12);
     expect(row.currency).toBe("EUR");
     expect(row.regionCode).toBe("GLOBAL");
-    let detail = await caller().giftCards.bySlug({ slug: "new-card" });
+    let detail = await caller().giftCards.admin.getById({ id: card.id });
     expect(detail?.denominations[0].sellingPriceLyd).toBe("250.000");
     expect(detail?.card.imageUrl).toBe("https://example.com/card.png");
     await caller().giftCards.admin.denominations.update({
@@ -163,14 +163,14 @@ describe("Git CMS content workflows and atomic request boundaries", () => {
       isMostPopular: true,
       highlightEffect: "FLAME",
     });
-    detail = await caller().giftCards.bySlug({ slug: "new-card" });
+    detail = await caller().giftCards.admin.getById({ id: card.id });
     expect(detail?.denominations[0].sellingPriceLyd).toBe("275.000");
     expect(detail?.denominations[0].isAvailable).toBe(false);
     await caller().giftCards.admin.denominations.update({
       id: denomination.id,
       manualSellingPriceLyd: null,
     });
-    detail = await caller().giftCards.bySlug({ slug: "new-card" });
+    detail = await caller().giftCards.admin.getById({ id: card.id });
     expect(detail?.denominations[0].sellingPriceLyd).toBe("500.000");
     expect(detail?.denominations[0].highlightEffect).toBe("FLAME");
     expect(detail?.denominations[0].isAvailable).toBe(false);
@@ -195,7 +195,7 @@ describe("Git CMS content workflows and atomic request boundaries", () => {
       homeGiftCardsBackgroundUrl: "https://example.com/background.png",
     });
     expect(commits).toBe(1);
-    expect((await caller().giftCards.settings()).rate10To100).toBe(11);
+    expect((await caller().giftCards.admin.settings.get()).rate10To100).toBe(11);
     expect(
       (await caller().giftCards.settings()).homeGiftCardsBackgroundUrl
     ).toBe("https://example.com/background.png");
@@ -220,8 +220,7 @@ describe("Git CMS content workflows and atomic request boundaries", () => {
       )
     ).toBe(true);
   });
-  it("keeps public content at the deployed snapshot until a new build is deployed", async () => {
-    const original = (await caller(false).siteContent.public()).site_address;
+  it("serves saved content to public requests immediately without a rebuild", async () => {
     await caller().siteContent.admin.save({
       key: "site_address",
       value: "Changed draft address",
@@ -230,7 +229,7 @@ describe("Git CMS content workflows and atomic request boundaries", () => {
       "Changed draft address"
     );
     expect((await caller(false).siteContent.public()).site_address).toBe(
-      original
+      "Changed draft address"
     );
   });
   it("keeps services and informational financial calculators working", async () => {

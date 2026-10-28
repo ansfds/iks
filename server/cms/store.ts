@@ -4,12 +4,13 @@ import { TRPCError } from "@trpc/server";
 import source from "../../content/site.json";
 import { validateContent, type ContentDocument } from "./document";
 import {
-  GitHubContentRepository,
   type ContentRepository,
   type Snapshot,
   type ContentAsset,
 } from "./github";
 import { type CollectionName, type Collections } from "./models";
+import { readSnapshot, persistContent } from '../supabase/content';
+import { getDb } from '../queries/connection';
 
 type ContentScope = {
   document: ContentDocument;
@@ -24,11 +25,10 @@ export function installTestRepository(repository?: ContentRepository) {
     throw new Error("Test fixture unavailable outside tests");
   testRepository = repository;
 }
-export function repository() {
-  return testRepository || new GitHubContentRepository();
-}
 export function readContent() {
-  return scope.getStore()?.document || structuredClone(bundled);
+  if (scope.getStore()) return scope.getStore()!.document;
+  if (process.env.NODE_ENV === 'test') return structuredClone(bundled);
+  throw new Error('Content must be loaded from Supabase within a request');
 }
 export function bundledSnapshot(): Snapshot {
   return {
@@ -36,10 +36,8 @@ export function bundledSnapshot(): Snapshot {
     revision: createHash("sha1").update(JSON.stringify(source)).digest("hex"),
   };
 }
-export async function latestSnapshot() {
-  // Auth migration does not migrate content. Keep the reviewed catalog readable
-  // in every environment until the real Supabase tables are inspected/imported.
-  return testRepository ? testRepository.read() : bundledSnapshot();
+export async function latestSnapshot(request?: Request, headers = new Headers()) {
+  return testRepository ? testRepository.read() : readSnapshot(true, request, headers);
 }
 export async function withContent<T>(
   editor: boolean,
@@ -49,11 +47,8 @@ export async function withContent<T>(
   headers: Headers,
   run: () => Promise<T>
 ) {
-  if (mutation && !testRepository) throw new TRPCError({
-    code: 'PRECONDITION_FAILED',
-    message: 'نقل المحتوى إلى Supabase لم يكتمل بعد. الحفظ غير مفعّل لهذه النسخة.',
-  });
-  const snapshot = editor ? await latestSnapshot() : bundledSnapshot();
+  const snapshot = testRepository ? await testRepository.read() : await readSnapshot(editor, request, headers, path);
+  const before = structuredClone(snapshot);
   if (mutation) {
     if (request.headers.get("x-cms-revision") !== snapshot.revision)
       throw new TRPCError({
@@ -87,12 +82,12 @@ export async function withContent<T>(
               "فشل التحقق من المحتوى: قيمة مكررة، مرجع مفقود أو إعداد غير مسموح.",
           });
         }
-        const confirmed = await repository().write(
+        const confirmed = testRepository ? await testRepository.write(
           document,
           snapshot.revision,
           `cms: ${path} (${document.lastOperation})`,
           scope.getStore()!.assets
-        );
+        ) : await persistContent(getDb(request,headers), before, document);
         headers.set("x-cms-commit", confirmed.commit);
         headers.set("x-cms-revision", confirmed.revision);
       }

@@ -3,21 +3,18 @@ import { createHash } from "node:crypto";
 import { TRPCError } from "@trpc/server";
 import { createRouter, adminQuery } from "./middleware";
 import { latestSnapshot, queueAsset } from "./cms/store";
-import { deploymentStatus } from "./cms/deployment";
+import { getDb } from './queries/connection';
 
 export const cmsRouter = createRouter({
-  snapshot: adminQuery.query(async () => {
-    const snapshot = await latestSnapshot();
+  snapshot: adminQuery.query(async ({ctx}) => {
+    const snapshot = await latestSnapshot(ctx.req,ctx.resHeaders);
     return {
       revision: snapshot.revision,
-      branch: process.env.CMS_BRANCH || null,
-      writesEnabled: false,
-      contentSource: 'local-catalog' as const,
+      branch: null,
+      writesEnabled: !('verified' in snapshot) || snapshot.verified === true,
+      contentSource: 'supabase' as const,
     };
   }),
-  deployment: adminQuery
-    .input(z.object({ commit: z.string().regex(/^[0-9a-f]{40}$/) }))
-    .query(({ input }) => deploymentStatus(input.commit)),
   uploadImage: adminQuery
     .input(
       z
@@ -31,7 +28,7 @@ export const cmsRouter = createRouter({
         })
         .strict()
     )
-    .mutation(({ input }) => {
+    .mutation(async ({ input, ctx }) => {
       const bytes = Buffer.from(input.base64, "base64");
       if (
         bytes.length > 2 * 1024 * 1024 ||
@@ -63,8 +60,15 @@ export const cmsRouter = createRouter({
           : input.mime === "image/jpeg"
             ? "jpg"
             : "webp";
-      const url = `/images/cms/${createHash("sha256").update(bytes).digest("hex")}.${ext}`;
-      queueAsset({ path: "public" + url, content: input.base64 });
-      return { url };
+      const name = `${createHash("sha256").update(bytes).digest("hex")}.${ext}`;
+      if (process.env.NODE_ENV === 'test') {
+        const url = `/images/cms/${name}`;
+        queueAsset({ path:'public'+url,content:input.base64 });
+        return { url };
+      }
+      const db = getDb(ctx.req,ctx.resHeaders);
+      const {error} = await db.storage.from('site-media').upload(name,bytes,{contentType:input.mime,upsert:true,cacheControl:'31536000'});
+      if (error) throw new TRPCError({code:'SERVICE_UNAVAILABLE',message:'تعذر حفظ الصورة في Supabase. لم يتم تأكيد الرفع.'});
+      return {url:db.storage.from('site-media').getPublicUrl(name).data.publicUrl};
     }),
 });

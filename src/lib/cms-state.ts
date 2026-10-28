@@ -8,8 +8,8 @@ export function setCmsRevision(value: string) {
 export type CmsSave = { commit: string; savedAt: number };
 export function lastCmsSave(): CmsSave | null {
   try {
-    const value = JSON.parse(sessionStorage.getItem("cms-last-save") || "null");
-    return /^[a-f0-9]{40}$/.test(value?.commit) &&
+    const value = JSON.parse(sessionStorage.getItem("supabase-last-save") || "null");
+    return /^[a-zA-Z0-9-]{1,64}$/.test(value?.commit) &&
       Number.isFinite(value?.savedAt)
       ? value
       : null;
@@ -18,10 +18,10 @@ export function lastCmsSave(): CmsSave | null {
   }
 }
 export function confirmedCmsSave(commit: string, nextRevision: string) {
-  if (!/^[a-f0-9]{40}$/.test(commit) || !/^[a-f0-9]{40}$/.test(nextRevision))
+  if (!/^[a-zA-Z0-9-]{1,64}$/.test(commit) || !/^[a-zA-Z0-9-]{1,64}$/.test(nextRevision))
     return;
   revision = nextRevision;
   const value: CmsSave = { commit, savedAt: Date.now() };
-  sessionStorage.setItem("cms-last-save", JSON.stringify(value));
+  sessionStorage.setItem("supabase-last-save", JSON.stringify(value));
   window.dispatchEvent(new CustomEvent("cms-saved", { detail: value }));
 }

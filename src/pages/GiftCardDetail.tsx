@@ -13,25 +13,11 @@ import { getGiftCardImages } from "@/config/gift-card-images";
 import {
   createGiftCardWhatsAppUrl,
   formatFaceValue,
-  formatLyd,
   giftCardStatusLabels,
-  hasValidLydPrice,
 } from "@/lib/giftCards";
 import { resolveImageUrl } from "@/lib/image-utils";
 import { cn } from "@/lib/utils";
 import { trpc } from "@/providers/trpc";
-
-function getSpecialSavings(denomination: {
-  faceValue: string | number;
-  specialPriceUsd?: string | number | null;
-}) {
-  if (!denomination.specialPriceUsd) return null;
-  const faceValue = Number(denomination.faceValue);
-  const specialPrice = Number(denomination.specialPriceUsd);
-  if (!Number.isFinite(faceValue) || !Number.isFinite(specialPrice)) return null;
-  const savings = faceValue - specialPrice;
-  return savings > 0 ? savings : null;
-}
 
 function getWhatsAppCardName(displayName: string) {
   return displayName.replace(/\s*Gift Card$/i, "").trim();
@@ -47,14 +33,12 @@ export default function GiftCardDetail() {
   const denominations = data?.denominations ?? [];
   const selectedDenomination =
     denominations.find((denomination) => denomination.id === selectedId) ?? null;
-  const selectedPrice = formatLyd(selectedDenomination?.sellingPriceLyd);
   const canBuy =
     card?.status === "AVAILABLE" &&
-    selectedDenomination?.isAvailable &&
-    hasValidLydPrice(selectedDenomination.sellingPriceLyd);
+    selectedDenomination?.isAvailable;
 
   const whatsappUrl =
-    card && selectedDenomination && selectedPrice && data?.settings
+    card && selectedDenomination && data?.settings
       ? createGiftCardWhatsAppUrl({
           phone: data.settings.whatsappNumber,
           cardName: getWhatsAppCardName(card.displayName),
@@ -62,7 +46,7 @@ export default function GiftCardDetail() {
           faceValue: selectedDenomination.faceValue,
           currency: selectedDenomination.currency,
           // Message numbers use plain decimal digits; the UI formatter stays unchanged.
-          priceLyd: `${Number(selectedDenomination.sellingPriceLyd)} د.ل`,
+          priceLyd: 'يُحدد وقت الشراء',
         })
       : "";
 
@@ -177,10 +161,8 @@ export default function GiftCardDetail() {
             <>
               <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-4">
                 {denominations.map((denomination) => {
-                  const hasPrice = hasValidLydPrice(denomination.sellingPriceLyd);
                   const disabled = !denomination.isAvailable;
                   const selected = selectedId === denomination.id;
-                  const savings = getSpecialSavings(denomination);
 
                   return (
                     <button
@@ -209,32 +191,12 @@ export default function GiftCardDetail() {
                           الأكثر طلبًا
                         </span>
                       )}
-                      {savings && !denomination.isMostPopular && (
-                        <span className="absolute right-2 top-2 rounded-full bg-emerald-600 px-2 py-0.5 text-[10px] font-black text-white">
-                          عرض
-                        </span>
-                      )}
                       <span className="block pt-4 text-2xl font-black tracking-normal">
                         {formatFaceValue(denomination.faceValue, denomination.currency)}
                       </span>
-                      {card.slug === "shein" && denomination.specialPriceUsd && (
-                        <span className="mt-2 block text-sm font-black text-emerald-700">
-                          سعر البيع: <bdi dir="ltr">{Number(denomination.specialPriceUsd)}$</bdi>
-                        </span>
-                      )}
-                      {savings && (
-                        <span className="mt-2 block text-xs font-black text-emerald-700">
-                          وفر {formatFaceValue(savings, denomination.currency)}
-                        </span>
-                      )}
                       {!denomination.isAvailable && (
                         <span className="mt-2 block text-xs font-black text-red-500">
                           غير متوفر
-                        </span>
-                      )}
-                      {denomination.isAvailable && !hasPrice && (
-                        <span className="mt-2 block text-xs font-black text-amber-600">
-                          السعر غير متوفر
                         </span>
                       )}
                       {selected && (
@@ -274,7 +236,7 @@ export default function GiftCardDetail() {
                     className="inline-flex min-h-12 w-full cursor-not-allowed items-center justify-center gap-2 rounded-md bg-slate-200 px-6 py-3 text-base font-black text-slate-500 sm:w-auto"
                   >
                     <MessageCircle size={20} />
-                    اختر فئة بسعر صالح
+                    اختر الفئة
                   </button>
                 )}
               </div>

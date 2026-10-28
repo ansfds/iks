@@ -1,9 +1,11 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, afterEach, describe, expect, it, vi } from "vitest";
+import { bundledSnapshot, installTestRepository } from './cms/store';
 const store = vi.hoisted(() => ({ list: vi.fn(), bySlug: vi.fn() }));
-vi.mock("./gift-card-router", () => ({ giftCardRouter: { createCaller: () => store } }));
+vi.mock("./router", () => ({ appRouter: { createCaller: () => ({giftCards:store}) } }));
 import { dynamicSitemap, seoResponse } from "./seo";
 
-afterEach(() => { vi.resetAllMocks(); vi.restoreAllMocks(); });
+beforeEach(()=>installTestRepository({read:async()=>bundledSnapshot(),write:async()=>{throw Error('read only');}}));
+afterEach(() => { installTestRepository(); vi.resetAllMocks(); vi.restoreAllMocks(); });
 const template = async () => '<html lang="ar" dir="rtl"><head></head><body><div id="root"></div></body></html>';
 describe("public SEO responses", () => {
   it("includes configured available cards in the sitemap", async () => {

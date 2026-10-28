@@ -41,7 +41,13 @@ export function requestSupabase(request: Request, responseHeaders: Headers) {
 // Shared project/key configuration for future public table reads; no admin session.
 export function publicSupabase() {
   const { url, publishableKey } = supabaseConnection();
-  return createClient(url, publishableKey, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } });
+  return createClient(url, publishableKey, {
+    global: { fetch: async (input,init) => {
+      try { return await fetch(input,{...init,cache:'no-store',signal:AbortSignal.timeout(15000)}); }
+      catch { throw new TypeError('Supabase network unavailable'); }
+    } },
+    auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+  });
 }
 
 export function appendAuthHeaders(target: Headers, source: Headers) {

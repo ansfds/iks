@@ -19,8 +19,11 @@ const browserRequest = t.middleware(({ ctx, type, next }) => {
   return next();
 });
 export const publicQuery = t.procedure.use(browserRequest).use(async ({ ctx, type, path, next }) => {
-  if (type !== 'query' || /^(auth\.|cms\.|ping$)/.test(path)) return next();
-  const editor = Boolean(ctx.user && (ctx.req.headers.get('x-cms-editor') === '1' || path.includes('.admin.') || path.startsWith('admin.')));
+  if (type !== 'query' || /^(auth\.|cms\.|contact\.|ping$)/.test(path)) return next();
+  // Private procedures authenticate before reading private data. An untrusted
+  // x-cms-editor header never upgrades a public procedure to an admin read.
+  if (path.includes('.admin.') || path.startsWith('admin.')) return next();
+  const editor = false;
   return withContent(editor, false, ctx.req, path, ctx.resHeaders, () => next());
 });
 
@@ -55,6 +58,6 @@ function requireRole(role: string) {
 
 export const authedQuery = publicQuery.use(requireAuth);
 export const adminQuery = authedQuery.use(requireRole("admin")).use(async ({ ctx, type, path, next }) => {
-  if (type !== 'mutation') return next();
-  return withContent(true, true, ctx.req, path, ctx.resHeaders, () => next());
+  if (/^(auth\.|cms\.snapshot$|cms\.deployment$|contact\.)/.test(path)) return next();
+  return withContent(true, type === 'mutation', ctx.req, path, ctx.resHeaders, () => next());
 });

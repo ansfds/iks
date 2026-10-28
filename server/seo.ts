@@ -3,16 +3,21 @@ import { existsSync } from "node:fs";
 import path from "node:path";
 import type { Hono } from "hono";
 import type { HttpBindings } from "@hono/node-server";
-import { giftCardRouter } from "./gift-card-router";
+import { appRouter } from "./router";
 import { giftCardSlug, normalizeSeoPath, pageSeo, resolvePageSeo } from "../src/config/seo";
 import { createRobotsTxt, createSitemap, renderSeoDocument } from "../src/lib/seo";
 import { applyContentSeo } from '../src/lib/content-seo';
-import { readContent } from './cms/store';
+import { readContent, withContent } from './cms/store';
 
 function catalog() {
-  return giftCardRouter.createCaller({ req: new Request('https://internal.invalid/'), resHeaders: new Headers() });
+  return appRouter.createCaller({ req: new Request('https://internal.invalid/'), resHeaders: new Headers() }).giftCards;
 }
 export async function resolveServerPageSeo(value: string) {
+  if (/^\/(admin|login)(\/|$)/.test(value)) return resolvePageSeo(value);
+  try { return await withContent(false,false,new Request('https://internal.invalid/'),'seo',new Headers(),()=>resolveLoadedPageSeo(value)); }
+  catch { return resolvePageSeo(value,{unavailable:true}); }
+}
+async function resolveLoadedPageSeo(value: string) {
   const pathname = normalizeSeoPath(value);
   const slug = giftCardSlug(pathname);
   const contentSeo = (seo: ReturnType<typeof resolvePageSeo>) => applyContentSeo(seo, Object.fromEntries(readContent().collections.siteSettings.filter(row => row.isPublic).map(row => [row.key, row.value || ''])));

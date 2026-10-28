@@ -47,6 +47,7 @@ admin-backup-*/
 backups/
 deploy-data/
 .vercel/
+supabase/.temp/
 env
 dist.zip
 data/gift-cards-local.json
