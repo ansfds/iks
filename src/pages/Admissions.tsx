@@ -1,7 +1,8 @@
 ﻿import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { trpc } from "@/providers/trpc";
+import { useSiteContent } from "@/hooks/useSiteContent";
+import { createServiceRequestWhatsAppUrl } from "@/lib/serviceRequest";
 import {
   FileText,
   ClipboardCheck,
@@ -20,44 +21,49 @@ const GSAP: any = gsap;
 
 export default function Admissions() {
   const { language, t, dir } = useLanguage();
+  const cms = useSiteContent();
   const sectionRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState({
-    studentName: "",
-    parentName: "",
-    email: "",
-    phone: "",
-    grade: "",
+    serviceType: "",
     message: "",
-  });
-
-  const submitMutation = trpc.contact.submit.useMutation({
-    onSuccess: () => {
-      toast.success(t("contact.form.success"));
-      setFormData({
-        studentName: "",
-        parentName: "",
-        email: "",
-        phone: "",
-        grade: "",
-        message: "",
-      });
-    },
-    onError: () => {
-      toast.error("حدث خطأ. يرجى المحاولة مرة أخرى.");
-    },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.studentName || !formData.parentName || !formData.email || !formData.message) {
-      toast.error("يرجى ملء جميع الحقول المطلوبة");
-      return;
+    const form = e.currentTarget as HTMLFormElement;
+    const service = form.elements.namedItem("serviceType") as HTMLInputElement;
+    const note = form.elements.namedItem("message") as HTMLTextAreaElement;
+    service.setCustomValidity(
+      formData.serviceType.trim()
+        ? ""
+        : language === "ar"
+          ? "يرجى كتابة نوع الخدمة"
+          : "Please enter the service type"
+    );
+    note.setCustomValidity(
+      formData.message.trim()
+        ? ""
+        : language === "ar"
+          ? "يرجى كتابة رسالة أو ملاحظة"
+          : "Please enter a message or note"
+    );
+    if (!form.reportValidity()) return;
+    try {
+      window.location.assign(
+        createServiceRequestWhatsAppUrl({
+          phone: cms.value("site_whatsapp"),
+          serviceType: formData.serviceType,
+          message: formData.message,
+        })
+      );
+    } catch {
+      toast.error(
+        language === "ar"
+          ? "تعذر فتح واتساب حاليًا. يرجى المحاولة لاحقًا."
+          : "Unable to open WhatsApp. Please try again later."
+      );
     }
-    submitMutation.mutate({
-      ...formData,
-      language,
-    });
   };
 
   useEffect(() => {
@@ -225,74 +231,59 @@ export default function Admissions() {
                   <h3 className="text-xl font-semibold text-[#1A1A1A] mb-6">
                     {t("contact.form.title")}
                   </h3>
-                  <form onSubmit={handleSubmit} className="space-y-4">
+                  <form
+                    onSubmit={handleSubmit}
+                    className="space-y-4"
+                    aria-label={t("contact.form.title")}
+                  >
                     <input
                       type="text"
-                      placeholder="اسم العميل *"
-                      value={formData.studentName}
-                      onChange={(e) =>
-                        setFormData({ ...formData, studentName: e.target.value })
+                      name="serviceType"
+                      aria-label={
+                        language === "ar" ? "نوع الخدمة" : "Service type"
                       }
+                      placeholder={
+                        language === "ar" ? "نوع الخدمة *" : "Service type *"
+                      }
+                      value={formData.serviceType}
+                      onChange={e => {
+                        e.currentTarget.setCustomValidity("");
+                        setFormData({
+                          ...formData,
+                          serviceType: e.target.value,
+                        });
+                      }}
                       className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
                       required
-                    />
-                    <input
-                      type="text"
-                      placeholder="نوع الخدمة المطلوبة *"
-                      value={formData.parentName}
-                      onChange={(e) =>
-                        setFormData({ ...formData, parentName: e.target.value })
-                      }
-                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
-                      required
-                    />
-                    <input
-                      type="email"
-                      placeholder="البريد الإلكتروني *"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
-                      required
-                    />
-                    <input
-                      type="tel"
-                      placeholder="الهاتف"
-                      value={formData.phone}
-                      onChange={(e) =>
-                        setFormData({ ...formData, phone: e.target.value })
-                      }
-                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
-                    />
-                    <input
-                      type="text"
-                      placeholder="المبلغ والعملة"
-                      value={formData.grade}
-                      onChange={(e) =>
-                        setFormData({ ...formData, grade: e.target.value })
-                      }
-                      className="w-full h-12 px-4 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm"
                     />
                     <textarea
-                      placeholder="الرسالة *"
-                      value={formData.message}
-                      onChange={(e) =>
-                        setFormData({ ...formData, message: e.target.value })
+                      name="message"
+                      aria-label={
+                        language === "ar" ? "رسالة / ملاحظة" : "Message / note"
                       }
+                      placeholder={
+                        language === "ar"
+                          ? "رسالة / ملاحظة *"
+                          : "Message / note *"
+                      }
+                      value={formData.message}
+                      onChange={e => {
+                        e.currentTarget.setCustomValidity("");
+                        setFormData({ ...formData, message: e.target.value });
+                      }}
                       rows={4}
                       className="w-full px-4 py-3 border border-[#D8E0F0] rounded-md focus:border-[#213B6F] focus:ring-2 focus:ring-[#213B6F]/10 outline-none transition-all text-sm resize-none"
                       required
                     />
                     <button
                       type="submit"
-                      disabled={submitMutation.isPending}
+                      disabled={cms.query.isLoading}
                       className="w-full h-12 bg-[#213B6F] text-white font-medium rounded-md hover:bg-[#2C4F8E] transition-colors flex items-center justify-center gap-2 disabled:opacity-50"
                     >
                       <Send size={16} />
-                      {submitMutation.isPending
-                        ? "جاري الإرسال..."
-                        : t("contact.form.submit")}
+                      {language === "ar"
+                        ? "إرسال عبر واتساب"
+                        : "Send via WhatsApp"}
                     </button>
                   </form>
                 </div>
