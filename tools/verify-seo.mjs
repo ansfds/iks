@@ -10,7 +10,7 @@ const pass = (message) => { report.checks.push(message); console.log(`PASS ${mes
 const output = path.resolve(".preview");
 await fs.mkdir(output, { recursive: true });
 const source = await fs.readFile("src/config/seo.ts", "utf8");
-const officialImage = source.match(/export const DEFAULT_OG_IMAGE = "([^"]+)"/)[1];
+const officialImage = source.match(/export const DEFAULT_OG_IMAGE\s*=\s*"([^"]+)"/)[1];
 function meta(html, attribute, key) {
   const element = html.match(new RegExp(`<meta\\b[^>]*${attribute}="${key.replaceAll(":", "\\:")}"[^>]*>`))?.[0];
   return element?.match(/content="([^"]*)"/)?.[1];
@@ -29,8 +29,8 @@ for (const base of [development, production]) {
     assert.equal(meta(html, "property", "og:image"), officialImage, route);
     assert.equal(meta(html, "name", "twitter:image"), officialImage, route);
     assert.equal(meta(html, "name", "twitter:card"), "summary_large_image");
-    assert.equal(meta(html, "property", "og:image:width"), "1279");
-    assert.equal(meta(html, "property", "og:image:height"), "720");
+    assert.equal(meta(html, "property", "og:image:width"), "1200");
+    assert.equal(meta(html, "property", "og:image:height"), "630");
     assert.equal(html.match(/property="og:image"/g)?.length, 1, route);
     assert.equal(html.match(/name="description"/g)?.length, 1, route);
     assert.equal(html.match(/rel="canonical"/g)?.length, 1, route);

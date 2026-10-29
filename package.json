@@ -20,6 +20,7 @@
     "content:validate": "node tools/validate-content.mjs",
     "content:export-mysql": "node tools/export-production-content.mjs",
     "verify:vercel-artifact": "node tools/verify-vercel.mjs",
+    "verify:seo": "node tools/verify-social-seo.mjs",
     "test:browser": "node tools/verify-supabase-content.mjs",
     "test:admin-visual": "node tools/verify-admin-visual.mjs",
     "content:apply-reviewed": "node tools/apply-reviewed-content.mjs",

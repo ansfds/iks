@@ -1,11 +1,12 @@
 # ELWASEET — Supabase content and administration
 
-React/Vite + Hono/tRPC. Production: https://iks-pearl.vercel.app, repository `ansfds/iks`, branch `main`.
+React/Vite + Hono/tRPC. Production: https://www.elwaseetel-moatamad.ly, repository `ansfds/iks`, branch `main`.
 
 Supabase Auth, PostgreSQL content and Storage use the existing project `cqunbjasbbmmtaiawxhe`. Public browsing requires no login; `/admin` and all private procedures require the verified Admin UUID. There is no runtime MySQL connection or GitHub content writer.
 
 - [Configuration and security](SUPABASE_SETUP_AR.md)
 - [Migration inventory and verification](SUPABASE_MIGRATION_AR.md)
+- [Current self-hosted share-image fix](OG_IMAGE_FIX_AR.md)
 - PostgreSQL definitions: `db/schema.ts`; applied DDL/RLS/RPC history: `supabase/migrations/`.
 - Historical MySQL schema: `db/legacy/mysql-schema.ts`. The source database, backups and `content/site.json` remain intact.
 

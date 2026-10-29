@@ -2,22 +2,47 @@ import type { Plugin, ViteDevServer } from "vite";
 import fs from "node:fs/promises";
 import path from "node:path";
 import { SITE_IMAGES } from "../src/config/site-images";
-import { SITE_NAME, SITE_NAME_EN, SITE_URL, resolvePageSeo, validateSiteUrl } from "../src/config/seo";
+import {
+  DEFAULT_DESCRIPTION,
+  SEO_SITE_NAME,
+  SITE_NAME,
+  SITE_URL,
+  resolvePageSeo,
+  validateSiteUrl,
+} from "../src/config/seo";
 import { createRobotsTxt, renderSeoDocument } from "../src/lib/seo";
 
 export function siteMetadata(): Plugin {
   let origin = SITE_URL;
   let root = process.cwd();
-  const manifest = () => JSON.stringify({
-    id: "/", name: SITE_NAME, short_name: SITE_NAME, lang: "ar", dir: "rtl",
-    description: `${SITE_NAME_EN} للدفع الإلكتروني والتحويلات`,
-    start_url: "/", scope: "/", display: "standalone",
-    theme_color: "#0f3b82", background_color: "#ffffff",
-    icons: [
-      { src: SITE_IMAGES.branding.icon192, sizes: "192x192", type: "image/png", purpose: "any" },
-      { src: SITE_IMAGES.branding.icon512, sizes: "512x512", type: "image/png", purpose: "any" },
-    ],
-  });
+  const manifest = () =>
+    JSON.stringify({
+      id: "/",
+      name: SEO_SITE_NAME,
+      short_name: SITE_NAME,
+      lang: "ar",
+      dir: "rtl",
+      description: DEFAULT_DESCRIPTION,
+      start_url: "/",
+      scope: "/",
+      display: "standalone",
+      theme_color: "#0f3b82",
+      background_color: "#ffffff",
+      icons: [
+        {
+          src: SITE_IMAGES.branding.icon192,
+          sizes: "192x192",
+          type: "image/png",
+          purpose: "any",
+        },
+        {
+          src: SITE_IMAGES.branding.icon512,
+          sizes: "512x512",
+          type: "image/png",
+          purpose: "any",
+        },
+      ],
+    });
   return {
     name: "site-brand-metadata",
     configResolved(config) {
@@ -27,31 +52,67 @@ export function siteMetadata(): Plugin {
     configureServer(server: ViteDevServer) {
       server.middlewares.use(async (req, res, next) => {
         try {
-          const pathname = new URL(req.url || "/", "http://dev.invalid").pathname;
+          const pathname = new URL(req.url || "/", "http://dev.invalid")
+            .pathname;
           if (pathname === "/site.webmanifest") {
-            res.setHeader("Content-Type", "application/manifest+json; charset=utf-8");
-            res.end(manifest()); return;
+            res.setHeader(
+              "Content-Type",
+              "application/manifest+json; charset=utf-8"
+            );
+            res.end(manifest());
+            return;
           }
           if (pathname === "/admin" || pathname.startsWith("/admin/")) {
-            const { adminPageResponse } = await server.ssrLoadModule("/server/auth/page-guard.ts");
+            const { adminPageResponse } = await server.ssrLoadModule(
+              "/server/auth/page-guard.ts"
+            );
             const headers = new Headers();
-            for (const [key, value] of Object.entries(req.headers)) if (value) headers.set(key, Array.isArray(value) ? value.join(", ") : value);
+            for (const [key, value] of Object.entries(req.headers))
+              if (value)
+                headers.set(
+                  key,
+                  Array.isArray(value) ? value.join(", ") : value
+                );
             const authHeaders = new Headers();
-            const guarded: Response | null = await adminPageResponse(new Request(`http://${req.headers.host}${req.url}`, { headers }), authHeaders);
-            if (authHeaders.getSetCookie().length) res.setHeader('Set-Cookie', authHeaders.getSetCookie());
-            authHeaders.forEach((value, key) => { if (key !== 'set-cookie') res.setHeader(key, value); });
+            const guarded: Response | null = await adminPageResponse(
+              new Request(`http://${req.headers.host}${req.url}`, { headers }),
+              authHeaders
+            );
+            if (authHeaders.getSetCookie().length)
+              res.setHeader("Set-Cookie", authHeaders.getSetCookie());
+            authHeaders.forEach((value, key) => {
+              if (key !== "set-cookie") res.setHeader(key, value);
+            });
             if (guarded) {
               res.statusCode = guarded.status;
-              guarded.headers.forEach((value, key) => res.setHeader(key, value));
-              res.end(await guarded.text()); return;
+              guarded.headers.forEach((value, key) =>
+                res.setHeader(key, value)
+              );
+              res.end(await guarded.text());
+              return;
             }
           }
-          if (req.method !== "GET" || /^\/(api|assets|src|node_modules|tools|\.preview)(\/|$)/.test(pathname) || pathname.startsWith("/@") || (/\.[^/]*$/.test(pathname) && !["/robots.txt", "/sitemap.xml"].includes(pathname))) return next();
+          if (
+            req.method !== "GET" ||
+            /^\/(api|assets|src|node_modules|tools|\.preview)(\/|$)/.test(
+              pathname
+            ) ||
+            pathname.startsWith("/@") ||
+            (/\.[^/]*$/.test(pathname) &&
+              !["/robots.txt", "/sitemap.xml"].includes(pathname))
+          )
+            return next();
           const seo = await server.ssrLoadModule("/server/seo.ts");
-          const response: Response = await seo.seoResponse(pathname, async () => {
-            const html = await fs.readFile(path.join(root, "index.html"), "utf8");
-            return server.transformIndexHtml(req.url || pathname, html);
-          });
+          const response: Response = await seo.seoResponse(
+            pathname,
+            async () => {
+              const html = await fs.readFile(
+                path.join(root, "index.html"),
+                "utf8"
+              );
+              return server.transformIndexHtml(req.url || pathname, html);
+            }
+          );
           res.statusCode = response.status;
           response.headers.forEach((value, key) => res.setHeader(key, value));
           if (/^\/(admin|login)(\/|$)/.test(pathname)) {
@@ -59,12 +120,22 @@ export function siteMetadata(): Plugin {
             res.setHeader("Content-Security-Policy", "frame-ancestors 'none'");
           }
           res.end(await response.text());
-        } catch (error) { next(error); }
+        } catch (error) {
+          next(error);
+        }
       });
     },
     generateBundle() {
-      this.emitFile({ type: "asset", fileName: "site.webmanifest", source: manifest() });
-      this.emitFile({ type: "asset", fileName: "robots.txt", source: createRobotsTxt(origin) });
+      this.emitFile({
+        type: "asset",
+        fileName: "site.webmanifest",
+        source: manifest(),
+      });
+      this.emitFile({
+        type: "asset",
+        fileName: "robots.txt",
+        source: createRobotsTxt(origin),
+      });
     },
     transformIndexHtml(html) {
       return renderSeoDocument(html, resolvePageSeo("/"), origin);
